@@ -1,0 +1,23 @@
+{
+  "name": "bibliomap",
+  "version": "1.0.0",
+  "description": "BiblioMap shows ezpaarse geolocalized EC's on a map",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezpaarse-project/bibliomap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ezpaarse-project/bibliomap/issues"
+  },
+  "homepage": "https://github.com/ezpaarse-project/bibliomap",
+  "dependencies": {
+    "express": "^4.9.5",
+    "socket.io": "^1.1.0"
+  }
+}
