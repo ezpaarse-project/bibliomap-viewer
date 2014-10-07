@@ -1,12 +1,21 @@
+var es                = require('event-stream'); 
+var JSONStream        = require('JSONStream');
+
+
 var net = require('net');
-var server = net.createServer(function(c) { //'connection' listener
+var server = net.createServer(function (socket) { //'connection' listener
   console.log('server connected');
-  c.on('end', function() {
+  socket.on('end', function() {
     console.log('server disconnected');
   });
-  c.on('data', function (chunk) {
-    console.log('chunk', '' + chunk);
-  });
+
+  socket
+    .pipe(JSONStream.parse())
+    .pipe(es.mapSync(function (ezpaarseEC) {
+      console.log(ezpaarseEC);
+    }));
+
+
   //c.write('hello\r\n');
   //c.pipe(c);
 });
