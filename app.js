@@ -37,13 +37,13 @@ var app = require('express')();
 var httpServer = require('http').Server(app);
 var io = require('socket.io')(httpServer);
 
-httpServer.listen(50196);
+httpServer.listen(50197);
 
 app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 app.get('/bibliomap.js', function (req, res) {
-  res.sendfile(__dirname + '/bibliomap.js');
+  res.sendFile(__dirname + '/bibliomap.js');
 });
 
 io.on('connection', function (client) {
