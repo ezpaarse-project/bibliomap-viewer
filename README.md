@@ -17,7 +17,7 @@ Bibliomap uses these softwares:
 ## Prerequisites
 
   * 2 serveurs with Linux OS (ex: debian or ubuntu)
-    * 1st server hosts [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io)
+    * 1st server hosts [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io) see docs to install
     * 2nd server hosts Bibliomap (assume that server ip or hostname is: **{bibliomap-server}**)
   * Install curl and git on **{bibliomap-server}** :
 ```bash
