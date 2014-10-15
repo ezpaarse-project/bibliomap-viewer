@@ -20,6 +20,11 @@ var server = net.createServer(function (socket) { //'connection' listener
     .pipe(JSONStream.parse())
     .pipe(es.mapSync(function (ezpaarseEC) {
       Object.keys(websockets).forEach(function (clientId) {
+        // filter sensitive data
+        [ 'host', 'login', 'geoip-host' ].forEach(function (ecFieldToDelete) {
+          delete ezpaarseEC[ecFieldToDelete];
+        });
+        // send the filtered EC to the client through websocket
         websockets[clientId].emit('ezpaarse-ec', ezpaarseEC);
       });
     }));
