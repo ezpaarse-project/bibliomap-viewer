@@ -8,7 +8,7 @@
 # Short-Description: Start and stop the bibliomap application
 ### END INIT INFO
 
-cd /applis/bibliolog/home/bibliomap
+cd /applis/bibliomap/home/bibliomap
 
 bibliomap_start() {
   NODE_ENV=production forever start --uid 'bibliomap' -a -o ./logs/bibliomap-stdout.log -e ./logs/bibliomap-stderr.log ./app.js
