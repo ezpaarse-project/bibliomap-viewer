@@ -1,0 +1,55 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          bibliomaps
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop the bibliomap application
+### END INIT INFO
+
+cd /applis/bibliolog/home/bibliomap
+
+bibliomap_start() {
+  NODE_ENV=production forever start --uid 'bibliomap' -a -o ./logs/bibliomap-stdout.log -e ./logs/bibliomap-stderr.log ./app.js
+}
+
+bibliomap_stop() {
+  forever stop 'bibliomap'
+}
+
+bibliomap_status() {
+  forever list | grep 'bibliomap'
+}
+
+case $1 in
+
+  start)
+    bibliomap_start
+  ;;
+
+  stop)
+    bibliomap_stop
+  ;;
+  
+  restart)
+    bibliomap_stop
+    sleep 1
+    bibliomap_start
+  ;;
+
+  status)
+    bibliomap_status
+  ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+  ;;
+
+esac
+
+
+
+
+
