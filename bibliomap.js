@@ -11,11 +11,12 @@ socket.on('ezpaarse-ec', function (ec) {
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
 var ezproxyColor = {
-  'bibliovie': { 'color': '#FF7777', 'name': 'Science de la Vie'},
-  'titanesciences': { 'color': '#FFED77', 'name': 'Sciences Chimiques'},
-  'biblioinserm': { 'color': '#9094FF', 'name': 'INSERM'},
-  'bibliost2i': {'color': '#ACFFA1', 'name': 'Sciences et Techniques de l\'ingenieur' },
-  'biblioshs': { 'color': '#CEB180', 'name': 'Sciences Humaines et Sociales'}
+  'bibliovie': { 'color': '#4D9022', 'name': 'Science de la Vie'},
+  'biblioplanets': { 'color': '#CE2984', 'name': 'Science de la Vie'},
+  'titanesciences': { 'color': '#007E93', 'name': 'Sciences Chimiques'},
+  'biblioinserm': { 'color': '#F04E23', 'name': 'INSERM'},
+  'bibliost2i': {'color': '#803689', 'name': 'Sciences et Techniques de l\'ingenieur' },
+  'biblioshs': { 'color': '#F38E00', 'name': 'Sciences Humaines et Sociales'}
 };
 
   // var cList = $('<ul></ul>')
