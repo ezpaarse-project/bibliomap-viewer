@@ -1,4 +1,4 @@
- 
+
 $(document).ready(function() {
 
 var overlay = {};
@@ -10,40 +10,39 @@ socket.on('ezpaarse-ec', function (ec) {
 
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
-var ezproxyColor = {
-  'bibliovie': { 'color': '#4D9022', 'name': 'Science de la Vie'},
-  'biblioplanets': { 'color': '#CE2984', 'name': 'Science de la Vie'},
-  'titanesciences': { 'color': '#007E93', 'name': 'Sciences Chimiques'},
-  'biblioinserm': { 'color': '#F04E23', 'name': 'INSERM'},
-  'bibliost2i': {'color': '#803689', 'name': 'Sciences et Techniques de l\'ingenieur' },
-  'biblioshs': { 'color': '#F38E00', 'name': 'Sciences Humaines et Sociales'}
+var portalsInfo = {
+  'bibliovie': { 'color': '#4D9022', 'name': 'Science de la Vie', logo: 'portail-biblio-vie.png' },
+  'biblioplanets': { 'color': '#CE2984', 'name': 'Sciences de la Terre et de l’Univers', logo: 'portail-biblio-planets.png' },
+  'titanesciences': { 'color': '#007E93', 'name': 'Sciences Chimiques', logo: 'portail-titane-sciences.png' },
+  'biblioinserm': { 'color': '#F04E23', 'name': 'INSERM' },
+  'bibliosciences': { 'color': '#F04E23', 'name': 'Biblio Sciences', logo: 'portail-biblio-sciences.png' },
+  'bibliost2i': {'color': '#803689', 'name': 'Sciences et Techniques de l\'ingenieur', logo: 'portail-biblio-st2i.png' },
+  'biblioshs': { 'color': '#F38E00', 'name': 'Sciences Humaines et Sociales', logo: 'portail-biblio-shs.png' }
 };
-
-  // var cList = $('<ul></ul>')
-  //     .css('top', '250px')
-  //     .css('left', '100px')
-  //     .css('z-index', '99')
-  //     .css('position', 'absolute');
-
-  // Object.keys(ezproxyColor).forEach(function(k) {
-  //   console.log(k);
-  //   var li = $('<li/>')
-  //       .text(ezproxyColor[k].name)
-  //       .css('background-color', ezproxyColor[k].color)
-  //       .appendTo(cList);
-  // });
-  // console.log(cList);
-  // $('#bibliomap-canvas').append(cList);
 
 function initialize () {
   var mapOptions = {
     zoom: 6,
     center: new google.maps.LatLng(46.862342, 2.806413), // france is the center
-    mapTypeId: google.maps.MapTypeId.ROADMAP 
+    mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   var map = new google.maps.Map(document.getElementById('bibliomap-canvas'), mapOptions);
   overlay = new BibliomapOverlay(map);
+
+  var legend = document.getElementById('legend');
+  for (var i in portalsInfo) {
+    if (!portalsInfo[i].hasOwnProperty('logo')) { continue; }
+
+    var div   = document.createElement('div');
+    var img   = document.createElement('img');
+    img.src   = '/images/' + portalsInfo[i].logo;
+    img.title = portalsInfo[i].name;
+
+    div.appendChild(img);
+    legend.appendChild(div);
+  }
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
 }
 
 function BibliomapOverlay(map) {
@@ -61,7 +60,7 @@ BibliomapOverlay.prototype.draw = function (ec) {
     ecList = self.ezpaarseEC;
   }
 
-  Object.keys(ecList).forEach(function (ecId) {
+  for (var ecId in ecList) {
     var ec = ecList[ecId];
     // get and set the EC position in pixel from the Lat/Lng
     var ecPosition = self.getProjection().fromLatLngToDivPixel(
@@ -73,7 +72,7 @@ BibliomapOverlay.prototype.draw = function (ec) {
     ec.div.css('left', (ecPosition.x - 64) + 'px');
     ec.div.css('top', (ecPosition.y - 64) + 'px');
 
-  });
+  }
 }
 
 
@@ -107,7 +106,7 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
                                        .css('font-size', '10px');
   if (ec.publication_title) {
     if (ec.publication_title.length > 22) {
-      ec.publication_title = ec.publication_title.substring(0, 22) + '...';      
+      ec.publication_title = ec.publication_title.substring(0, 22) + '...';
     }
     var extraLabel2  = $('<span></span>').text(ec.publication_title)
                                          .css('font-size', '10px');
@@ -131,7 +130,7 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
                                .css('margin', 'auto')
                                .css('margin-top', '35%')
                                .css('border-radius', '50%')
-                               .css('background-color', ezproxyColor[ec.ezproxyName] ? (ezproxyColor[ec.ezproxyName].color || 'blue') : 'blue');
+                               .css('background-color', portalsInfo[ec.ezproxyName] ? (portalsInfo[ec.ezproxyName].color || 'blue') : 'blue');
 
   ec.div.append(label);
   ec.div.append(circle);

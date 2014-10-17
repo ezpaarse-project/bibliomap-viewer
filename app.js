@@ -1,5 +1,6 @@
-var es                = require('event-stream'); 
-var JSONStream        = require('JSONStream');
+var path       = require('path');
+var es         = require('event-stream');
+var JSONStream = require('JSONStream');
 
 // list of connected websockets
 var websockets = {};
@@ -19,14 +20,14 @@ var server = net.createServer(function (socket) { //'connection' listener
   socket
     .pipe(JSONStream.parse())
     .pipe(es.mapSync(function (ezpaarseEC) {
-      Object.keys(websockets).forEach(function (clientId) {
+      for (var clientId in websockets) {
         // filter sensitive data
         [ 'host', 'login', 'geoip-host' ].forEach(function (ecFieldToDelete) {
           delete ezpaarseEC[ecFieldToDelete];
         });
         // send the filtered EC to the client through websocket
         websockets[clientId].emit('ezpaarse-ec', ezpaarseEC);
-      });
+      }
     }));
 
 });
@@ -38,18 +39,21 @@ server.listen(28779, '127.0.0.1', function () { //'listening' listener
 /**
  * bibliomap => web browser through websocket
  */
-var app = require('express')();
+var express    = require('express');
+var app        = express();
 var httpServer = require('http').Server(app);
-var io = require('socket.io')(httpServer);
+var io         = require('socket.io')(httpServer);
 
 httpServer.listen(50197);
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname, '/index.html'));
 });
 app.get('/bibliomap.js', function (req, res) {
-  res.sendFile(__dirname + '/bibliomap.js');
+  res.sendFile(path.join(__dirname, '/bibliomap.js'));
 });
+app.use('/images', express.static(path.join(__dirname, '/images')));
+app.use('/images', function (req, res, next) { res.status(404).end(); });
 
 io.on('connection', function (client) {
   console.log('Client connected ' + client.id);
