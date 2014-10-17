@@ -11,13 +11,13 @@ socket.on('ezpaarse-ec', function (ec) {
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
 var portalsInfo = {
-  'bibliovie': { 'color': '#4D9022', 'name': 'Science de la Vie', logo: 'portail-biblio-vie.png' },
-  'biblioplanets': { 'color': '#CE2984', 'name': 'Sciences de la Terre et de l’Univers', logo: 'portail-biblio-planets.png' },
-  'titanesciences': { 'color': '#007E93', 'name': 'Sciences Chimiques', logo: 'portail-titane-sciences.png' },
-  'biblioinserm': { 'color': '#F04E23', 'name': 'INSERM' },
-  'bibliosciences': { 'color': '#F04E23', 'name': 'Biblio Sciences', logo: 'portail-biblio-sciences.png' },
-  'bibliost2i': {'color': '#803689', 'name': 'Sciences et Techniques de l\'ingenieur', logo: 'portail-biblio-st2i.png' },
-  'biblioshs': { 'color': '#F38E00', 'name': 'Sciences Humaines et Sociales', logo: 'portail-biblio-shs.png' }
+  'bibliovie': { 'color': '#4D9022', 'name': 'Science de la Vie', logo: 'portail-biblio-vie.png', count: 0 },
+  'biblioplanets': { 'color': '#CE2984', 'name': 'Sciences de la Terre et de l’Univers', logo: 'portail-biblio-planets.png', count: 0 },
+  'titanesciences': { 'color': '#007E93', 'name': 'Sciences Chimiques', logo: 'portail-titane-sciences.png', count: 0 },
+  'biblioinserm': { 'color': '#F04E23', 'name': 'INSERM', count: 0 },
+  'bibliosciences': { 'color': '#367EC6', 'name': 'Biblio Sciences', logo: 'portail-biblio-sciences.png', count: 0 },
+  'bibliost2i': {'color': '#803689', 'name': 'Sciences et Techniques de l\'ingenieur', logo: 'portail-biblio-st2i.png', count: 0 },
+  'biblioshs': { 'color': '#F38E00', 'name': 'Sciences Humaines et Sociales', logo: 'portail-biblio-shs.png', count: 0 }
 };
 
 function initialize () {
@@ -32,15 +32,24 @@ function initialize () {
 
   var legend = document.getElementById('legend');
   for (var i in portalsInfo) {
-    if (!portalsInfo[i].hasOwnProperty('logo')) { continue; }
+    var portal = portalsInfo[i];
+    if (!portal.hasOwnProperty('logo')) { continue; }
 
     var div   = document.createElement('div');
     var img   = document.createElement('img');
-    img.src   = '/images/' + portalsInfo[i].logo;
-    img.title = portalsInfo[i].name;
+    var span  = document.createElement('span');
+    span.id   = i;
+    img.src   = '/images/' + portal.logo;
+    img.title = portal.name;
+
+    span.className = 'counter';
+    img.className  = 'logo';
 
     div.appendChild(img);
+    div.appendChild(span);
     legend.appendChild(div);
+
+    portal.counter = span;
   }
   map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
 }
@@ -75,12 +84,17 @@ BibliomapOverlay.prototype.draw = function (ec) {
   }
 }
 
-
 BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
   var self = this;
 
   // ignore not geolocalized EC
   if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
+
+  var portal = portalsInfo[ec.ezproxyName];
+  if (portal) {
+    portal.count++;
+    if (portal.counter) { portal.counter.innerText = portal.count; }
+  }
 
   // Create the DIV and set some basic attributes.
   ec.div = $('<div></div>');
@@ -130,7 +144,7 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
                                .css('margin', 'auto')
                                .css('margin-top', '35%')
                                .css('border-radius', '50%')
-                               .css('background-color', portalsInfo[ec.ezproxyName] ? (portalsInfo[ec.ezproxyName].color || 'blue') : 'blue');
+                               .css('background-color', portal ? (portal.color || 'blue') : 'blue');
 
   ec.div.append(label);
   ec.div.append(circle);
