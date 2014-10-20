@@ -19,6 +19,13 @@
         padding: 10px;
         margin: 10px;
       }
+      #legend h2, #legend h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      #legend a {
+        color: black;
+      }
       #legend .logo {
         height: 50px;
         vertical-align: middle;
@@ -37,8 +44,11 @@
 
     <div id="bibliomap-canvas"></div>
     <div id="legend">
-      <h2>Portails INIST-CNRS</h2>
-      <h3>Consultations en direct</h3>
+      <div><a href="javascript:$('#legend').remove()">Fermer</a> - <a href="javascript:$('#legend .content').slideToggle()">Réduire</a></div>
+      <div class="content">
+        <h2>Portails INIST-CNRS</h2>
+        <h3>Consultations en direct</h3>
+      </div>
     </div>
 
   </body>

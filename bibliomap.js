@@ -30,7 +30,8 @@ function initialize () {
   var map = new google.maps.Map(document.getElementById('bibliomap-canvas'), mapOptions);
   overlay = new BibliomapOverlay(map);
 
-  var legend = document.getElementById('legend');
+  var legend  = document.getElementById('legend');
+  var content = legend.querySelector('.content');
   for (var i in portalsInfo) {
     var portal = portalsInfo[i];
     if (!portal.hasOwnProperty('logo')) { continue; }
@@ -47,7 +48,7 @@ function initialize () {
 
     div.appendChild(img);
     div.appendChild(span);
-    legend.appendChild(div);
+    content.appendChild(div);
 
     portal.counter = span;
   }
