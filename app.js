@@ -32,7 +32,7 @@ var server = net.createServer(function (socket) { //'connection' listener
 
 });
 server.listen(28779, '127.0.0.1', function () { //'listening' listener
-  console.log('server bound');
+  console.log('Waiting for logs on 127.0.0.1:28779');
 });
 
 
@@ -64,3 +64,4 @@ io.on('connection', function (client) {
   });
 });
 
+console.log('Server listening on http://localhost:50197');
