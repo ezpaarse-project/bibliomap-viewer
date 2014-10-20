@@ -17,7 +17,7 @@
         background-color: #FFF;
         opacity: 0.7;
         border: 2px solid #CCC;
-        padding: 10px;
+        padding: 0 10px 10px 10px;
         margin: 10px;
       }
       #legend h2, #legend h3 {
@@ -28,6 +28,11 @@
         color: black;
       }
       #legend .logo {
+        height: 100px;
+        margin: 5px auto;
+        display: block;
+      }
+      #legend .portal-logo {
         height: 50px;
         vertical-align: middle;
       }
@@ -63,15 +68,17 @@
 
     <div id="bibliomap-canvas"></div>
     <div id="legend">
-      <div><a href="javascript:$('#legend').remove()">Fermer</a> - <a href="javascript:$('#legend .content').slideToggle()">Réduire</a></div>
       <div class="content">
+        <a href="http://www.cnrs.fr/" target="_blank"><img class="logo" src="/images/logocnrs.png" alt="CNRS"></a>
         <h2>Portails INIST-CNRS</h2>
         <h3>Consultations en direct</h3>
       </div>
+      <div style="text-align: right"><a href="javascript:$('#legend').remove()">Fermer</a> - <a href="javascript:$('#legend .content').slideToggle()">Réduire</a></div>
     </div>
     <div id="brand">
       <div class="main">Bibliomap</div>
       <div class="sub">Propulsé par <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
     </div>
+
   </body>
 </html>

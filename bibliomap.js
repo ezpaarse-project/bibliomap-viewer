@@ -76,13 +76,14 @@ function initialize () {
     var img   = document.createElement('img');
     var span  = document.createElement('span');
 
-    link.href = portal.link;
-    span.id   = i;
-    img.src   = '/images/' + portal.logo;
-    img.title = portal.name;
+    link.href   = portal.link;
+    link.target = "_blank";
+    span.id     = i;
+    img.src     = '/images/' + portal.logo;
+    img.title   = portal.name;
 
     span.className = 'counter';
-    img.className  = 'logo';
+    img.className  = 'portal-logo';
 
     link.appendChild(img);
     div.appendChild(link);
