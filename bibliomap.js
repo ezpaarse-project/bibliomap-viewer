@@ -11,13 +11,46 @@ socket.on('ezpaarse-ec', function (ec) {
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
 var portalsInfo = {
-  'bibliovie': { 'color': '#4D9022', 'name': 'Science de la Vie', logo: 'portail-biblio-vie.png', count: 0 },
-  'biblioplanets': { 'color': '#CE2984', 'name': 'Sciences de la Terre et de l’Univers', logo: 'portail-biblio-planets.png', count: 0 },
-  'titanesciences': { 'color': '#007E93', 'name': 'Sciences Chimiques', logo: 'portail-titane-sciences.png', count: 0 },
-  'biblioinserm': { 'color': '#F04E23', 'name': 'INSERM', count: 0 },
-  'bibliosciences': { 'color': '#367EC6', 'name': 'Biblio Sciences', logo: 'portail-biblio-sciences.png', count: 0 },
-  'bibliost2i': {'color': '#803689', 'name': 'Sciences et Techniques de l\'ingenieur', logo: 'portail-biblio-st2i.png', count: 0 },
-  'biblioshs': { 'color': '#F38E00', 'name': 'Sciences Humaines et Sociales', logo: 'portail-biblio-shs.png', count: 0 }
+  'bibliovie': {
+    name: 'Science de la Vie',
+    color: '#4D9022',
+    logo: 'portail-biblio-vie.png',
+    link: 'http://bibliovie.inist.fr/',
+    count: 0 },
+  'biblioplanets': {
+    name: 'Sciences de la Terre et de l’Univers',
+    color: '#CE2984',
+    logo: 'portail-biblio-planets.png',
+    link: 'http://biblioplanets.inist.fr/',
+    count: 0 },
+  'titanesciences': {
+    name: 'Sciences Chimiques',
+    color: '#007E93',
+    logo: 'portail-titane-sciences.png',
+    link: 'http://titanesciences.inist.fr/',
+    count: 0 },
+  'biblioinserm': {
+    name: 'INSERM',
+    color: '#F04E23',
+    count: 0 },
+  'bibliosciences': {
+    name: 'Biblio Sciences',
+    color: '#367EC6',
+    logo: 'portail-biblio-sciences.png',
+    link: 'http://bibliosciences.inist.fr/',
+    count: 0 },
+  'bibliost2i': {
+    name: 'Sciences et Techniques de l\'ingenieur',
+    color: '#803689',
+    logo: 'portail-biblio-st2i.png',
+    link: 'http://bibliost2i.inist.fr/',
+    count: 0 },
+  'biblioshs': {
+    name: 'Sciences Humaines et Sociales',
+    color: '#F38E00',
+    logo: 'portail-biblio-shs.png',
+    link: 'http://biblioshs.inist.fr/',
+    count: 0 }
 };
 
 function initialize () {
@@ -37,8 +70,11 @@ function initialize () {
     if (!portal.hasOwnProperty('logo')) { continue; }
 
     var div   = document.createElement('div');
+    var link  = document.createElement('a');
     var img   = document.createElement('img');
     var span  = document.createElement('span');
+
+    link.href = portal.link;
     span.id   = i;
     img.src   = '/images/' + portal.logo;
     img.title = portal.name;
@@ -46,7 +82,8 @@ function initialize () {
     span.className = 'counter';
     img.className  = 'logo';
 
-    div.appendChild(img);
+    link.appendChild(img);
+    div.appendChild(link);
     div.appendChild(span);
     content.appendChild(div);
 
