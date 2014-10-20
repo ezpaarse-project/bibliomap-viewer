@@ -65,6 +65,8 @@ function initialize () {
 
   var legend  = document.getElementById('legend');
   var content = legend.querySelector('.content');
+  $(legend).draggable();
+
   for (var i in portalsInfo) {
     var portal = portalsInfo[i];
     if (!portal.hasOwnProperty('logo')) { continue; }
