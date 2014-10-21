@@ -63,36 +63,49 @@ function initialize () {
   var map = new google.maps.Map(document.getElementById('bibliomap-canvas'), mapOptions);
   overlay = new BibliomapOverlay(map);
 
-  var legend  = document.getElementById('legend');
-  var content = legend.querySelector('.content');
-  $(legend).draggable();
+  var legend  = $('#legend');
+  var content = legend.find('.content').first();
+
+  var currentPosition = legend.position();
+  legend.draggable({ stop: function (event, ui) { currentPosition = ui.position; } });
+
+  legend.find('.close').click(function () { legend.slideUp(legend.remove); });
+  legend.find('.reduce').click(function () {
+    if (content.is(':visible')) {
+      legend.animate({top: '20px', left: '80px'});
+      this.innerText = 'Agrandir';
+    } else {
+      legend.animate(currentPosition);
+      this.innerText = 'Réduire';
+    }
+    content.slideToggle();
+  });
 
   for (var i in portalsInfo) {
     var portal = portalsInfo[i];
     if (!portal.hasOwnProperty('logo')) { continue; }
 
-    var div   = document.createElement('div');
-    var link  = document.createElement('a');
-    var img   = document.createElement('img');
-    var span  = document.createElement('span');
+    var div   = $('<div></div>');
+    var link  = $('<a></a>');
+    var img   = $('<img>');
+    var span  = $('<span></span>');
 
-    link.href   = portal.link;
-    link.target = "_blank";
-    span.id     = i;
-    img.src     = '/images/' + portal.logo;
-    img.title   = portal.name;
+    link.attr('href', portal.link);
+    link.attr('target', "_blank");
+    span.attr('id', i);
+    img.attr('src', '/images/' + portal.logo);
+    img.attr('title', portal.name);
 
-    span.className = 'counter';
-    img.className  = 'portal-logo';
+    span.addClass('counter');
+    img.addClass('portal-logo');
 
-    link.appendChild(img);
-    div.appendChild(link);
-    div.appendChild(span);
-    content.appendChild(div);
+    link.append(img);
+    div.append(link);
+    div.append(span);
+    content.append(div);
 
     portal.counter = span;
   }
-  map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
 }
 
 function BibliomapOverlay(map) {
@@ -134,7 +147,7 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
   var portal = portalsInfo[ec.ezproxyName];
   if (portal) {
     portal.count++;
-    if (portal.counter) { portal.counter.innerText = portal.count; }
+    if (portal.counter) { portal.counter.text(portal.count); }
   }
 
   // Create the DIV and set some basic attributes.
@@ -225,4 +238,3 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 });
-

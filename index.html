@@ -14,11 +14,13 @@
         padding: 0;
       }
       #legend {
+        position: fixed;
+        top: 360px;
+        left: 10px;
         background-color: #FFF;
         opacity: 0.7;
         border: 2px solid #CCC;
         padding: 0 10px;
-        margin: 10px;
       }
       #legend .controls {
         text-align: right;
@@ -72,14 +74,14 @@
 
     <div id="bibliomap-canvas"></div>
 
-    <div id="legend">
+    <div id="legend" class="gm-style">
       <div class="content">
         <a href="http://www.cnrs.fr/" target="_blank"><img class="logo" src="/images/logocnrs.png" alt="CNRS"></a>
         <h2>Portails INIST-CNRS</h2>
         <h3>Consultations en direct</h3>
       </div>
 
-      <div class="controls"><a href="javascript:$('#legend').remove()">Fermer</a> - <a href="javascript:$('#legend .content').slideToggle()">Réduire</a></div>
+      <div class="controls"><a class="close" href="javascript:void(0)">Fermer</a> - <a class="reduce" href="javascript:void(0)">Réduire</a></div>
     </div>
 
     <div id="brand">
