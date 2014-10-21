@@ -72,7 +72,7 @@ function initialize () {
   legend.find('.close').click(function () { legend.slideUp(legend.remove); });
   legend.find('.reduce').click(function () {
     if (content.is(':visible')) {
-      legend.animate({top: '20px', left: '80px'});
+      legend.animate({ top: '20px', left: '80px' });
       this.innerText = 'Agrandir';
     } else {
       legend.animate(currentPosition);
