@@ -74,10 +74,10 @@ function initialize () {
     legend.css('width', 'auto').css('height', 'auto');
     if (content.is(':visible')) {
       legend.animate({ top: '20px', left: '80px' });
-      this.innerText = 'Agrandir';
+      $(this).text('Agrandir');
     } else {
       legend.animate(currentPosition);
-      this.innerText = 'Réduire';
+      $(this).text('Réduire');
     }
     content.slideToggle();
   });
