@@ -52,10 +52,8 @@ app.get('/', function (req, res) {
 app.get('/bibliomap.js', function (req, res) {
   res.sendFile(path.join(__dirname, '/bibliomap.js'));
 });
-app.use('/images', express.static(path.join(__dirname, '/images')));
-app.use('/images', function (req, res, next) { res.status(404).end(); });
-app.use('/js', express.static(path.join(__dirname, '/js')));
-app.use('/js', function (req, res, next) { res.status(404).end(); });
+app.use('/', express.static(path.join(__dirname, '/public')));
+app.use(function (req, res, next) { res.status(404).end(); });
 
 io.on('connection', function (client) {
   console.log('Client connected ' + client.id);
