@@ -221,13 +221,11 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
 
   // annimate the EC circle
   $(circle).animate({
-    width: [ "toggle" ],
-    height: [ "toggle" ]
+    width: "toggle",
+    height: "toggle"
   }, 8000);
 
-  $(ec.div).animate({
-    opacity: "toggle",
-  }, 8000);
+  $(ec.div).animate({ opacity: "toggle" }, 8000);
 
 
   // destroy EC after 5 seconds
@@ -246,3 +244,4 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 });
+
