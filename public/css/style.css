@@ -3,6 +3,7 @@ html, body, #bibliomap-canvas {
   margin: 0;
   padding: 0;
 }
+img { border: none; }
 #legend {
   position: fixed;
   top: 20px;
