@@ -71,6 +71,7 @@ function initialize () {
 
   legend.find('.close').click(function () { legend.slideUp(legend.remove); });
   legend.find('.reduce').click(function () {
+    legend.css('width', 'auto').css('height', 'auto');
     if (content.is(':visible')) {
       legend.animate({ top: '20px', left: '80px' });
       this.innerText = 'Agrandir';
