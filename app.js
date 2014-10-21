@@ -47,6 +47,7 @@ var io         = require('socket.io')(httpServer);
 httpServer.listen(50197);
 
 app.get('/', function (req, res) {
+  res.header('X-UA-Compatible', 'IE=edge');
   res.sendFile(path.join(__dirname, '/index.html'));
 });
 app.get('/bibliomap.js', function (req, res) {
