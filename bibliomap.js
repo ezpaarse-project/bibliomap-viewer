@@ -3,6 +3,10 @@ $(document).ready(function() {
 
 var overlay = {};
 
+$('#brand').click(function () { $('#description').fadeToggle(); });
+$('#description .close').click(function () { $('#description').fadeOut(); });
+$("#brand a").click(function (e) { e.stopPropagation(); });
+
 var socket = io.connect();
 socket.on('ezpaarse-ec', function (ec) {
   if (overlay) { overlay.addEzpaarseEC(ec); }
