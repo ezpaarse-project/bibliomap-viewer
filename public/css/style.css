@@ -87,6 +87,7 @@ img { border: none; }
 #brand, #description {
   background: #FFF;
   opacity: 0.8;
+  font-size: large;
 
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
