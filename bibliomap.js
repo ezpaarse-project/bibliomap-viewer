@@ -20,10 +20,11 @@ $('#brand').click(function () { $('#description').fadeToggle(); });
 $('#description .close').click(function () { $('#description').fadeOut(); });
 $("#brand a").click(function (e) { e.stopPropagation(); });
 
-var expo = getQueryVariable('expo');
+var expo = getQueryVariable('expo') || getQueryVariable('e');
 
-if (!expo || expo != 'none') { $('#description').fadeIn(); }
-if (expo && expo != 'none') {
+if (!expo) {
+  $('#description').fadeIn();
+} else if (['none', '0'].indexOf(expo) == -1) {
   var showDuration = 60000;
   var hideDuration = 60000 * 10;
 
