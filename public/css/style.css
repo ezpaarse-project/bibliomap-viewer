@@ -51,7 +51,7 @@ img { border: none; }
 #brand .sub { font-size: 0.9em; }
 
 #description {
-  /* display: none; show description on startup */
+  display: none;
   position: absolute;
   top: 5%;
   left: 15%;

@@ -1,3 +1,16 @@
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars  = query.split("&");
+
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return (pair.length > 1 ? pair[1] : true);
+    }
+  }
+
+  return false;
+}
 
 $(document).ready(function() {
 
@@ -6,6 +19,28 @@ var overlay = {};
 $('#brand').click(function () { $('#description').fadeToggle(); });
 $('#description .close').click(function () { $('#description').fadeOut(); });
 $("#brand a").click(function (e) { e.stopPropagation(); });
+
+var expo = getQueryVariable('expo');
+
+if (!expo || expo != 'none') { $('#description').fadeIn(); }
+if (expo && expo != 'none') {
+  var showDuration = 60000;
+  var hideDuration = 60000 * 10;
+
+  if (typeof expo == 'string') {
+    var durations = expo.split(',');
+    showDuration = (parseInt(durations[0]) * 1000) || showDuration;
+    hideDuration = (parseInt(durations[1]) * 1000) || hideDuration;
+  }
+
+  (function displayCycle() {
+    $('#description').fadeIn();
+    setTimeout(function() {
+      $('#description').fadeOut();
+      setTimeout(displayCycle, hideDuration);
+    }, showDuration);
+  })();
+}
 
 var socket = io.connect();
 socket.on('ezpaarse-ec', function (ec) {
