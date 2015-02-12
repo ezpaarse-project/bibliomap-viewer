@@ -55,7 +55,7 @@ var portalsInfo = {
     name: 'Ressources Numériques',
     color: '#FFF03F',
     logo: 'compteur.jpg',
-    link: 'http://bibliovie.inist.fr/',
+    link: 'http://bu.univ-lorraine.fr/ressources/ressources-en-ligne',
     count: 0
   }
 };
