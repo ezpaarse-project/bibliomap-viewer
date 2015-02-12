@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- JQUERY -->
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+    <!-- Google Map API -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBncCN12FDAW4T3ZGmDowetaCgBlHMNqt0"></script>
+    <script type="text/javascript" src="bibliomap.js"></script>
+  </head>
+  <body>
+
+    <div id="bibliomap-canvas"></div>
+
+    <div id="legend" class="gm-style">
+      <div class="content">
+        <a href="http://www.cnrs.fr/" target="_blank"><img class="logo" src="/images/logocnrs.png" alt="CNRS"></a>
+        <h2>Portails INIST-CNRS</h2>
+        <h3>Consultations en direct</h3>
+      </div>
+
+      <div class="controls"><a class="close" href="javascript:void(0)">Fermer</a> - <a class="reduce" href="javascript:void(0)">Réduire</a></div>
+    </div>
+
+    <div id="brand">
+      <div class="main">Bibliomap</div>
+      <div class="sub">Propulsé par <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
+    </div>
+
+    <div id="description">
+      <a href="javascript:void(0)" class="close">Fermer</a>
+
+      <table class="header"><tr>
+        <td class="logo">
+          <a href="http://www.cnrs.fr/" target="_blank">
+            <img src="/images/logocnrs.png" alt="CNRS">
+          </a>
+        </td>
+        <td>“ Les chercheurs n’arrêtent jamais ! ”</td>
+      </tr></table>
+
+      <p><strong>BiblioMap</strong> reflète les consultations en direct des <a href="http://www.cnrs.fr/fr/organisme/presentation.htm" target="_blank">chercheurs CNRS</a> dans leur travail de recherche bibliographique dans leur domaine, en utilisant les outils numériques mis à leur disposition via les <a href="http://www.inist.fr/?-Portails-&lang=fr" target="_blank">portails INIST-CNRS</a>.<br>
+      La recherche bibliographique ne représente qu’une petite partie du travail des chercheurs, et pourtant BiblioMap vous montre qu’elle ne s’arrête jamais et que le slogan du CNRS <strong>“dépasser les frontières”</strong> prend tout son sens !</p>
+
+      <table class="logos"><tr>
+        <td><a href="http://bibliovie.inist.fr/" target="_blank">
+          <img src="/images/portail-biblio-vie.png" alt="Science de la Vie">
+        </a></td>
+        <td><a href="http://biblioplanets.inist.fr/" target="_blank">
+          <img src="/images/portail-biblio-planets.png" alt="Sciences de la Terre et de l’Univers">
+        </a></td>
+        <td><a href="http://titanesciences.inist.fr/" target="_blank">
+          <img src="/images/portail-titane-sciences.png" alt="Sciences Chimiques">
+        </a></td>
+        <td><a href="http://bibliosciences.inist.fr/" target="_blank">
+          <img src="/images/portail-biblio-sciences.png" alt="Biblio Sciences">
+        </a></td>
+        <td><a href="http://bibliost2i.inist.fr/" target="_blank">
+          <img src="/images/portail-biblio-st2i.png" alt="Sciences et Techniques de l'ingenieur">
+        </a></td>
+        <td><a href="http://biblioshs.inist.fr/" target="_blank">
+          <img src="/images/portail-biblio-shs.png" alt="Sciences Humaines et Sociales">
+        </a></td>
+      </tr></table>
+
+      <p>Les 6 portails d’accès spécialisés par communautés scientifiques sont un service opéré par l’<a href="http://www.inist.fr" target="_blank">INIST-CNRS</a>.</p>
+
+      <table class="logos">
+        <td><a href="http://ezpaarse.couperin.org" target="_blank">
+          <img src="/images/logo-ezpaarse.png" alt="ezPAARSE">
+        </a></td>
+        <td><a href="http://analogist.couperin.org" target="_blank">
+          <img src="/images/logo-analogist.png" alt="analogIST">
+        </a></td>
+      </table>
+
+      <p>Les visualisations disponibles dans <a href="https://github.com/ezpaarse-project/bibliomap" target="_blank">BiblioMap</a> sont rendues possible par l’utilisation d’<a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a>, un <a href="https://github.com/ezpaarse-project/ezpaarse" target="_blank">logiciel libre</a> développé conjointement par <a href="http://www.couperin.org/presentation" target="_blank">COUPERIN</a>, l’INIST-CNRS et l’<a href="http://www.univ-lorraine.fr/" target="_blank">Université de Lorraine</a> comme site pilote. <a href="http://analogist.couperin.org/" target="_blank">AnalogIST</a> est le portail collaboratif de l’Enseignement Supérieur et Recherche dédié à la problématique de l’usage des ressources électroniques. Les développements associés à cette collaboration sont disponibles sous forme de logiciel libre au sein d’<a href="https://github.com/ezpaarse-project/" target="_blank">ezPAARSE-project</a>.</p>
+
+      <table class="smaller logos">
+        <td><a href="http://www.couperin.org/" target="_blank">
+          <img src="/images/logo-couperin.jpg" alt="COUPERIN">
+        </a></td>
+        <td><a href="http://www.cnrs.fr/" target="_blank">
+          <img src="/images/logo-cnrs.jpg" alt="CNRS">
+        </a></td>
+        <td><a href="http://www.univ-lorraine.fr/" target="_blank">
+          <img src="/images/logo-universite-de-lorraine.png" alt="Université de Lorraine">
+        </a></td>
+      </table>
+    </div>
+
+  </body>
+</html>

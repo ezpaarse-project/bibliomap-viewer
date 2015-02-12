@@ -1,3 +1,5 @@
+
+var config     = require('./config.js');
 var path       = require('path');
 var es         = require('event-stream');
 var JSONStream = require('JSONStream');
@@ -48,10 +50,10 @@ httpServer.listen(50197);
 
 app.get('/', function (req, res) {
   res.header('X-UA-Compatible', 'IE=edge');
-  res.sendFile(path.join(__dirname, '/index.html'));
+  res.sendFile(path.join(__dirname, '/' + config.index));
 });
 app.get('/bibliomap.js', function (req, res) {
-  res.sendFile(path.join(__dirname, '/bibliomap.js'));
+  res.sendFile(path.join(__dirname, '/' + config.bibliomap));
 });
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use(function (req, res, next) { res.status(404).end(); });
