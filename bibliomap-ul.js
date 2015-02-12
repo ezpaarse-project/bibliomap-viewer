@@ -51,51 +51,11 @@ socket.on('ezpaarse-ec', function (ec) {
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
 var portalsInfo = {
-  'bibliovie': {
-    name: 'Science de la Vie',
+  'ezproxy': {
+    name: 'Ressources Numériques',
     color: '#4D9022',
-    logo: 'portail-biblio-vie.png',
+    logo: 'compteur.jpg',
     link: 'http://bibliovie.inist.fr/',
-    count: 0
-  },
-  'biblioplanets': {
-    name: 'Sciences de la Terre et de l’Univers',
-    color: '#CE2984',
-    logo: 'portail-biblio-planets.png',
-    link: 'http://biblioplanets.inist.fr/',
-    count: 0
-  },
-  'titanesciences': {
-    name: 'Sciences Chimiques',
-    color: '#007E93',
-    logo: 'portail-titane-sciences.png',
-    link: 'http://titanesciences.inist.fr/',
-    count: 0
-  },
-  'biblioinserm': {
-    name: 'INSERM',
-    color: '#F04E23',
-    count: 0
-  },
-  'bibliosciences': {
-    name: 'Biblio Sciences',
-    color: '#367EC6',
-    logo: 'portail-biblio-sciences.png',
-    link: 'http://bibliosciences.inist.fr/',
-    count: 0
-  },
-  'bibliost2i': {
-    name: 'Sciences et Techniques de l\'ingenieur',
-    color: '#803689',
-    logo: 'portail-biblio-st2i.png',
-    link: 'http://bibliost2i.inist.fr/',
-    count: 0
-  },
-  'biblioshs': {
-    name: 'Sciences Humaines et Sociales',
-    color: '#F38E00',
-    logo: 'portail-biblio-shs.png',
-    link: 'http://biblioshs.inist.fr/',
     count: 0
   }
 };
