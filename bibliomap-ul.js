@@ -51,9 +51,9 @@ socket.on('ezpaarse-ec', function (ec) {
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
 var portalsInfo = {
-  'ezproxy': {
+  'DocElec': {
     name: 'Ressources Numériques',
-    color: '#4D9022',
+    color: '#FFF03F',
     logo: 'compteur.jpg',
     link: 'http://bibliovie.inist.fr/',
     count: 0
@@ -76,6 +76,7 @@ function initialize () {
   var currentPosition = legend.position();
   legend.draggable({ stop: function (event, ui) { currentPosition = ui.position; } });
 
+  legend.css('top', '200px');
   legend.find('.close').click(function () { legend.slideUp(legend.remove); });
   legend.find('.reduce').click(function () {
     legend.css('width', 'auto').css('height', 'auto');
