@@ -33,8 +33,9 @@ var server = net.createServer(function (socket) { //'connection' listener
     }));
 
 });
-server.listen(28779, '127.0.0.1', function () { //'listening' listener
-  console.log('Waiting for logs on 127.0.0.1:28779');
+server.listen(config.listen.ezpaarse2logio.port, config.listen.ezpaarse2logio.host, function () { 
+  //'listening' listener
+  console.log('Waiting for logs on ' + config.listen.ezpaarse2logio.host + ':' + config.listen.ezpaarse2logio.port);
 });
 
 
@@ -46,14 +47,14 @@ var app        = express();
 var httpServer = require('http').Server(app);
 var io         = require('socket.io')(httpServer);
 
-httpServer.listen(50197);
+httpServer.listen(config.bibliomap.port, config.bibliomap.host);
 
 app.get('/', function (req, res) {
   res.header('X-UA-Compatible', 'IE=edge');
   res.sendFile(path.join(__dirname, '/' + config.index));
 });
 app.get('/bibliomap.js', function (req, res) {
-  res.sendFile(path.join(__dirname, '/' + config.bibliomap));
+  res.sendFile(path.join(__dirname, '/' + config.bibliomap.js));
 });
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use(function (req, res, next) { res.status(404).end(); });
@@ -67,4 +68,5 @@ io.on('connection', function (client) {
   });
 });
 
-console.log('Server listening on http://localhost:50197');
+console.log('Server listening on http://' + config.bibliomap.host +
+  ':' + config.bibliomap.port);
