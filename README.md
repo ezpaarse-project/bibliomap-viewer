@@ -44,6 +44,42 @@ npm install
 
 ## Configuration
 
+```javascript
+var defaultConfig = {
+  debug: false,
+  index: 'index-cnrs.html',
+  bibliomap: {
+  	host: '127.0.0.1',
+  	port: '50197',
+  	js: 'bibliomap-cnrs.js'
+  },
+  listen: {
+    // listen for harvested logs
+    ezpaarse2logio: {
+      host: '127.0.0.1',  // adjust where log-io.harvester is located
+      port: 28779         // this is the default log.io-harvester destination port
+    }
+  }
+};
+```
+
+
+To overload config, create a config.local.js file.
+
+Example for bibliomap for Universite de Lorraine :
+```bash
+echo "module.exports = {
+// sample local config : adjust to your needs
+  debug: false,
+  index: 'index-ul.html',       // change index page to your needs
+  bibliomap: {
+  	host: '127.0.0.1',
+  	port: '50197',
+  	js: 'bibliomap-ul.js'  // change bibliomap script name to custom one if needed
+  }
+};" > ./config.local.js
+```
+
 Then open your browser and go to http://bibliomap-ip:50197/ and you will have the nice Bibliomap interface displayed.
 
 <p align="center">
