@@ -47,7 +47,7 @@ npm install
 Then open your browser and go to http://bibliomap-ip:50197/ and you will have the nice Bibliomap interface displayed.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/ezpaarse-project/bibliomap/master/bibliomap.png" alt="Running Bibliomap screenshot" />
+<img width="500" src="https://raw.githubusercontent.com/ezpaarse-project/bibliomap/master/public/images/ezPAARSE-SR23-bibliomap-cnrs-02.jpg" alt="Running Bibliomap screenshot" />
 </p>
 
 ## Running Bibliomap
