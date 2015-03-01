@@ -11,7 +11,7 @@ Bibliomap uses these softwares:
   * [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io) for real-time listening lines of log comming from log.io-harvester, creating ezPAARSE jobs to generate corresponding usage event and then sending all of this to log.io-server
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/ezpaarse-project/bibliomap/master/public/images/ezPAARSE-ezpaarse2log.io.png" />
+<img src="https://docs.google.com/drawings/d/1bkxEEBL1kLzH76dkIYFzspYHOVajDjQHCijU3mxJLnM/pub?w=694&h=519" />
 </p>
 
 ## Prerequisites
