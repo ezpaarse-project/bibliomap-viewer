@@ -70,3 +70,14 @@ io.on('connection', function (client) {
 
 console.log('Server listening on http://' + config.bibliomap.host +
   ':' + config.bibliomap.port);
+
+// exit on CTRL+C
+exitOnSignal('SIGINT');
+exitOnSignal('SIGTERM');
+function exitOnSignal(signal) {
+  process.on(signal, function() {
+    console.log('Caught ' + signal + ', exiting');
+    // todo: stop here all critical tasks before exiting the process
+    process.exit(1);
+  });
+}

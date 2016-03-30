@@ -2,15 +2,17 @@ var defaultConfig = {
   debug: false,
   index: 'index-cnrs.html',
   bibliomap: {
-  	host: '127.0.0.1',
-  	port: '50197',
-  	js: 'bibliomap-cnrs.js'
+  	host: '0.0.0.0', // listen everywhere
+  	port: 50197,
+  	js:   process.env.BIBLIOMAP_JS   ? process.env.BIBLIOMAP_JS   : 'bibliomap-cnrs.js'
   },
   listen: {
     // listen for harvested logs
     ezpaarse2logio: {
-      host: '127.0.0.1',  // adjust where log-io.harvester is located
-      port: 28779         // this is the default log.io-harvester destination port
+      // adjust where log-io.harvester is located
+      host: '0.0.0.0', // listen everywhere
+      // this is the default log.io-harvester destination port
+      port: 28779
     }
   }
 };

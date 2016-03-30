@@ -1,0 +1,10 @@
+bibliomap:
+  image: ezpaarseproject/bibliomap:latest
+  environment:
+    http_proxy:  ${http_proxy}
+    https_proxy: ${https_proxy}
+    NODE_ENV: ${NODE_ENV}
+    BIBLIOMAP_JS: ${BIBLIOMAP_JS}
+  ports:
+    - 50197:50197
+    - 28779:28779
