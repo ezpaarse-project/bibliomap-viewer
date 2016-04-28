@@ -22,6 +22,9 @@ img { border: none; }
   margin-top: 5px;
   margin-bottom: 5px;
 }
+#legend h4 {
+    font-style: italic;
+}
 #legend a {
   color: inherit;
 }
