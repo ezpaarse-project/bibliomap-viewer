@@ -72,11 +72,6 @@ var portalsInfo = {
     link: 'http://titanesciences.inist.fr/',
     count: 0
   },
-  'biblioinserm': {
-    name: 'INSERM',
-    color: '#F04E23',
-    count: 0
-  },
   'bibliosciences': {
     name: 'Biblio Sciences',
     color: '#367EC6',
@@ -96,6 +91,13 @@ var portalsInfo = {
     color: '#F38E00',
     logo: 'portail-biblio-shs.png',
     link: 'http://biblioshs.inist.fr/',
+    count: 0
+    },
+  'biblioinserm': {
+    name: 'Inserm',
+    color: '#F04E23',
+    logo: 'biblioinserm.png',
+    link: 'http://bibliinserm.inist.fr/',
     count: 0
   }
 };

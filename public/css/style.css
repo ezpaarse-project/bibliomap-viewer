@@ -7,11 +7,12 @@ img { border: none; }
 #legend {
   position: fixed;
   top: 20px;
-  left: 80px;
+  left: 45px;
   background-color: #FFF;
   opacity: 0.7;
   border: 2px solid #CCC;
   padding: 0 10px;
+    width: 15%;
 }
 #legend .controls {
   text-align: right;
