@@ -97,7 +97,7 @@ var portalsInfo = {
     name: 'Inserm',
     color: '#F04E23',
     logo: 'biblioinserm.png',
-    link: 'http://bibliinserm.inist.fr/',
+    link: 'http://biblioinserm.inist.fr/',
     count: 0
   }
 };
