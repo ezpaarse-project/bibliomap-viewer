@@ -12,9 +12,9 @@ var websockets = {};
  */
 var net = require('net');
 var server = net.createServer(function (socket) { //'connection' listener
-  console.log('server connected');
+  console.log('ezpaarse2log.io connected');
   socket.on('end', function() {
-    console.log('server disconnected');
+    console.log('ezpaarse2log.io disconnected');
   });
 
   // get and parse the ezpaarse2log.io JSON stream
@@ -33,9 +33,9 @@ var server = net.createServer(function (socket) { //'connection' listener
     }));
 
 });
-server.listen(config.listen.ezpaarse2logio.port, config.listen.ezpaarse2logio.host, function () { 
-  //'listening' listener
-  console.log('Waiting for logs on ' + config.listen.ezpaarse2logio.host + ':' + config.listen.ezpaarse2logio.port);
+server.listen(config.listen['ezpaarse2log.io'].port,
+              config.listen['ezpaarse2log.io'].host, function () { 
+  console.log('Waiting for ezpaarse2log.io data at ' + config.listen['ezpaarse2log.io'].host + ':' + config.listen['ezpaarse2log.io'].port);
 });
 
 
@@ -47,29 +47,29 @@ var app        = express();
 var httpServer = require('http').Server(app);
 var io         = require('socket.io')(httpServer);
 
-httpServer.listen(config.bibliomap.port, config.bibliomap.host);
+httpServer.listen(config.listen.bibliomap.port, config.listen.bibliomap.host);
 
 app.get('/', function (req, res) {
   res.header('X-UA-Compatible', 'IE=edge');
   res.sendFile(path.join(__dirname, '/' + config.index));
 });
 app.get('/bibliomap.js', function (req, res) {
-  res.sendFile(path.join(__dirname, '/' + config.bibliomap.js));
+  res.sendFile(path.join(__dirname, '/' + config.jsfile));
 });
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use(function (req, res, next) { res.status(404).end(); });
 
 io.on('connection', function (client) {
-  console.log('Client connected ' + client.id);
+  console.log('Web browser connected through websocket ' + client.id);
   websockets[client.id] = client;
   client.on('disconnect', function () {
-    console.log('Client disconnected ' + client.id);
+    console.log('Web browser disconnected from the websocket ' + client.id);
     delete websockets[client.id];
   });
 });
 
-console.log('Server listening on http://' + config.bibliomap.host +
-  ':' + config.bibliomap.port);
+console.log('Bibliomap is listening on http://' + config.listen.bibliomap.host +
+  ':' + config.listen.bibliomap.port + ' (open it with your browser!)');
 
 // exit on CTRL+C
 exitOnSignal('SIGINT');

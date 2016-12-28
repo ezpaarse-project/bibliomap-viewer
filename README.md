@@ -13,7 +13,7 @@ How could it be useful ?
 
 Bibliomap uses these softwares:
   * [Log.io](http://logio.org/) for ECs harvesting and for real-time usage events viewing in the browser.
-  * [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io) for real-time listening lines of log comming from log.io-harvester, creating ezPAARSE jobs to generate corresponding usage event and then sending all of this to log.io-server
+  * [ezpaarse2log.io-harvester](https://github.com/ezpaarse-project/ezpaarse2log.io-harvester) and [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io) for real-time listening lines of log comming from an ezproxy, creating ezPAARSE jobs to generate corresponding usage event and then sending it all to bibliomap
 
 <p align="center">
 <img src="https://docs.google.com/drawings/d/1bkxEEBL1kLzH76dkIYFzspYHOVajDjQHCijU3mxJLnM/pub?w=694&h=519" />
@@ -21,34 +21,15 @@ Bibliomap uses these softwares:
 
 ## Prerequisites
 
-  * You already have installed ezpaarse2log.io 
-   * one server hosts ezproxy daemons and especially your ezproxy raw log files
-   * one server hosts [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io) see docs to install
+  * Docker and docker-compose
+  * You already have installed [ezpaarse2log.io-harvester](https://github.com/ezpaarse-project/ezpaarse2log.io-harvester) monitoring your ezproxy log files
+  * You already have installed [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io) listening for ezpaarse2log.io-harvester data, sending it to ezpaarse and sending the result to you this bibliomap
 
- You can install bibliomap on the ezpaarse2log.io server
- 
-   * Install curl and git on **{bibliomap-server}** :
-```bash
-sudo apt-get install curl git
-```
-  * Install NodeJS on **{bibliomap-server}** :
-```bash
-curl https://raw.githubusercontent.com/creationix/nvm/v0.5.1/install.sh | sh
-nvm install 0.10
-nvm use 0.10
-nvm alias default 0.10
-```
 ## Installation
 
-On **{bibliomap-server}**:
-```bash
-git clone https://github.com/ezpaarse-project/bibliomap.git
-cd bibliomap
-npm install -g forever
-
-npm install
-```
-
+You can install bibliomap on the same server than [ezpaarse2log.io](https://github.com/ezpaarse-project/ezpaarse2log.io).
+ 
+ TODO
 
 ## Configuration
 
@@ -96,28 +77,6 @@ Then open your browser and go to http://bibliomap-ip:50197/ and you will have th
 
 ## Running Bibliomap
 
-### Start
+### Start, Status, Stop
 
-On **{bibliomap-server}**:
-```bash
-./etc/init.d/bibliomap start
-```
-
-### Status
-
-```bash
-./etc/init.d/bibliomap status
-```
-
-### Stop
-
-```bash
-./etc/init.d/bibliomap stop
-```
-
-### Monitoring (log files)
-
-```bash
-tail -f ./logs/bibliomap-stderr.log
-tail -f ./logs/bibliomap-stdout.log
-```
+TODO

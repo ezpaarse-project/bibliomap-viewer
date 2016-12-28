@@ -2,4 +2,8 @@ Dockerfile
 docker-compose.*
 Makefile
 .git
+data/*
+config.local.js
 npm-debug.log
+node_modules
+tmp/
