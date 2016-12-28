@@ -1,0 +1,15 @@
+{
+  "debug": false,
+  "index": "index-cnrs.html",
+  "jsfile": "bibliomap-cnrs.js",
+  "listen": {
+    "ezpaarse2log.io": {
+      "host": "0.0.0.0",
+      "port": 27779
+    },
+    "bibliomap": {
+      "host": "0.0.0.0",
+      "port": 50197
+    }
+  }
+}
