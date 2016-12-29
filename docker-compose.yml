@@ -4,7 +4,7 @@ services:
 
   bibliomap:
     container_name: bibliomap
-    image: ezpaarseproject/bibliomap:2.0.1
+    image: ezpaarseproject/bibliomap:2.1.0
     environment:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
