@@ -3,6 +3,7 @@ var config     = require('./config.js');
 var path       = require('path');
 var es         = require('event-stream');
 var JSONStream = require('JSONStream');
+var debug      = require('debug')('bibliomap');
 
 // list of connected websockets
 var websockets = {};
@@ -24,9 +25,12 @@ var server = net.createServer(function (socket) { //'connection' listener
     .pipe(es.mapSync(function (ezpaarseEC) {
       for (var clientId in websockets) {
         // filter sensitive data
-        [ 'host', 'login', 'geoip-host' ].forEach(function (ecFieldToDelete) {
+        [ 'host', 'login', 'geoip-host', 'user', 'unit', 'OU' ].forEach(function (ecFieldToDelete) {
           delete ezpaarseEC[ecFieldToDelete];
         });
+        
+        debug('ezPAARSE EC recevied: ', ezpaarseEC);
+
         // send the filtered EC to the client through websocket
         websockets[clientId].emit('ezpaarse-ec', ezpaarseEC);
       }
