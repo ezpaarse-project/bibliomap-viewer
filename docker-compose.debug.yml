@@ -2,9 +2,9 @@ version: '2'
 
 services:
 
-  bibliomap:
-    container_name: bibliomap
-    image: ezpaarseproject/bibliomap:latest
+  bibliomap-viewer:
+    container_name: bibliomap-viewer
+    image: node:6.9.1
     volumes:
       - .:/app
     working_dir: /app
@@ -14,6 +14,12 @@ services:
       no_proxy: ${no_proxy}
       NODE_ENV: "development"
       DEBUG: ${DEBUG}
+      BBV_INDEX: ${BBV_INDEX}
+      BBV_JSFILE: ${BBV_JSFILE}
+      BBV_LISTEN_ENRICHER_HOST: ${BBV_LISTEN_ENRICHER_HOST}
+      BBV_LISTEN_ENRICHER_PORT: ${BBV_LISTEN_ENRICHER_PORT}
+      BBV_LISTEN_HOST: ${BBV_LISTEN_HOST}
+      BBV_LISTEN_PORT: ${BBV_LISTEN_PORT}
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     ports:

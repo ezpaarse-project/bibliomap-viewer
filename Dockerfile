@@ -16,7 +16,7 @@ RUN yarn install && yarn cache clean
 # after dependencies installation
 COPY . /app
 
-# ezmasterification of bibliomap
+# ezmasterification
 # see https://github.com/Inist-CNRS/ezmaster
 # (no data directory)
 # http port is not used

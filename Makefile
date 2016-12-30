@@ -19,15 +19,15 @@ install: ## install depedencies thanks to a dockerized npm install
 	@docker run -it --rm -v $$(pwd):/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:6.9.1 npm install
 	@make chown
 
-build: ## build the docker ezpaarseproject/bibliomap image localy
-	@docker build -t ezpaarseproject/bibliomap --build-arg http_proxy --build-arg https_proxy .
+build: ## build the docker ezpaarseproject/bibliomap-viewer image localy
+	@docker build -t ezpaarseproject/bibliomap-viewer --build-arg http_proxy --build-arg https_proxy .
 
-run-debug: ## run bibliomap in debug mode with docker
+run-debug: ## run bibliomap-viewer in debug mode with docker
 	@docker-compose -f ./docker-compose.debug.yml up -d
-	@# attach to the bibliomap container in order to be able to stop it easily with CTRL+C
-	@docker attach bibliomap
+	@# attach to the bibliomap-viewer container in order to be able to stop it easily with CTRL+C
+	@docker attach bibliomap-viewer
 
-run-prod: ## run bibliomap in production mode with the full dockerized image (see build)
+run-prod: ## run bibliomap-viewer in production mode with the full dockerized image (see build)
 	@docker-compose -f ./docker-compose.yml up -d
 
 # makefile rule used to keep current user's unix rights on the docker mounted files

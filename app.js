@@ -3,22 +3,22 @@ var config     = require('./config.js');
 var path       = require('path');
 var es         = require('event-stream');
 var JSONStream = require('JSONStream');
-var debug      = require('debug')('bibliomap');
+var debug      = require('debug')('bibliomap-viewer');
 
 // list of connected websockets
 var websockets = {};
 
 /**
- * ezpaarse2log.io => bibliomap
+ * bibliomap-enricher => bibliomap-viewer
  */
 var net = require('net');
 var server = net.createServer(function (socket) { //'connection' listener
-  console.log('ezpaarse2log.io connected');
+  console.log('bibliomap-enricher connected');
   socket.on('end', function() {
-    console.log('ezpaarse2log.io disconnected');
+    console.log('bibliomap-enricher disconnected');
   });
 
-  // get and parse the ezpaarse2log.io JSON stream
+  // get and parse the bibliomap-enricher JSON stream
   // then send it to the browser
   socket
     .pipe(JSONStream.parse())
@@ -37,9 +37,9 @@ var server = net.createServer(function (socket) { //'connection' listener
     }));
 
 });
-server.listen(config.listen['ezpaarse2log.io'].port,
-              config.listen['ezpaarse2log.io'].host, function () { 
-  console.log('Waiting for ezpaarse2log.io data at ' + config.listen['ezpaarse2log.io'].host + ':' + config.listen['ezpaarse2log.io'].port);
+server.listen(config.listen['bibliomap-enricher'].port,
+              config.listen['bibliomap-enricher'].host, function () { 
+  console.log('Waiting for bibliomap-enricher data at ' + config.listen['bibliomap-enricher'].host + ':' + config.listen['bibliomap-enricher'].port);
 });
 
 
@@ -51,7 +51,7 @@ var app        = express();
 var httpServer = require('http').Server(app);
 var io         = require('socket.io')(httpServer);
 
-httpServer.listen(config.listen.bibliomap.port, config.listen.bibliomap.host);
+httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliomap-viewer'].host);
 
 app.get('/', function (req, res) {
   res.header('X-UA-Compatible', 'IE=edge');
@@ -72,8 +72,8 @@ io.on('connection', function (client) {
   });
 });
 
-console.log('Bibliomap is listening on http://' + config.listen.bibliomap.host +
-  ':' + config.listen.bibliomap.port + ' (open it with your browser!)');
+console.log('Bibliomap is listening on http://' + config.listen['bibliomap-viewer'].host +
+  ':' + config.listen['bibliomap-viewer'].port + ' (open it with your browser!)');
 
 // exit on CTRL+C
 exitOnSignal('SIGINT');

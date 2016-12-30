@@ -1,24 +1,24 @@
 {
-  "name": "bibliomap",
+  "name": "bibliomap-viewer",
   "version": "2.1.0",
-  "description": "BiblioMap shows ezpaarse geolocalized EC's on a map",
+  "description": "BiblioMap (viewer) shows ezpaarse geolocalized EC's on a map",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap-viewer:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "version": "npm run insertversion && git add docker-compose.yml",
     "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ezpaarse-project/bibliomap.git"
+    "url": "https://github.com/ezpaarse-project/bibliomap-viewer.git"
   },
   "author": "Stéphane Gully <stephane.gully@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ezpaarse-project/bibliomap/issues"
+    "url": "https://github.com/ezpaarse-project/bibliomap-viewer/issues"
   },
-  "homepage": "https://github.com/ezpaarse-project/bibliomap",
+  "homepage": "https://github.com/ezpaarse-project/bibliomap-viewer",
   "dependencies": {
     "JSONStream": "^0.9.0",
     "debug": "^2.6.0",
