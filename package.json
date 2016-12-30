@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap-viewer:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
-    "version": "npm run insertversion && git add docker-compose.yml",
+    "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap-viewer:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml && sed -i \"s#\\(Bibliomap \\)\\([\\.0-9]\\+\\)#\\1${npm_package_version}#g\" index*.html",
+    "version": "npm run insertversion && git add docker-compose.yml index*.html ",
     "postversion": "git push && git push --tags"
   },
   "repository": {
