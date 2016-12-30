@@ -4,7 +4,7 @@ services:
 
   bibliomap-viewer:
     container_name: bibliomap-viewer
-    image: ezpaarseproject/bibliomap-viewer:3.0.5
+    image: ezpaarseproject/bibliomap-viewer:3.0.6
     environment:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
