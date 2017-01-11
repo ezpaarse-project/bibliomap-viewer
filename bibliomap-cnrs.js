@@ -51,53 +51,74 @@ socket.on('ezpaarse-ec', function (ec) {
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
 var portalsInfo = {
-  'bibliovie': {
-    name: 'Science de la Vie',
-    color: '#4D9022',
-    logo: 'portail-biblio-vie.png',
-    link: 'http://bibliovie.inist.fr/',
+  'INSB': {
+    name: 'INSB',
+     color: '#9c126d',
+    logo: 'bibcnrs-logo-biologie.png',
+    link: 'http://www.cnrs.fr/insb/',
     count: 0
   },
-  'biblioplanets': {
-    name: 'Sciences de la Terre et de l’Univers',
-    color: '#CE2984',
-    logo: 'portail-biblio-planets.png',
-    link: 'http://biblioplanets.inist.fr/',
+  'INC': {
+    name: 'INC',
+    color: '#007e94',
+    logo: 'bibcnrs-logo-chimie.png',
+    link: 'http://www.cnrs.fr/inc/',
     count: 0
   },
-  'titanesciences': {
-    name: 'Sciences Chimiques',
-    color: '#007E93',
-    logo: 'portail-titane-sciences.png',
-    link: 'http://titanesciences.inist.fr/',
+  'INEE': {
+    name: 'INEE',
+    color: '#62ae25',
+    logo: 'bibcnrs-logo-ecologie.png',
+    link: 'http://www.cnrs.fr/inee',
     count: 0
   },
-  'bibliosciences': {
-    name: 'Biblio Sciences',
-    color: '#367EC6',
-    logo: 'portail-biblio-sciences.png',
-    link: 'http://bibliosciences.inist.fr/',
+  'INSHS': {
+    name: 'INSHS',
+    color: '#820e12',
+    logo: 'bibcnrs-logo-homme.png',
+    link: 'http://www.cnrs.fr/inshs',
     count: 0
   },
-  'bibliost2i': {
-    name: 'Sciences et Techniques de l\'ingenieur',
-    color: '#803689',
-    logo: 'portail-biblio-st2i.png',
-    link: 'http://bibliost2i.inist.fr/',
+  'INSIS': {
+    name: 'INSIS',
+    color: '#d4002d',
+    logo: 'bibcnrs-logo-ingenierie.png',
+    link: 'http://www.cnrs.fr/insis',
     count: 0
   },
-  'biblioshs': {
-    name: 'Sciences Humaines et Sociales',
-    color: '#F38E00',
-    logo: 'portail-biblio-shs.png',
-    link: 'http://biblioshs.inist.fr/',
+  'INSMI': {
+    name: 'INSMI',
+    color: '#547d3d',
+    logo: 'bibcnrs-logo-mathematiques.png',
+    link: 'http://www.cnrs.fr/insmi',
     count: 0
-    },
-  'biblioinserm': {
-    name: 'Inserm',
-    color: '#F04E23',
-    logo: 'biblioinserm.png',
-    link: 'http://biblioinserm.inist.fr/',
+  },
+  'IN2P3': {
+    name: 'IN2P3',
+    color: '#e75113',
+    logo: 'bibcnrs-logo-nucleaire.png',
+    link: 'http://www.cnrs.fr/in2p3',
+    count: 0
+  },
+    'INP': {
+    name: 'INP',
+    color: '#004494',
+    logo: 'bibcnrs-logo-physique.png',
+    link: 'http://www.cnrs.fr/inp',
+    count: 0
+  },
+    'INS2I': {
+    name: 'INS2I',
+    color: '#562a84',
+    logo: 'bibcnrs-logo-information.png',
+    link: 'http://www.cnrs.fr/ins2i',
+    count: 0
+  },
+    'INSU': {
+    name: 'INSU',
+    color: '#cc2381',
+    logo: 'bibcnrs-logo-terre.png',
+    link: 'http://www.cnrs.fr/insu',
     count: 0
   }
 };
