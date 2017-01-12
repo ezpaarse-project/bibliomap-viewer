@@ -16,7 +16,7 @@ bibliomap-viewer is the [bibliomap](https://github.com/ezpaarse-project/biblioma
 
 As a standalone script, bibliomap-viewer is not very usefull. Please have a look to [bibliomap](https://github.com/ezpaarse-project/bibliomap) docker-compose.yml to understand how it can be orchestrated with required modules: [bibliomap-harvester](https://github.com/ezpaarse-project/bibliomap-harvester) and [bibliomap-enricher](https://github.com/ezpaarse-project/bibliomap-enricher)
 
-## Configuration
+## System configuration
 
 Env variable can be used to customize it:
 
