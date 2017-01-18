@@ -12,6 +12,7 @@ function getQueryVariable(variable) {
   return false;
 }
 
+
 $(document).ready(function() {
 
 var overlay = {};
@@ -53,7 +54,7 @@ BibliomapOverlay.prototype = new google.maps.OverlayView();
 var portalsInfo = {
   'INSB': {
     name: 'INSB',
-     color: '#9c126d',
+    color: '#9c126d',
     logo: 'bibcnrs-logo-biologie.png',
     link: 'http://www.cnrs.fr/insb/',
     count: 0
@@ -152,14 +153,21 @@ function initialize () {
     content.slideToggle();
   });
 
+  // une table pour tout ranger
+  var table = $("<table/>");
+
+  // pour chaque institut
   for (var i in portalsInfo) {
     var portal = portalsInfo[i];
     if (!portal.hasOwnProperty('logo')) { continue; }
+
+    var row = $("<tr/>"); // une ligne par institut
 
     var div   = $('<div></div>');
     var link  = $('<a></a>');
     var img   = $('<img>');
     var span  = $('<span></span>');
+
 
     link.attr('href', portal.link);
     link.attr('target', "_blank");
@@ -171,12 +179,19 @@ function initialize () {
     img.addClass('portal-logo');
 
     link.append(img);
-    div.append(link);
-    div.append(span);
-    content.append(div);
 
-    portal.counter = span;
+    row.append($("<td/>").append(link));    // lien vers le site de l'institut
+    row.append($("<td/>").text(portal.name)
+      .css('color', portal.color)
+      .css('font-size', '20px')
+      .css('font-family', 'Roboto,Arial,sans-serif')
+      ); // le nom de l'institut
+    row.append($("<td/>").append(span));
+
+    portal.counter = span; // le compteur de consultations
+    table.append(row);
   }
+  content.append(table); // insertion de la table dans la légende
 }
 
 function BibliomapOverlay(map) {
