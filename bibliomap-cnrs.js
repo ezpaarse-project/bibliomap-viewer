@@ -154,7 +154,9 @@ function initialize () {
   });
 
   // une table pour tout ranger
-  var table = $("<table/>");
+  var table = $("<table/>")
+        .css('text-align', 'right')
+  ;
 
   // pour chaque institut
   for (var i in portalsInfo) {
@@ -185,6 +187,7 @@ function initialize () {
       .css('color', portal.color)
       .css('font-size', '20px')
       .css('font-family', 'Roboto,Arial,sans-serif')
+
       ); // le nom de l'institut
     row.append($("<td/>").append(span));
 
