@@ -56,70 +56,70 @@ var portalsInfo = {
     name: 'INSB',
     color: '#9c126d',
     logo: 'bibcnrs-logo-biologie.png',
-    link: 'http://www.cnrs.fr/insb/',
+    link: 'https://bib.cnrs.fr/category/biologie/',
     count: 0
   },
   'INC': {
     name: 'INC',
     color: '#007e94',
     logo: 'bibcnrs-logo-chimie.png',
-    link: 'http://www.cnrs.fr/inc/',
+    link: 'https://bib.cnrs.fr/category/chimie/',
     count: 0
   },
   'INEE': {
     name: 'INEE',
     color: '#62ae25',
     logo: 'bibcnrs-logo-ecologie.png',
-    link: 'http://www.cnrs.fr/inee',
+    link: 'https://bib.cnrs.fr/category/ecologie/',
     count: 0
   },
   'INSHS': {
     name: 'INSHS',
     color: '#820e12',
     logo: 'bibcnrs-logo-homme.png',
-    link: 'http://www.cnrs.fr/inshs',
+    link: 'https://bib.cnrs.fr/category/homme/',
     count: 0
   },
   'INSIS': {
     name: 'INSIS',
     color: '#d4002d',
     logo: 'bibcnrs-logo-ingenierie.png',
-    link: 'http://www.cnrs.fr/insis',
+    link: 'https://bib.cnrs.fr/category/ingenierie/',
     count: 0
   },
   'INSMI': {
     name: 'INSMI',
     color: '#547d3d',
     logo: 'bibcnrs-logo-mathematiques.png',
-    link: 'http://www.cnrs.fr/insmi',
+    link: 'https://bib.cnrs.fr/category/mathematiques/',
     count: 0
   },
   'IN2P3': {
     name: 'IN2P3',
     color: '#e75113',
     logo: 'bibcnrs-logo-nucleaire.png',
-    link: 'http://www.cnrs.fr/in2p3',
+    link: 'https://bib.cnrs.fr/category/nucleaire/',
     count: 0
   },
     'INP': {
     name: 'INP',
     color: '#004494',
     logo: 'bibcnrs-logo-physique.png',
-    link: 'http://www.cnrs.fr/inp',
+    link: 'https://bib.cnrs.fr/category/physique/',
     count: 0
   },
     'INS2I': {
     name: 'INS2I',
     color: '#562a84',
     logo: 'bibcnrs-logo-information.png',
-    link: 'http://www.cnrs.fr/ins2i',
+    link: 'https://bib.cnrs.fr/category/information/',
     count: 0
   },
     'INSU': {
     name: 'INSU',
     color: '#cc2381',
     logo: 'bibcnrs-logo-terre.png',
-    link: 'http://www.cnrs.fr/insu',
+    link: 'https://bib.cnrs.fr/category/terre/',
     count: 0
   }
 };
