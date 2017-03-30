@@ -14,12 +14,12 @@ services:
       no_proxy: ${no_proxy}
       NODE_ENV: "development"
       DEBUG: ${DEBUG}
-      BBV_INDEX: ${BBV_INDEX}
-      BBV_JSFILE: ${BBV_JSFILE}
-      BBV_LISTEN_ENRICHER_HOST: ${BBV_LISTEN_ENRICHER_HOST}
-      BBV_LISTEN_ENRICHER_PORT: ${BBV_LISTEN_ENRICHER_PORT}
-      BBV_LISTEN_HOST: ${BBV_LISTEN_HOST}
-      BBV_LISTEN_PORT: ${BBV_LISTEN_PORT}
+      BBV_INDEX: "index-istex.html"
+      BBV_JSFILE: "bibliomap-istex.js"
+      BBV_LISTEN_ENRICHER_HOST: "0.0.0.0"
+      BBV_LISTEN_ENRICHER_PORT: 27779
+      BBV_LISTEN_HOST: "0.0.0.0"
+      BBV_LISTEN_PORT: 50197 # web server
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     ports:
