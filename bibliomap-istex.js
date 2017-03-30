@@ -66,7 +66,7 @@ var portalsInfo = {
     count: 0
   },
   'DOCUMENTAIRE': {
-    name: 'DOCIMENTAIRE',
+    name: 'DOCUMENTAIRE',
     color: '#007e94',
     count: 0
   },
@@ -236,7 +236,7 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
   label.append(extraLabel3);
 
   var circleColor = '#9c126d';
-  if (ec.sid)
+  if (ec.sid) {
     switch (true) {
       case getacces(tdm,ec.sid):
         circleColor = '#62ae25';
