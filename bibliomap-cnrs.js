@@ -153,19 +153,17 @@ function initialize () {
     content.slideToggle();
   });
 
-  // une table pour tout ranger
-  var table = $("<table/>")
-        .css('text-align', 'right')
-  ;
+  // une div pour tout ranger
+  var institutesList = $("<div/>").addClass('institutesList');
+
 
   // pour chaque institut
   for (var i in portalsInfo) {
     var portal = portalsInfo[i];
     if (!portal.hasOwnProperty('logo')) { continue; }
 
-    var row = $("<tr/>"); // une ligne par institut
+    var institute = $("<div/>").addClass('institute');
 
-    var div   = $('<div></div>');
     var link  = $('<a></a>');
     var img   = $('<img>');
     var span  = $('<span></span>');
@@ -174,7 +172,7 @@ function initialize () {
     link.attr('href', portal.link);
     link.attr('target', "_blank");
     span.attr('id', i);
-    img.attr('src', '/images/' + portal.logo);
+    img.attr('src', 'images/' + portal.logo);
     img.attr('title', portal.name);
 
     span.addClass('counter');
@@ -182,21 +180,21 @@ function initialize () {
 
     link.append(img);
 
-    row.append($("<td/>").append(link));    // lien vers le site de l'institut
-    row.append($("<td/>").text(portal.name)
+    institute.append($("<div/>").addClass('intra').append(link));    // lien vers le site de l'institut
+    institute.append($("<div/>").addClass('intra').text(portal.name)
       .css('color', portal.color)
       .css('font-size', '20px')
       .css('font-family', 'Roboto,Arial,sans-serif')
 
       ); // le nom de l'institut
-    row.append($("<td/>").append(span));
+    institute.append($("<div/>").addClass('intra').append(span));
 
     portal.counter = span; // le compteur de consultations
-    table.append(row);
+    institutesList.append(institute);
   }
-  content.append(table); // insertion de la table dans la légende
+  content.append(institutesList); // insertion dans la légende
 }
-
+// fhgezghhuergiheui
 function BibliomapOverlay(map) {
   this.ezpaarseEC = {};
   this.nbEC = 0;
@@ -325,4 +323,3 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 });
-
