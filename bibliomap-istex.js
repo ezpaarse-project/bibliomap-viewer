@@ -1,3 +1,22 @@
+var portalsInfo = {
+  'TDM': {
+    name: 'TDM',
+    color: '#62ae25',
+    count: 0
+  },
+  'DOCUMENTAIRE': {
+    name: 'DOCUMENTAIRE',
+    color: '#007e94',
+    count: 0
+  },
+  'OTHER': {
+    name: 'OTHER',
+    color: '#9c126d',
+    count: 0
+  }
+};
+
+
 function getQueryVariable(variable) {
   var query = window.location.search.substring(1);
   var vars  = query.split("&");
@@ -12,13 +31,13 @@ function getQueryVariable(variable) {
   return false;
 }
 
-function getacces(arrayAcces,element) {
-  for (var i = 0; i < arrayAcces.length; i++) {
-    if (arrayAcces[i] == element) {
-      return true;
-    }
-  }
-  return false;
+/* Increment access type count like TDM, DOCUMENTAIRE or OTHER
+*  @sid - A String related to EC's sid
+*/
+function updateAccessCount(sid){
+    var portal = portalsInfo[sid];
+    portal.count++;
+    if (portal.counter) { portal.counter.text(portal.count.toLocaleString()); }
 }
 
 $(document).ready(function() {
@@ -59,23 +78,7 @@ socket.on('ezpaarse-ec', function (ec) {
 
 BibliomapOverlay.prototype = new google.maps.OverlayView();
 
-var portalsInfo = {
-  'TDM': {
-    name: 'TDM',
-    color: '#62ae25',
-    count: 0
-  },
-  'DOCUMENTAIRE': {
-    name: 'DOCUMENTAIRE',
-    color: '#007e94',
-    count: 0
-  },
-  'OTHER': {
-    name: 'OTHER',
-    color: '#9c126d',
-    count: 0
-  }
-};
+
 
 function initialize () {
   var mapOptions = {
@@ -180,19 +183,14 @@ BibliomapOverlay.prototype.draw = function (ec) {
   }
 }
 
+
 BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
   var tdm = ['istex-api-harvester','node-istex'];
   var documentaire = ['google','istex-api-demo','istex-widgets','istex-widgets'];
   var self = this;
 
-  // ignore not geolocalized EC
-  if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
-
-  var portal = portalsInfo[ec.ezproxyName];
-  if (portal) {
-    portal.count++;
-    if (portal.counter) { portal.counter.text(portal.count.toLocaleString()); }
-  }
+  // ignore not geolocalized EC 
+  if (!ec['geoip-latitude'] || !ec['geoip-longitude']) { return };
 
   // Create the DIV and set some basic attributes.
   ec.div = $('<div></div>');
@@ -235,26 +233,29 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
   label.append('<br/>');
   label.append(extraLabel3);
 
+  // Depending on the 'sid', we set circles color
   var circleColor = '#9c126d';
   if (ec.sid) {
-    switch (true) {
-      case getacces(tdm,ec.sid):
-        circleColor = '#62ae25';
-        break;
-      case getacces(documentaire,ec.sid):
-        circleColor = '#007e94';
-        break;
-      default:
-        circleColor = '#9c126d';
+    if($.inArray(ec.sid,tdm) != -1){
+      circleColor = '#62ae25';
+      updateAccessCount('TDM');
+    }else if($.inArray(ec.sid,documentaire) != -1){
+      circleColor = '#007e94';
+      updateAccessCount('DOCUMENTAIRE');
+    }else {
+      updateAccessCount('OTHER');
     }
+  }else{
+    updateAccessCount('OTHER');
   }
+  
   var circle = $('<div></div>')
-                               .css('width', '128px')
-                               .css('height', '128px')
-                               .css('margin', 'auto')
-                               .css('margin-top', '35%')
-                               .css('border-radius', '50%')
-                               .css('background-color', circleColor);
+              .css('width', '128px')
+              .css('height', '128px')
+              .css('margin', 'auto')
+              .css('margin-top', '35%')
+              .css('border-radius', '50%')
+              .css('background-color', circleColor);
 
   ec.div.append(label);
   ec.div.append(circle);
