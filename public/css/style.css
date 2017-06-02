@@ -1,3 +1,6 @@
+html {
+  font-size: 62.5%
+}
 html, body, #bibliomap-canvas {
   height: 100%;
   margin: 0;
@@ -13,6 +16,8 @@ img { border: none; }
   border: 2px solid #CCC;
   padding: 0 10px;
   width: 20%;
+  min-width: 122px;
+  max-width: 200px;
 }
 #legend .controls {
   text-align: right;
@@ -29,8 +34,8 @@ img { border: none; }
   color: inherit;
 }
 #legend .logo {
-  width: 150px;
-  height: 100px;
+  width: auto;
+  max-height: 100px;
   margin: 5px auto;
   display: block;
 }
@@ -74,26 +79,54 @@ img { border: none; }
   right: 10px;
 }
 #description .header {
-  font-size: 1.5em;
+  font-size: 2.4rem;
   font-weight: bold;
   margin: 10px 0;
-  text-align: right;
   margin: 0 auto;
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: row;
+  -webkit-flex-direction: row;
 }
-#description .header .logo { max-width: 180px; }
-#description .header .logo img { width: 100%; }
-#description table.logos { width: 100% ;}
-#description table.logos td { text-align: center; }
-#description table.smaller.logos img { max-width: 50% }
-#description table.logos img {
-  max-width: 80%;
-  vertical-align: middle;
+#description .header .logocnrs {
+  max-width: 25%;
+  margin-right: 10%;
+}
+#description .header .title {
+  max-width: 65%;
+  align-self: center;
+}
+#description .header .logocnrs img {
+  width: 100%;
+}
+.logos {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+}
+.twoLogos {
+  width: 35%;
+}
+.twoLogos img {
+  width: 100%;
+}
+.threeLogos {
+  width: 30%;
+  text-align: center;
+}
+.threeLogos img {
+  max-height: 100px;
+  max-width: 100%;
 }
 #brand, #description {
   background: #FFF;
   opacity: 0.8;
   font-size: large;
-
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
@@ -104,8 +137,27 @@ img { border: none; }
 
 img.logo {
   display: block;
-  height: 100px;
   margin: 5px auto;
-  margin-left: auto;
-  margin-right: auto
+  width: 100%;
+}
+.institutesList {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+}
+.institute {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  padding: 2px;
+}
+.intra {
+  width: 30%;
+  line-height: 30px;
 }
