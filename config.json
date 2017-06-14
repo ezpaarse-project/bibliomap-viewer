@@ -1,6 +1,6 @@
 {
-  "index": "index-istex.html",
-  "jsfile": "bibliomap-istex.js",
+  "index": "index-cnrs.html",
+  "jsfile": "bibliomap-cnrs.js",
   "listen": {
     "bibliomap-enricher": {
       "host": "0.0.0.0",
