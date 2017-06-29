@@ -5,6 +5,8 @@ var es         = require('event-stream');
 var JSONStream = require('JSONStream');
 var debug      = require('debug')('bibliomap-viewer');
 
+var sha256 = require('sha256');
+
 // list of connected websockets
 var websockets = {};
 
@@ -25,9 +27,14 @@ var server = net.createServer(function (socket) { //'connection' listener
     .pipe(es.mapSync(function (ezpaarseEC) {
       for (var clientId in websockets) {
         // filter sensitive data
-        [ 'host', 'login', 'geoip-host', 'user', 'unit', 'OU' ].forEach(function (ecFieldToDelete) {
+       
+        [  'login', 'geoip-host', 'user', 'unit', 'OU' ].forEach(function (ecFieldToDelete) {
           delete ezpaarseEC[ecFieldToDelete];
         });
+
+        if(ezpaarseEC['host']){
+          ezpaarseEC['host'] = sha256(ezpaarseEC['host']);
+        }
         
         debug('ezPAARSE EC recevied: ', ezpaarseEC);
 

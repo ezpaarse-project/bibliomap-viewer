@@ -16,6 +16,8 @@ var portalsInfo = {
   }
 };
 
+var hostAccessCount = {};
+
 
 function getQueryVariable(variable) {
   var query = window.location.search.substring(1);
@@ -29,6 +31,16 @@ function getQueryVariable(variable) {
   }
 
   return false;
+}
+
+function getHostAccessCount(ec){
+
+  if(hostAccessCount[ec.host]){
+    return ++hostAccessCount[ec.host];
+  }else{
+    return hostAccessCount[ec.host] = 1;
+  }
+
 }
 
 /* Increment access type count like TDM, DOCUMENTAIRE or OTHER
@@ -212,42 +224,52 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
                                .css('z-index', '100')
                                .css('padding', '4px').css('margin', '0px').css('line-height', '12px')
                                .css('width', '128px');
-  var extraLabel   = $('<span></span>').text(ec.platform_name)
-                                       .css('font-size', '10px');
-  if (ec.publication_title) {
-    if (ec.publication_title.length > 22) {
-      ec.publication_title = ec.publication_title.substring(0, 22) + '...';
-    }
-    var extraLabel2  = $('<span></span>').text(ec.publication_title)
-                                         .css('font-size', '10px');
-  }
-  var id = ec.online_identifier ? ec.online_identifier : ec.print_identifier;
-  var extraLabel3 = $('<span></span>').text(ec.rtype + ' | ' + ec.mime + (id ? ' | ' + id : ''))
-                                      .css('font-size', '10px');
-  label.append('<br/>');
-  label.append(extraLabel);
-  if (extraLabel2) {
-    label.append('<br/>');
-    label.append(extraLabel2);
-  }
-  label.append('<br/>');
-  label.append(extraLabel3);
+ 
 
-  // Depending on the 'sid', we set circles color
+ var balloonLine1 = $('<div></div>').addClass("label");
+ var balloonLine2 = $('<div></div>').addClass("label");
+ var balloonLine3 = $('<div></div>').addClass("label");
+
+  // Depending on the 'sid', we set circle content and color
   var circleColor = '#9c126d';
   if (ec.sid) {
+    var count = getHostAccessCount(ec);
     if($.inArray(ec.sid,tdm) != -1){
+
       circleColor = '#62ae25';
       updateAccessCount('TDM');
+      balloonLine1.text('total : ' +count); 
+      balloonLine2.text(ec.mime);
+      
+
     }else if($.inArray(ec.sid,documentaire) != -1){
       circleColor = '#007e94';
       updateAccessCount('DOCUMENTAIRE');
+      balloonLine1.text(ec.publisher_name);
+
+      if (ec.publication_title) {
+        if (ec.publication_title.length > 22) {
+          ec.publication_title = ec.publication_title.substring(0, 22) + '...';
+        }
+        balloonLine2.text(ec.publication_title);
+      }
+
+      balloonLine3.text(ec.rtype + ' | ' + ec.publication_date );
+    
     }else {
-      updateAccessCount('OTHER');
+        updateAccessCount('OTHER');
+        balloonLine1.text('sid : '+ec.sid);
+        balloonLine2.text('total : ' +count);
     }
   }else{
     updateAccessCount('OTHER');
+    balloonLine1.text('sid : none');
+    balloonLine2.text('total : ' +count);
   }
+  
+  label.append(balloonLine1);
+  label.append(balloonLine2);
+  label.append(balloonLine3);
   
   var circle = $('<div></div>')
               .css('width', '128px')
@@ -272,9 +294,9 @@ BibliomapOverlay.prototype.addEzpaarseEC = function (ec) {
   $(circle).animate({
     width: "toggle",
     height: "toggle"
-  }, 8000);
+  }, 10000);
 
-  $(ec.div).animate({ opacity: "toggle" }, 8000);
+  $(ec.div).animate({ opacity: "toggle" }, 10000);
 
 
   // destroy EC after 5 seconds
