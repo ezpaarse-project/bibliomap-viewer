@@ -319,7 +319,6 @@ $(document).ready(function() {
     setTimeout(function() {
       panes.overlayLayer.removeChild(ec.div[0]);
       delete self.ezpaarseEC[ec.id];
-      delete ec;
     }, 10000);
 
     ec.id = self.nbEC++;
