@@ -63,10 +63,10 @@ img { border: none; }
 #description {
   display: none;
   position: absolute;
-  top: 5%;
+  top: 35%;
   left: 15%;
   width: 70%;
-  height: 85%;
+  height: 45%;
   padding: 15px;
   overflow: auto;
   text-align: justify;
