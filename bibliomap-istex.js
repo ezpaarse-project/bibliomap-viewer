@@ -1,6 +1,6 @@
 var portalsInfo = {
   TDM: {
-    name: 'TDM',
+    name: 'FOUILLE DE TEXTE',
     color: '#62ae25',
     count: 0
   },
@@ -10,7 +10,7 @@ var portalsInfo = {
     count: 0
   },
   OTHER: {
-    name: 'OTHER',
+    name: 'AUTRE',
     color: '#9c126d',
     count: 0
   }
@@ -257,8 +257,8 @@ $(document).ready(function() {
       if ($.inArray(ec.sid, tdm) != -1) {
         circleColor = '#62ae25';
         updateAccessCount('TDM');
-        balloonLine1.text('total : ' + count);
         balloonLine2.text(ec.mime);
+        balloonLine1.text('total : ' + count);
       } else if ($.inArray(ec.sid, documentaire) != -1) {
         circleColor = '#007e94';
         updateAccessCount('DOCUMENTAIRE');
@@ -274,12 +274,12 @@ $(document).ready(function() {
         balloonLine3.text(ec.rtype + ' | ' + ec.publication_date);
       } else {
         updateAccessCount('OTHER');
-        balloonLine1.text('sid : ' + ec.sid);
+        balloonLine1.text('origin : ' + ec.sid);
         balloonLine2.text('total : ' + count);
       }
     } else {
       updateAccessCount('OTHER');
-      balloonLine1.text('sid : none');
+      balloonLine1.text('origin : none');
       balloonLine2.text('total : ' + count);
     }
 
