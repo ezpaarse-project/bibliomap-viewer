@@ -51,8 +51,42 @@ function updateAccessCount(sid) {
   }
 }
 
+/*Call by array.sort
+Usefull to sort the year of time line array
+*/
+function compare(a, b) {
+  if (a.x < b.x) return -1;
+  if (a.x > b.x) return 1;
+  return 0;
+}
+
 $(document).ready(function() {
   var overlay = {};
+
+  var graph = new Rickshaw.Graph({
+    element: document.querySelector('#chart'),
+    renderer: 'bar',
+    width: 1040,
+    height: 240,
+    series: [
+      {
+        data: [],
+        color: 'steelblue'
+      }
+    ]
+  });
+
+  var x_axis = new Rickshaw.Graph.Axis.Time({
+    graph: graph
+  });
+
+  var y_axis = new Rickshaw.Graph.Axis.Y({
+    graph: graph
+  });
+
+  var hoverDetail = new Rickshaw.Graph.HoverDetail({
+    graph: graph
+  });
 
   $('#brand').click(function() {
     $('#description').fadeToggle();
@@ -254,6 +288,28 @@ $(document).ready(function() {
     var circleColor = '#9c126d';
     if (ec.sid) {
       var count = getHostAccessCount(ec);
+
+      if (ec.publication_date) {
+        var date = -(new Date(ec.publication_date, 0, 0).getTime() / 1000);
+
+        var data = graph.series[0].data;
+        var found = false;
+
+        data.forEach(function(element) {
+          if (element.x === date) {
+            element.y = count;
+            found = true;
+          }
+        }, this);
+
+        if (!found) {
+          data.push({ x: date, y: 1 });
+          data.sort(compare);
+        }
+
+        graph.render();
+      }
+
       if ($.inArray(ec.sid, tdm) != -1) {
         circleColor = '#62ae25';
         updateAccessCount('TDM');
@@ -262,16 +318,24 @@ $(document).ready(function() {
       } else if ($.inArray(ec.sid, documentaire) != -1) {
         circleColor = '#007e94';
         updateAccessCount('DOCUMENTAIRE');
-        balloonLine1.text(ec.publisher_name);
+
+        if (ec.publisher_name) {
+          balloonLine1.text(ec.publisher_name);
+        }
 
         if (ec.publication_title) {
           if (ec.publication_title.length > 22) {
-            ec.publication_title = ec.publication_title.substring(0, 22) + '...';
+            ec.publication_title =
+              ec.publication_title.substring(0, 22) + '...';
           }
           balloonLine2.text(ec.publication_title);
         }
 
-        balloonLine3.text(ec.rtype + ' | ' + ec.publication_date);
+        if (ec.publication_date) {
+          balloonLine3.text(ec.rtype + ' | ' + ec.publication_date);
+        } else {
+          balloonLine3.text(ec.rtype);
+        }
       } else {
         updateAccessCount('OTHER');
         balloonLine1.text('origin : ' + ec.sid);

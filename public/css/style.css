@@ -166,3 +166,13 @@ img.logo {
 .label {
   font-size:10px;
 }
+
+.rickshaw_graph {
+  position: fixed !important;
+  bottom: 20px;
+  left: 45px;
+  background-color: #FFF;
+  border: 2px solid #CCC;
+  padding: 0 10px;
+
+}

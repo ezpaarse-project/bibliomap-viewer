@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="/css/rickshaw.min.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- JQUERY -->
@@ -12,6 +13,10 @@
     <!-- Google Map API -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBncCN12FDAW4T3ZGmDowetaCgBlHMNqt0"></script>
     <script type="text/javascript" src="bibliomap.js"></script>
+
+    <script src="/js/d3.min.js"></script> 
+    <script src="/js/d3.layout.min.js"></script> 
+    <script src="/js/rickshaw.min.js"></script> 
   </head>
   <body>
 
@@ -27,7 +32,29 @@
       </div>
 
       <div class="controls"><a class="close" href="javascript:void(0)">Fermer</a> - <a class="reduce" href="javascript:void(0)">Réduire</a></div>
+
     </div>
+
+    <style>
+#chart_container {
+        position: relative;
+        font-family: Arial, Helvetica, sans-serif;
+}
+#chart {
+        position: relative;
+        left: 40px;
+}
+#x_axis {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+}
+</style>
+
+
+ <div id="chart"></div>
+
 
     <div id="brand">
       <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> 4.1.0</div>
@@ -74,6 +101,7 @@
 
      
     </div>
+
 
   </body>
 </html>
