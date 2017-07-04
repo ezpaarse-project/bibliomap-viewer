@@ -211,8 +211,9 @@ $(document).ready(function() {
     var tdm = ['istex-api-harvester', 'node-istex'];
     var documentaire = [
       'google',
+      'ebsco',
+      'istex-browser-addon',
       'istex-api-demo',
-      'istex-widgets',
       'istex-widgets'
     ];
     var self = this;
