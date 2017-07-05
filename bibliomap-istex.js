@@ -210,8 +210,10 @@ $(document).ready(function() {
   BibliomapOverlay.prototype.addEzpaarseEC = function(ec) {
     var tdm = ['istex-api-harvester', 'node-istex'];
     var documentaire = [
-      'google',
-      'ebsco',
+      'google', // résolveur de lien de Google Scholar
+      'ebsco', // résolveur de lien d'EBSCO (FTF)
+      'smash', // résolveur de lien de Aix-Marseille
+      'istex-view',
       'istex-browser-addon',
       'istex-api-demo',
       'istex-widgets'
