@@ -255,8 +255,9 @@ $(document).ready(function() {
 
     // Depending on the 'sid', we set circle content and color
     var circleColor = '#9c126d';
+    var count = getHostAccessCount(ec);
+
     if (ec.sid) {
-      var count = getHostAccessCount(ec);
       if ($.inArray(ec.sid, tdm) != -1) {
         circleColor = '#62ae25';
         updateAccessCount('TDM');
