@@ -3,10 +3,10 @@ var config     = require('./config.js');
 var path       = require('path');
 var es         = require('event-stream');
 var JSONStream = require('JSONStream');
+var sha256     = require('sha256');
 var debug      = require('debug')('bibliomap-viewer');
 
-var sha256 = require('sha256');
-
+var enricherCfg = config.listen['bibliomap-enricher'];
 // list of connected websockets
 var websockets = {};
 
@@ -24,29 +24,28 @@ var server = net.createServer(function (socket) { //'connection' listener
   // then send it to the browser
   socket
     .pipe(JSONStream.parse())
-    .pipe(es.mapSync(function (ezpaarseEC) {
+    .pipe(es.mapSync(function (ec) {
       for (var clientId in websockets) {
-        // filter sensitive data
-       
-        [  'login', 'geoip-host', 'user', 'unit', 'OU' ].forEach(function (ecFieldToDelete) {
-          delete ezpaarseEC[ecFieldToDelete];
-        });
+        debug('ezPAARSE EC recevied: ', ec);
 
-        if(ezpaarseEC['host']){
-          ezpaarseEC['host'] = sha256(ezpaarseEC['host']);
+        // We don't need ECs that are not geolocalized
+        if (!ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
+
+        ec['geoip-latitude']  = parseFloat(ec['geoip-latitude']) + 2 * (Math.random() - 0.5);
+        ec['geoip-longitude'] = parseFloat(ec['geoip-longitude']) + 2 * (Math.random() - 0.5);
+
+        if (ec['host']) {
+          ec['host'] = sha256(ec['host']);
         }
-        
-        debug('ezPAARSE EC recevied: ', ezpaarseEC);
 
         // send the filtered EC to the client through websocket
-        websockets[clientId].emit('ezpaarse-ec', ezpaarseEC);
+        websockets[clientId].emit('ezpaarse-ec', ec);
       }
     }));
 
 });
-server.listen(config.listen['bibliomap-enricher'].port,
-              config.listen['bibliomap-enricher'].host, function () { 
-  console.log('Waiting for bibliomap-enricher data at ' + config.listen['bibliomap-enricher'].host + ':' + config.listen['bibliomap-enricher'].port);
+server.listen(enricherCfg.port, enricherCfg.host, function () {
+  console.log('Waiting for bibliomap-enricher data at ' + enricherCfg.host + ':' + enricherCfg.port);
 });
 
 
