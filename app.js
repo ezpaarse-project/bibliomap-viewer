@@ -31,8 +31,8 @@ var server = net.createServer(function (socket) { //'connection' listener
         // We don't need ECs that are not geolocalized
         if (!ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
 
-        ec['geoip-latitude']  = parseFloat(ec['geoip-latitude']) + 2 * (Math.random() - 0.5);
-        ec['geoip-longitude'] = parseFloat(ec['geoip-longitude']) + 2 * (Math.random() - 0.5);
+        ec['geoip-latitude']  = parseFloat(ec['geoip-latitude']) + (Math.random() - 0.5);
+        ec['geoip-longitude'] = parseFloat(ec['geoip-longitude']) + (Math.random() - 0.5);
 
         if (ec['host']) {
           ec['host'] = sha256(ec['host']);
