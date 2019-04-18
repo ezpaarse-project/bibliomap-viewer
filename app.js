@@ -62,11 +62,11 @@ httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliom
 
 app.get('/', function (req, res) {
   res.header('X-UA-Compatible', 'IE=edge');
+  console.log(process.env.BBV_INDEX)
   res.sendFile(path.join(__dirname, '/' + process.env.BBV_INDEX));
+  
 });
-app.get('/bibliomap.js', function (req, res) {
-  res.sendFile(path.join(__dirname, '/' + process.env.BBV_JSFILE));
-});
+
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use(function (req, res, next) { res.status(404).end(); });
 

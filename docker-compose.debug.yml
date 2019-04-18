@@ -25,4 +25,4 @@ services:
     ports:
       - 50197:50197
       - 27779:27779
-    command: npm start
+    command: npm run dev
