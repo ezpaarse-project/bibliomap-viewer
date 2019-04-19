@@ -34,40 +34,7 @@ $(document).ready(function() {
       //   if (portal.counter) { portal.counter.text(portal.count.toLocaleString()); }
       // }
     
-      //switch to define bubble color with the institute name
-      var colorbubble = "";
-      switch (ec.ezproxyName){
-        case "INSB":
-          colorbubble = "#9c126d";
-          break;
-        case "INC":
-          colorbubble = "#007e94";
-          break;
-        case "INEE":
-          colorbubble = "#62ae25";
-           break;
-        case "INSHS":
-          colorbubble = "#820e12";
-          break;
-        case "INSIS":
-          colorbubble = "#d4002d";
-          break;
-        case "INSMI":
-          colorbubble = "#547d3d";
-          break;
-        case "IN2P3":
-          colorbubble = "#e75113";
-          break;
-        case "INP":
-          colorbubble = "#004494";
-          break;
-        case "INS2I":
-          colorbubble = "#562a84";
-          break;
-        case "INSU":
-          colorbubble = "#cc2381";
-          break;
-        }
+      var colorbubble = portalsInfo[ec.ezproxyName].color;
 
       // draw bubble
       var pulsingIcon = L.icon.pulse({iconSize:[30,30],color:colorbubble, fillColor:colorbubble});
@@ -76,19 +43,9 @@ $(document).ready(function() {
 
     
       //verification if informations receive 
-      var publication_title = "";
-      var rtype = "";
-      var mime = "";
-
-      if(ec.publication_title != undefined){
-        publication_title = ec.publication_title;
-      }
-      if(ec.rtype != undefined){
-        rtype = ec.rtype;
-      }
-      if(ec.mime != undefined){
-        mime = ec.mime;
-      }
+      var publication_title = ec.publication_title || "";
+      var rtype = ec.rtype || "";
+      var mime =  ec.mime || "";
 
       //popup with informations about consultation
       var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false})
