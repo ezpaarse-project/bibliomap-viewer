@@ -209,3 +209,9 @@ img.logo {
       filter: alpha(opacity=0);
   }
 }
+
+.leaflet-popup h1, .leaflet-popup h2,.leaflet-popup h3,.leaflet-popup h4,.leaflet-popup h5 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}

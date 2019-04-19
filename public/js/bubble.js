@@ -43,18 +43,26 @@ $(document).ready(function() {
 
     
       //verification if informations receive 
-      var publication_title = ec.publication_title || "";
-      var rtype = ec.rtype || "";
-      var mime =  ec.mime || "";
+      if (ec.publication_title) {
+        if (ec.publication_title.length > 22) {
+          ec.publication_title = ec.publication_title.substring(0, 22) + '...';
+        }
+      }
+
 
       //popup with informations about consultation
-      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false})
+      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:150})
       .setLatLng([ec["geoip-latitude"], ec["geoip-longitude"]])
-      .setContent("<h2>" + ec.ezproxyName + "</h2>" + "<h4>" + ec.platform_name + "</h4>" + "<h5>" + rtype + " " + mime + " " + publication_title + "</h5>")
-      .openOn(carte);
+      .setContent("<h1>" + ec.ezproxyName + "</h1>" 
+        + "<h3>" + ec.platform_name + "</h3>" 
+        + "<h4>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</h4>"
+      ).openOn(carte);
   
-      setTimeout(function(){ carte.removeLayer(bubble)}, 5000);
-      setTimeout(function(){ carte.removeLayer(popup) }, 5000);
+      setTimeout(function(){ 
+        carte.removeLayer(bubble);
+        carte.removeLayer(popup);
+      }, 5000);
+
   
     };
 
