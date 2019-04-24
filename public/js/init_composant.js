@@ -205,8 +205,23 @@ var portalsInfo = {
       institutesList.append(institute);
     }
     content.append(institutesList); // insertion dans la légende
+
+    time = 0;
+    setInterval(function(){
+      
+      const tmp = (time / 3600);
+      const days = Math.floor(tmp / 24);
+      const hours = Math.floor(tmp % 24);
+      const minutes = Math.floor((time / 60) % 60);
+      const seconds = (time % 60);
+      
+      document.getElementById("Timer").innerHTML = `${days}j ${hours}h ${minutes}m ${seconds}s` //montre minuterie
+      time++;
+
+    },1000);
   }
 
+  
 
   initialize();
   

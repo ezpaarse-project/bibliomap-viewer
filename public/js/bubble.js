@@ -41,8 +41,8 @@ $(document).ready(function() {
       var bubble = L.marker([ec["geoip-latitude"], ec["geoip-longitude"]],{icon: pulsingIcon});
       carte.addLayer(bubble);
 
-    
-      //verification if informations receive 
+
+      //verification if informations receive and reduction of string if string > 22
       if (ec.publication_title) {
         if (ec.publication_title.length > 22) {
           ec.publication_title = ec.publication_title.substring(0, 22) + '...';
@@ -51,11 +51,11 @@ $(document).ready(function() {
 
 
       //popup with informations about consultation
-      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:150})
+      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:100})
       .setLatLng([ec["geoip-latitude"], ec["geoip-longitude"]])
       .setContent("<h1>" + ec.ezproxyName + "</h1>" 
         + "<h3>" + ec.platform_name + "</h3>" 
-        + "<h4>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</h4>"
+        + "<h5>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</h5>"
       ).openOn(carte);
   
       setTimeout(function(){ 
