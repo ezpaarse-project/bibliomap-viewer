@@ -3,11 +3,15 @@
 /**
  * init map
  */
-var carte = L.map('bibliomap-canvas').setView([46.3630104, 2.9846608], 6);
+var map = L.map('bibliomap-canvas').setView([46.3630104, 2.9846608], 6);
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(carte);
+}).addTo(map);
+
+var map2 = L.map('outside_map').setView([0,0], 4);
+document.getElementById('outside_map').style.display = 'none';
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
 
 /**
  * information about CNRS institute on legend
@@ -99,6 +103,7 @@ var portalsInfo = {
     return false;
   }
 
+  console.log(map.getBounds());
   /**
    * initalize evenement on button and build the html tree for the legend
    */

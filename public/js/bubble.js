@@ -28,19 +28,13 @@ $(document).ready(function() {
       }
 
       // update legend
-      // var portal = portalsInfo[ec.ezproxyName];
-      // if (portal) {
-      //   portal.count++;
-      //   if (portal.counter) { portal.counter.text(portal.count.toLocaleString()); }
-      // }
+      var portal = portalsInfo[ec.ezproxyName];
+      if (portal) {
+        portal.count++;
+        if (portal.counter) { portal.counter.text(portal.count.toLocaleString()); }
+      }
     
       var colorbubble = portalsInfo[ec.ezproxyName].color;
-
-      // draw bubble
-      var pulsingIcon = L.icon.pulse({iconSize:[30,30],color:colorbubble, fillColor:colorbubble});
-      var bubble = L.marker([ec["geoip-latitude"], ec["geoip-longitude"]],{icon: pulsingIcon});
-      carte.addLayer(bubble);
-
 
       //verification if informations receive and reduction of string if string > 22
       if (ec.publication_title) {
@@ -49,21 +43,55 @@ $(document).ready(function() {
         }
       }
 
+      // draw bubble
+      var pulsingIcon = L.icon.pulse({iconSize:[50,50],color:colorbubble, fillColor:colorbubble});
+      var bubble = L.marker([ec["geoip-latitude"], ec["geoip-longitude"]],{icon: pulsingIcon});
+     
 
       //popup with informations about consultation
-      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:100})
+      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:75})
       .setLatLng([ec["geoip-latitude"], ec["geoip-longitude"]])
-      .setContent("<h1>" + ec.ezproxyName + "</h1>" 
-        + "<h3>" + ec.platform_name + "</h3>" 
-        + "<h5>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</h5>"
-      ).openOn(carte);
-  
+      .setContent(
+         "<h3>" + ec.platform_name + "</h3>" 
+        + "<h4>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</h4>"
+      )
+      
+      if(ec["geoip-latitude"] > 52 || ec["geoip-latitude"] < 40 || ec["geoip-longitude"] > 23 || ec["geoip-longitude"] < -17) {
+        StartMapOutside(ec["geoip-latitude"],ec["geoip-longitude"]);
+        map2.addLayer(bubble);
+        popup.openOn(map2);
+        popup._container.style.opacity = 0.8
+        bubble._icon.style.display = "none"
+      } else {
+        map.addLayer(bubble);
+        popup.openOn(map);
+        popup._container.style.opacity = 0.8
+        bubble._icon.style.display = "none"
+      }
+
+      $(bubble._icon).fadeIn(1000)
+
       setTimeout(function(){ 
-        carte.removeLayer(bubble);
-        carte.removeLayer(popup);
+        map.removeLayer(popup);
+        map2.removeLayer(popup);
+        $(bubble._icon).fadeOut(1000)
       }, 5000);
 
-  
+      setTimeout(function(){
+        map2.removeLayer(bubble);
+        map.removeLayer(bubble);
+      },6000); 
+
     };
 
 });
+
+val = 0;
+function StartMapOutside(lat, lng){
+  map2.setView([lat,lng]);
+  $("#outside_map").fadeIn(1000);
+  c = document.querySelector("#outside_map");
+  c.style.visible = "visible"
+  window.clearTimeout(val)
+  val = setTimeout(function(){ $("#outside_map").fadeOut(1000)}, 6000);
+}
