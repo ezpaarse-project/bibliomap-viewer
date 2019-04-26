@@ -24,14 +24,14 @@
     "JSONStream": "^0.9.0",
     "debug": "^2.6.0",
     "event-stream": "^3.1.7",
-    "express": "^4.9.5",
+    "express": "^4.16.4",
     "nconf": "^0.6.9",
     "nodemon": "^1.18.11",
-    "request": "^2.39.0",
+    "request": "^2.88.0",
     "sha256": "^0.2.0",
-    "socket.io": "^1.1.0"
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^6.1.4"
   }
 }

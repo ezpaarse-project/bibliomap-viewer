@@ -103,12 +103,9 @@ var portalsInfo = {
     return false;
   }
 
-  console.log(map.getBounds());
   /**
    * initalize evenement on button and build the html tree for the legend
    */
-
-   
   function initialize () {
 
     //button "fermer" on legend
