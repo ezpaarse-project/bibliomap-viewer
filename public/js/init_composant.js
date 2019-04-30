@@ -178,6 +178,12 @@ var portalsInfo = {
   
       var institute = $("<div/>").addClass('institute');
   
+      institute.append($("<div/>").addClass('institute-title').attr('id','institute-' + i)
+        
+        
+        );
+      institute.css('background-color',portal.color)
+      
       var link  = $('<a></a>');
       var img   = $('<img>');
       var span  = $('<span></span>');
@@ -194,14 +200,16 @@ var portalsInfo = {
   
       link.append(img);
   
+      
+
       institute.append($("<div/>").addClass('intra').append(link));    // lien vers le site de l'institut
-      institute.append($("<div/>").addClass('intra').text(portal.name)
-        .css('color', portal.color)
+      institute.append($("<div/>").addClass('intra').text('   ' + portal.name)
+        
         .css('font-size', '20px')
         .css('font-family', 'Roboto,Arial,sans-serif')
   
         ); // le nom de l'institut
-      institute.append($("<div/>").addClass('intra').append(span));
+      institute.append($("<div/>").addClass('intro').append(span));
   
       portal.counter = span; // le compteur de consultations
       institutesList.append(institute);
