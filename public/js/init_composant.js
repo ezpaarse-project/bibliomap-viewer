@@ -1,5 +1,3 @@
-
-
 /**
  * init map
  */
@@ -162,14 +160,9 @@ var portalsInfo = {
     description.find('.close').click(function () { 
         description.slideUp(description.remove); 
     });
-
-    // TypeError: legend.draggable is not a function
-    // legend.draggable({ stop: function (event, ui) { currentPosition = ui.position; } });
   
-    
     // une div pour tout ranger
     var institutesList = $("<div/>").addClass('institutesList');
-  
   
     // pour chaque institut
     for (var i in portalsInfo) {
@@ -222,8 +215,8 @@ var portalsInfo = {
 
     },1000);
   }
-
   
-
-  initialize();
+  $(document).ready(function() {
+     initialize();
+  });
   

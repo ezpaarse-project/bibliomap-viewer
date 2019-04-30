@@ -49,25 +49,24 @@ $(document).ready(function() {
      
 
       //popup with informations about consultation
-      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:75})
+      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:75, closeButton: false})
       .setLatLng([ec["geoip-latitude"], ec["geoip-longitude"]])
       .setContent(
-         "<div id='text-popup'><strong>" + ec.platform_name + "</strong></div>" 
-        + "<div id='text-popup'>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</div>"
+         "<div class='text-popup'><strong>" + ec.platform_name + "</strong></div>" 
+        + "<div class='text-popup'>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</div>"
       )
       
       if(ec["geoip-latitude"] > map.getBounds().getNorth() || ec["geoip-latitude"] < map.getBounds().getSouth() || ec["geoip-longitude"] >  map.getBounds().getEast() || ec["geoip-longitude"] <  map.getBounds().getWest()) {
         StartMapOutside(ec["geoip-latitude"],ec["geoip-longitude"]);
         map2.addLayer(bubble);
         popup.openOn(map2);
-        popup._container.style.opacity = 0.8
-        bubble._icon.style.display = "none"
       } else {
         map.addLayer(bubble);
         popup.openOn(map);
-        popup._container.style.opacity = 0.8
-        bubble._icon.style.display = "none"
       }
+
+      popup._container.style.opacity = 0.8
+      bubble._icon.style.display = "none"
 
       $(bubble._icon).fadeIn(1000)
 

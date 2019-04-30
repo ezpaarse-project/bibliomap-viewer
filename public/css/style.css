@@ -210,7 +210,7 @@ img.logo {
   }
 }
 
-#text-popup {
+#text-popup  {
   margin: 0;
   padding: 0;
   text-align: center;
@@ -226,5 +226,5 @@ img.logo {
   z-index: 4;
   padding: 0%;
   margin: 0%;
-  border : 3px solid #2c3e50;
+  border : 3px inset #2c3e50;
 }
