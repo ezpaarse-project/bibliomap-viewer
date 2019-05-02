@@ -22,6 +22,7 @@ var portalsInfo = {
       color: '#9c126d',
       logo: 'bibcnrs-logo-biologie.png',
       link: 'https://bib.cnrs.fr/category/biologie/',
+      desc: "Biologie",
       count: 0
     },
     'INC': {
@@ -29,6 +30,7 @@ var portalsInfo = {
       color: '#007e94',
       logo: 'bibcnrs-logo-chimie.png',
       link: 'https://bib.cnrs.fr/category/chimie/',
+      desc: "Chimie",
       count: 0
     },
     'INEE': {
@@ -36,13 +38,15 @@ var portalsInfo = {
       color: '#62ae25',
       logo: 'bibcnrs-logo-ecologie.png',
       link: 'https://bib.cnrs.fr/category/ecologie/',
+      desc: "Ecologie & Environnement",
       count: 0
     },
     'INSHS': {
       name: 'INSHS',
       color: '#820e12',
       logo: 'bibcnrs-logo-homme.png',
-      linoverlayk: 'https://bib.cnrs.fr/category/homme/',
+      link: 'https://bib.cnrs.fr/category/homme/',
+      desc: "Homme & Société",
       count: 0
     },
     'INSIS': {
@@ -50,6 +54,7 @@ var portalsInfo = {
       color: '#d4002d',
       logo: 'bibcnrs-logo-ingenierie.png',
       link: 'https://bib.cnrs.fr/category/ingenierie/',
+      desc: "Ingénierie & Systèmes",
       count: 0
     },
     'INSMI': {
@@ -57,6 +62,7 @@ var portalsInfo = {
       color: '#547d3d',
       logo: 'bibcnrs-logo-mathematiques.png',
       link: 'https://bib.cnrs.fr/category/mathematiques/',
+      desc: "Mathématiques",
       count: 0
     },
     'IN2P3': {
@@ -64,6 +70,7 @@ var portalsInfo = {
       color: '#e75113',
       logo: 'bibcnrs-logo-nucleaire.png',
       link: 'https://bib.cnrs.fr/category/nucleaire/',
+      desc: "Nucléaire & Particules",
       count: 0
     },
       'INP': {
@@ -71,6 +78,7 @@ var portalsInfo = {
       color: '#004494',
       logo: 'bibcnrs-logo-physique.png',
       link: 'https://bib.cnrs.fr/category/physique/',
+      desc: "Physique",
       count: 0
     },
       'INS2I': {
@@ -78,6 +86,7 @@ var portalsInfo = {
       color: '#562a84',
       logo: 'bibcnrs-logo-information.png',
       link: 'https://bib.cnrs.fr/category/information/',
+      desc: "Sciences de l'information",
       count: 0
     },
       'INSU': {
@@ -85,6 +94,7 @@ var portalsInfo = {
       color: '#cc2381',
       logo: 'bibcnrs-logo-terre.png',
       link: 'https://bib.cnrs.fr/category/terre/',
+      desc: "Terre & Univers",
       count: 0
     }
   };
@@ -103,6 +113,17 @@ var portalsInfo = {
     return false;
   }
 
+  function hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+
+    if (alpha) {
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+    } else {
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+  }
   /**
    * initalize evenement on button and build the html tree for the legend
    */
@@ -146,9 +167,9 @@ var portalsInfo = {
 
     //button "Réduire" on legend
     legend.find('.reduce').click(function () {
-        legend.css('width', 'auto').css('height', 'auto');
+        legend.css('width', '10%').css('height', 'auto');
         if (content.is(':visible')) {
-          legend.animate({ top: '20px', left: '80px' });
+          legend.animate({ top: '0px', left: '0px' });
           $(this).text('Agrandir');
         } else {
           legend.animate(currentPosition);
@@ -182,8 +203,8 @@ var portalsInfo = {
         
         
         );
-      institute.css('background-color',portal.color)
-      
+      institute.css('background-color',hexToRGB(portal.color,0.3))
+      institute.css('border-radius', 10 )
       var link  = $('<a></a>');
       var img   = $('<img>');
       var span  = $('<span></span>');
@@ -194,14 +215,11 @@ var portalsInfo = {
       span.attr('id', i);
       img.attr('src', 'images/' + portal.logo);
       img.attr('title', portal.name);
-  
       span.addClass('counter');
       img.addClass('portal-logo');
   
       link.append(img);
   
-      
-
       institute.append($("<div/>").addClass('intra').append(link));    // lien vers le site de l'institut
       institute.append($("<div/>").addClass('intra').text('   ' + portal.name)
         
