@@ -475,30 +475,10 @@
 .leaflet-popup-content p {
 	margin: 18px 0;
 	}
-.leaflet-popup-tip-container {
-	width: 40px;
-	height: 20px;
-	position: absolute;
-	left: 50%;
-	margin-left: -20px;
-	overflow: hidden;
-	pointer-events: none;
-	}
-.leaflet-popup-tip {
-	width: 17px;
-	height: 17px;
-	padding: 1px;
 
-	margin: -10px auto 0;
-
-	-webkit-transform: rotate(45deg);
-	   -moz-transform: rotate(45deg);
-	    -ms-transform: rotate(45deg);
-	        transform: rotate(45deg);
-	}
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-	background: white;
+	background: rgba(255, 255, 255, 0.7);
 	color: #333;
 	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
 	}
@@ -535,9 +515,6 @@
 
 	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
 	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
-	}
-.leaflet-oldie .leaflet-popup-tip-container {
-	margin-top: -1px;
 	}
 
 .leaflet-oldie .leaflet-control-zoom,

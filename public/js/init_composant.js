@@ -1,7 +1,12 @@
 /**
  * init map
  */
-var map = L.map('bibliomap-canvas').setView([46.3630104, 2.9846608], 6);
+
+var map = L.map('bibliomap-canvas', {
+  minZoom: 3,
+  maxZoom: 8,
+  maxBounds: [L.latLng(-80,-180),L.latLng(80,180)]
+}).setView([46.3630104, 2.9846608], 6);
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -40,7 +45,7 @@ var portalsInfo = {
       name: 'INSHS',
       color: '#820e12',
       logo: 'bibcnrs-logo-homme.png',
-      linoverlayk: 'https://bib.cnrs.fr/category/homme/',
+      link: 'https://bib.cnrs.fr/category/homme/',
       count: 0
     },
     'INSIS': {

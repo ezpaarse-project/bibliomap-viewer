@@ -69,7 +69,7 @@ img { border: none; }
 #brand .sub { font-size: 0.9em; }
 
 #description {
-  z-index: 3;
+  z-index: 5;
   position: absolute;
   top: 35%;
   left: 15%;
@@ -210,10 +210,11 @@ img.logo {
   }
 }
 
-#text-popup  {
+.text-popup  {
   margin: 0;
   padding: 0;
   text-align: center;
+  overflow-x: hidden;
 }
 
 #outside_map {

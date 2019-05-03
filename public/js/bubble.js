@@ -43,19 +43,31 @@ $(document).ready(function() {
         }
       }
 
+      if(ec.mime){
+        if(ec.mime == 'HTML'){
+          ec.mime = '<img src="images/icon_html.png" height="25px"/><br>';
+        }
+        if(ec.mime == 'PDF'){
+          ec.mime = '<img src="images/icon_pdf.png" height="25px"/><br>';
+        }
+        if(ec.mime == 'GIF'){
+          ec.mime = '<img src="images/icon_gif.png" height="25px"/><br>';
+        }
+      }
+
       // draw bubble
-      var pulsingIcon = L.icon.pulse({iconSize:[50,50],color:colorbubble, fillColor:colorbubble});
+      var pulsingIcon = L.icon.pulse({iconSize:[60,60],color:colorbubble, fillColor:colorbubble});
       var bubble = L.marker([ec["geoip-latitude"], ec["geoip-longitude"]],{icon: pulsingIcon});
      
-
       //popup with informations about consultation
-      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:75, closeButton: false})
-      .setLatLng([ec["geoip-latitude"], ec["geoip-longitude"]])
+      var popup = L.popup({closeOnClick: false,autoClose: false, autoPan: false, maxWidth:100, closeButton: false})
+      .setLatLng([ec["geoip-latitude"]-0.2, ec["geoip-longitude"]])
       .setContent(
          "<div class='text-popup'><strong>" + ec.platform_name + "</strong></div>" 
-        + "<div class='text-popup'>" + (ec.rtype || "") + " " + (ec.mime || "") + " " + (ec.publication_title || "") + "</div>"
+        + "<div class='text-popup'>" + " " + (ec.mime || "") + " " + (ec.rtype || "") + " " + (ec.publication_title || "") + "</div>"
       )
       
+      // outside map
       if(ec["geoip-latitude"] > map.getBounds().getNorth() || ec["geoip-latitude"] < map.getBounds().getSouth() || ec["geoip-longitude"] >  map.getBounds().getEast() || ec["geoip-longitude"] <  map.getBounds().getWest()) {
         StartMapOutside(ec["geoip-latitude"],ec["geoip-longitude"]);
         map2.addLayer(bubble);
@@ -64,10 +76,10 @@ $(document).ready(function() {
         map.addLayer(bubble);
         popup.openOn(map);
       }
-
-      popup._container.style.opacity = 0.8
+      
       bubble._icon.style.display = "none"
 
+      //Timeour for animation
       $(bubble._icon).fadeIn(1000)
 
       setTimeout(function(){ 
@@ -80,12 +92,15 @@ $(document).ready(function() {
         map2.removeLayer(bubble);
         map.removeLayer(bubble);
       },6000); 
-
     };
-
 });
 
 val = 0;
+/**
+ * place the view of outide map
+ * @param {*} lat latitude
+ * @param {*} lng longitude
+ */
 function StartMapOutside(lat, lng){
   map2.setView([lat,lng]);
   $("#outside_map").fadeIn(1000);
