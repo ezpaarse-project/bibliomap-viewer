@@ -51,9 +51,9 @@ img { border: none; }
   vertical-align: middle;
 }
 #legend .counter {
-  font-size: 2em;
   vertical-align: middle;
   padding: 5px;
+  font-size: 20px;
 }
 #brand {
   z-index: 2;
@@ -169,6 +169,8 @@ img.logo {
 .intra {
   width: 30%;
   line-height: 30px;
+  font-size : 20px;
+  font-family : Roboto,Arial,sans-serif;
 }
 
 .label {

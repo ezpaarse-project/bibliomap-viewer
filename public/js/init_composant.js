@@ -110,10 +110,10 @@ var portalsInfo = {
    * @param {*} variable 
    */
   function getQueryVariable(variable) {
-    var query = window.location.search.substring(1);
-    var vars  = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
+    const query = window.location.search.substring(1);
+    const vars  = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+      const pair = vars[i].split("=");
       if (pair[0] == variable) {
         return (pair.length > 1 ? pair[1] : true);
       }
@@ -143,7 +143,7 @@ var portalsInfo = {
    */
   function initBrand(){
     //button "Fermer" on description
-    var description  = $('#description');
+    const description  = $('#description');
     description.find('.close').click(function () { 
         description.slideUp(description.remove); 
     });
@@ -152,16 +152,16 @@ var portalsInfo = {
     $('#description .close').click(function () { $('#description').fadeOut(); });
     $("#brand a").click(function (e) { e.stopPropagation(); });
 
-    var expo = getQueryVariable('expo') || getQueryVariable('e');
+    const expo = getQueryVariable('expo') || getQueryVariable('e');
 
     if (!expo) {
       $('#description').fadeIn();
     } else if (['none', '0'].indexOf(expo) == -1) {
-      var showDuration = 60000;
-      var hideDuration = 60000 * 10;
+      const showDuration = 60000;
+      const hideDuration = 60000 * 10;
 
       if (typeof expo == 'string') {
-        var durations = expo.split(',');
+        const durations = expo.split(',');
         showDuration = (parseInt(durations[0]) * 1000) || showDuration;
         hideDuration = (parseInt(durations[1]) * 1000) || hideDuration;
       }
@@ -174,13 +174,13 @@ var portalsInfo = {
    */
   function initLegend(){
     //button "fermer" on legend
-    var legend  = $('#legend');
+    const legend  = $('#legend');
     legend.find('.close').click(function () { 
         legend.slideUp(legend.remove); 
     });
 
-    var content = legend.find('.content').first();
-    var currentPosition = legend.position();
+    const content = legend.find('.content').first();
+    const currentPosition = legend.position();
 
     //button "Réduire" on legend
     legend.find('.reduce').click(function () {
@@ -196,40 +196,20 @@ var portalsInfo = {
       });
 
     // a div to put everything away
-    var institutesList = $("<div/>").addClass('institutesList');
+    const institutesList = $("<div/>").addClass('institutesList');
   
     // for each institutes
-    for (var i in portalsInfo) {
-      var portal = portalsInfo[i];
+    for (let i in portalsInfo) {
+      const portal = portalsInfo[i];
       if (!portal.hasOwnProperty('logo')) { continue; }
   
-      var institute = $("<div/>").addClass('institute');
-  
-      var link  = $('<a></a>');
-      var img   = $('<img>');
-      var span  = $('<span></span>');
-  
-  
-      link.attr('href', portal.link);
-      link.attr('target', "_blank");
-      span.attr('id', i);
-      img.attr('src', 'images/' + portal.logo);
-      img.attr('title', portal.name);
-  
-      span.addClass('counter');
-      img.addClass('portal-logo');
-  
-      link.append(img);
-  
-      // link to the institute's website
-      institute.append($("<div/>").addClass('intra').append(link));    
-      institute.append($("<div/>").addClass('intra').text(portal.name)
-        .css('color', portal.color)
-        .css('font-size', '20px')
-        .css('font-family', 'Roboto,Arial,sans-serif')
-  
-        ); 
-      // name of institute
+      const institute = $("<div/>").addClass('institute');
+      
+      const link  = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="images/${portal.logo}" title="${portal.name}"></a>`);
+      institute.append($("<div/>").addClass('intra').append(link)); 
+      const title = (`<div class="intra" style="color:${portal.color}">${portal.name}`);
+      institute.append($("<div/>").addClass('intra').append(title));
+      const span = $(`<span id="${portal.name}" class="counter"></span>`)
       institute.append($("<div/>").addClass('intra').append(span));
   
       // consultation counter
