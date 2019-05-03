@@ -610,3 +610,8 @@
 	margin-left: -12px;
 	border-right-color: #fff;
 	}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control{
+  top: 5px;
+  right: 10px;
+}

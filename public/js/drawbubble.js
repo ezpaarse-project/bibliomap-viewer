@@ -1,7 +1,3 @@
-/**
- * https://github.com/mapshakers/leaflet-icon-pulse
- */
-
 (function(window) {
 
     L.Icon.Pulse = L.DivIcon.extend({
