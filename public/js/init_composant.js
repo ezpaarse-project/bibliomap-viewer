@@ -209,7 +209,7 @@ function initLegend() {
     institute.append($('<div/>').addClass('intra').append(span));
 
     // consultation counter
-    portalsInfo[i].count = span;
+    portalsInfo[i].counter = span;
     institutesList.append(institute);
   }
   // insertion in legend

@@ -6,6 +6,7 @@ const defaultConfig = require('./config.json');
 
 let localConf = {};
 try {
+  // eslint-disable-next-line
   localConf = require('./config.local.js');
 } catch (err) { console.error(err); }
 
