@@ -86,13 +86,24 @@ function initMap() {
     minZoom: 3,
     maxZoom: 8,
     maxBounds: [L.latLng(-80, -180), L.latLng(80, 180)],
+    zoomControl: false,
   }).setView(franceCenter, 6);
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  map2 = L.map('outside_map').setView([0, 0], 4);
+  L.control.zoom({
+    position: 'topright',
+  }).addTo(map);
+
+  map2 = L.map('outside_map', {
+    minZoom: 4,
+    maxZoom: 4,
+    dragging: false,
+    doubleClickZoom: false,
+    zoomControl: false,
+  }).setView([0, 0], 4);
   document.getElementById('outside_map').style.display = 'none';
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
 }
