@@ -25,18 +25,78 @@ img { border: none; }
   width: 5%;
   min-width: 100px;
   max-width: 300px;
+  -webkit-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+  box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
   transition: all 0.5s ease; /* ease : rapide puis lent */ 
 }
-#legend:hover > .content h4 {
+#legend:target > .content h4 {
   font-size: 1em;
   
 }
-#legend:hover > .content h3 {
+#legend:target > .content h3 {
   font-size: 1em;
   
 }
-#legend:hover {
-  width: 20%;
+#legend:target .instituteSmall {
+  min-width: 100px;
+  
+}
+#legend:target {
+  width: 25%;
+  
+}
+#legend:target a.ouvrir{
+  display:none;
+  
+}
+#legend a.ouvrir {
+	position: absolute;
+	right: -30px;
+	top: 0px;
+
+	/* quelques styles CSS3 */
+
+
+	border-radius: 0 0 8px 8px;
+}
+#legend a.fermer {
+  display: none;
+  position: absolute;
+	right: -30px;
+	top: 0px;
+
+	/* quelques styles CSS3 */
+
+
+	border-radius: 0 0 8px 8px;
+}
+#legend a.ouvrir, #legend a.fermer {
+  padding: 5px;
+  background-color: white;
+  font-size: 2em;
+  width: 30px;
+  text-decoration: none;
+  box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+
+}
+#legend:target a.fermer {
+	display: block;
+}
+#legend_clos:target > .content h4 {
+  font-size: 0;
+  
+}
+#legend_clos:target > .content h3 {
+  font-size: 0;
+  
+}
+#legend_clos:target .instituteSmall {
+  min-width: 60px;
+  
+}
+#legend_clos:target #legend {
+  width: 5%;
   
 }
 
@@ -55,6 +115,16 @@ img { border: none; }
     transition: all 0.4s ease 0.5s;
 }
 #legend a {
+  width: 150px;
+  text-align: center;
+  color: inherit;
+}
+#legend .desc {
+  width: 150px;
+  font-size: 1.1em;
+  font-style: italic;
+  text-align: center;
+  padding: 10px auto;
   color: inherit;
 }
 #legend .logo {
@@ -64,14 +134,27 @@ img { border: none; }
   display: block;
 }
 #legend .portal-logo {
+  display: hide;
   height: 30px;
   vertical-align: middle;
 }
 #legend .counter {
-  font-size: 2em;
+  vertical-align: middle;
+  min-width: 40px;
+  max-width:100px;
+  padding: 5px;
+  font-size: 1.8em;
+  text-align: center;
+  margin: auto;
+}
+#legend .name {
   vertical-align: middle;
   padding: 5px;
-
+  min-width: 20px;
+  max-width:100px;
+  font-size: 1.6em;
+  text-align: center;
+  margin: auto;
 }
 #brand {
   z-index: 2;
@@ -168,6 +251,7 @@ img.logo {
   max-width: 100%;
   height: 100px;	
 }
+
 .institutesList {
   display: flex;
   display: -webkit-flex;
@@ -175,30 +259,52 @@ img.logo {
   flex-direction: column;
   -webkit-flex-direction: column;
 }
+
 .institute {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   flex-direction: row;
   -webkit-flex-direction: row;
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  min-width: 100px;
-  margin: 2px;
-  padding: 2px;
+  overflow: hidden;
+  margin-bottom: 2px;
 }
-.institute-title {
-  display: block;
-  width: 30%;
-  line-height: 30px;
-  margin: 5px auto;
+
+.instituteSmall {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  min-width: 75px;
+  margin: auto 10px;
+  transition: all 0.5s ease 0.3s;
+
+}
+.instituteLarge {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  margin: auto 10px;
 }
 .intra {
-  display: inline;
-  width: 30%;
+  display: block;
+  width: 10%;
+  margin: auto;
   line-height: 30px;
-  margin: 5px auto;
+  font-size : 20px;
+  font-family : Roboto,Arial,sans-serif;
 }
+
 .intro {
   display: block;
-  margin: auto 10%;
+  width: 10%;
+  margin: auto;
+  line-height: 30px;
+  font-size : 20px;
+  font-family : Roboto,Arial,sans-serif;
 }
 
 .label {

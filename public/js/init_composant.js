@@ -196,39 +196,30 @@ var portalsInfo = {
     for (var i in portalsInfo) {
       var portal = portalsInfo[i];
       if (!portal.hasOwnProperty('logo')) { continue; }
-  
+      
       var institute = $("<div/>").addClass('institute');
-  
-      institute.append($("<div/>").addClass('institute-title').attr('id','institute-' + i)
+      var instituteSmall = $("<div/>").addClass('instituteSmall');
+      var instituteLarge =$("<div/>").addClass('instituteLarge');
+      
+      
         
         
-        );
+      
       institute.css('background-color',hexToRGB(portal.color,0.3))
       institute.css('border-radius', 10 )
-      var link  = $('<a></a>');
-      var img   = $('<img>');
-      var span  = $('<span></span>');
-  
-  
-      link.attr('href', portal.link);
-      link.attr('target', "_blank");
-      span.attr('id', i);
-      img.attr('src', 'images/' + portal.logo);
-      img.attr('title', portal.name);
-      span.addClass('counter');
-      img.addClass('portal-logo');
-  
-      link.append(img);
-  
-      institute.append($("<div/>").addClass('intra').append(link));    // lien vers le site de l'institut
-      institute.append($("<div/>").addClass('intra').text('   ' + portal.name)
-        
-        .css('font-size', '20px')
-        .css('font-family', 'Roboto,Arial,sans-serif')
-  
-        ); // le nom de l'institut
-      institute.append($("<div/>").addClass('intro').append(span));
-  
+
+      
+      const title = (`<div class="name" >${portal.name}`);
+      instituteSmall.append(title);
+      const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="images/${portal.logo}" title="${portal.name}"></a>`);
+      instituteLarge.append(link);
+      const span = $(`<span id="${portal.name}" class="counter"></span>`)
+      instituteSmall.append(span);
+      const institute_desc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`)
+      instituteLarge.append(institute_desc);
+
+      institute.append(instituteSmall,instituteLarge)
+
       portal.counter = span; // le compteur de consultations
       institutesList.append(institute);
     }
