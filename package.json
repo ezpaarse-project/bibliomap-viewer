@@ -8,7 +8,9 @@
     "dev": "nodemon ./app.js -e js,html",
     "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap-viewer:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml && sed -i \"s#\\(Bibliomap</a> \\)\\([\\.0-9]\\+\\)#\\1${npm_package_version}#g\" index*.html",
     "version": "npm run insertversion && git add docker-compose.yml index*.html ",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "lint": "eslint --ext .js .",
+    "precommit": "npm run lint" 
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,10 @@
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "husky": "^2.2.0",
     "mocha": "^6.1.4"
   }
 }

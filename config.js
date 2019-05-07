@@ -1,30 +1,31 @@
-var defaultConfig = require('./config.json');
+const nconf = require('nconf');
+const defaultConfig = require('./config.json');
 
-// to allow config overloading 
+// to allow config overloading
 // by a local config file
-var nconf   = require('nconf');
-var localConf = {};
+
+let localConf = {};
 try {
   localConf = require('./config.local.js');
-} catch (err) { }
- 
-nconf.argv()
-     .env([
-        'BBV_INDEX',
-        'BBV_JSFILE',
-        'BBV_LISTEN_ENRICHER_HOST',
-        'BBV_LISTEN_ENRICHER_PORT',
-        'BBV_LISTEN_HOST',
-        'BBV_LISTEN_PORT',
-      ])
-     .overrides(localConf)
-     .defaults(defaultConfig);
+} catch (err) { console.error(err); }
 
-var config = nconf.get();
+nconf.argv()
+  .env([
+    'BBV_INDEX',
+    'BBV_JSFILE',
+    'BBV_LISTEN_ENRICHER_HOST',
+    'BBV_LISTEN_ENRICHER_PORT',
+    'BBV_LISTEN_HOST',
+    'BBV_LISTEN_PORT',
+  ])
+  .overrides(localConf)
+  .defaults(defaultConfig);
+
+let config = nconf.get();
 
 config = Object.assign(config, {
   index: config.BBV_INDEX || config.index,
-  jsfile: config.BBV_JSFILE || config.jsfile
+  jsfile: config.BBV_JSFILE || config.jsfile,
 });
 
 if (config.BBV_LISTEN_ENRICHER_HOST) {

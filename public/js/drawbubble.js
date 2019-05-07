@@ -1,77 +1,69 @@
-(function(window) {
+$(document).ready(() => {
+  L.Icon.Pulse = L.DivIcon.extend({
 
-    L.Icon.Pulse = L.DivIcon.extend({
+    options: {
+      className: '',
+      iconSize: [12, 12],
+      fillColor: 'red',
+      color: 'red',
+      animate: true,
+      heartbeat: 1,
+    },
 
-        options: {
-            className: '',
-            iconSize: [12,12],
-            fillColor: 'red',
-            color: 'red',
-            animate: true,
-            heartbeat: 1,
-        },
+    initialize(options) {
+      L.setOptions(this, options);
 
-        initialize: function (options) {
-            L.setOptions(this,options);
+      // css
 
-            // css
-            
-            var uniqueClassName = 'lpi-'+ new Date().getTime()+'-'+Math.round(Math.random()*100000);
+      const uniqueClassName = `lpi-${new Date().getTime()}-${Math.round(Math.random() * 100000)}`;
 
-            var before = ['background-color: '+this.options.fillColor];
-            var after = [
+      const before = [`background-color: ${this.options.fillColor}`];
+      const after = [
 
-                'box-shadow: 0 0 6px 2px '+this.options.color,
+        `box-shadow: 0 0 6px 2px ${this.options.color}`,
 
-                'animation: pulsate ' + this.options.heartbeat + 's ease-out',
-                'animation-iteration-count: infinite',
-                'animation-delay: '+ (this.options.heartbeat + .1) + 's',
-            ];
+        `animation: pulsate ${this.options.heartbeat}s ease-out`,
+        'animation-iteration-count: infinite',
+        `animation-delay: ${this.options.heartbeat + 0.1}s`,
+      ];
 
-            if (!this.options.animate){
-                after.push('animation: none');
-                after.push('box-shadow:none');
-            }
+      if (!this.options.animate) {
+        after.push('animation: none');
+        after.push('box-shadow:none');
+      }
 
-            var css = [
-                '.'+uniqueClassName+'{'+before.join(';')+';}',
-                '.'+uniqueClassName+':after{'+after.join(';')+';}',
-            ].join('');
- 
-            var el = document.createElement('style');
-            if (el.styleSheet){
-                el.styleSheet.cssText = css;
-            } else {
-                el.appendChild(document.createTextNode(css));
-            }
+      const css = [
+        `.${uniqueClassName}{${before.join(';')};}`,
+        `.${uniqueClassName}:after{${after.join(';')};}`,
+      ].join('');
 
-            document.getElementsByTagName('head')[0].appendChild(el);
+      const el = document.createElement('style');
+      if (el.styleSheet) {
+        el.styleSheet.cssText = css;
+      } else {
+        el.appendChild(document.createTextNode(css));
+      }
 
-            // apply css class
+      document.getElementsByTagName('head')[0].appendChild(el);
 
-            this.options.className = this.options.className+' leaflet-pulsing-icon '+uniqueClassName;
+      // apply css class
 
-            // initialize icon
-            
-            L.DivIcon.prototype.initialize.call(this, options);
-        
-        }
-    });
+      this.options.className = `${this.options.className} leaflet-pulsing-icon ${uniqueClassName}`;
 
-    L.icon.pulse = function (options) {
-        return new L.Icon.Pulse(options);
-    };
+      // initialize icon
 
+      L.DivIcon.prototype.initialize.call(this, options);
+    },
+  });
 
-    L.Marker.Pulse = L.Marker.extend({
-        initialize: function (latlng,options) {
-            options.icon = L.icon.pulse(options);
-            L.Marker.prototype.initialize.call(this, latlng, options);
-        }
-    });
+  L.icon.pulse = options => new L.Icon.Pulse(options);
 
-    L.marker.pulse = function (latlng,options) {
-        return new L.Marker.Pulse(latlng,options);
-    };
+  L.Marker.Pulse = L.Marker.extend({
+    initialize(latlng, options) {
+      options.icon = L.icon.pulse(options);
+      L.Marker.prototype.initialize.call(this, latlng, options);
+    },
+  });
 
-})(window);
+  L.marker.pulse = (latlng, options) => new L.Marker.Pulse(latlng, options);
+});

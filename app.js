@@ -1,22 +1,26 @@
+const path = require('path');
+const es = require('event-stream');
+const JSONStream = require('JSONStream');
+const sha256 = require('sha256');
+const debug = require('debug')('bibliomap-viewer');
+const net = require('net');
+const express = require('express');
 
-var config     = require('./config.js');
-var path       = require('path');
-var es         = require('event-stream');
-var JSONStream = require('JSONStream');
-var sha256     = require('sha256');
-var debug      = require('debug')('bibliomap-viewer');
+const app = express();
+const httpServer = require('http').Server(app);
+const io = require('socket.io')(httpServer);
+const config = require('./config.js');
 
-var enricherCfg = config.listen['bibliomap-enricher'];
+const enricherCfg = config.listen['bibliomap-enricher'];
 // list of connected websockets
-var websockets = {};
+const websockets = {};
 
 /**
  * bibliomap-enricher => bibliomap-viewer
  */
-var net = require('net');
-var server = net.createServer(function (socket) { //'connection' listener
+const server = net.createServer((socket) => { // 'connection' listener
   console.log('bibliomap-enricher connected');
-  socket.on('end', function() {
+  socket.on('end', () => {
     console.log('bibliomap-enricher disconnected');
   });
 
@@ -24,71 +28,66 @@ var server = net.createServer(function (socket) { //'connection' listener
   // then send it to the browser
   socket
     .pipe(JSONStream.parse())
-    .pipe(es.mapSync(function (ec) {
-      for (var clientId in websockets) {
-        debug('ezPAARSE EC recevied: ', ec);
+    .pipe(es.mapSync((event) => {
+      Object.keys(websockets).forEach((sid) => {
+        debug('ezPAARSE EC recevied: ', event);
 
-        // We don't need ECs that are not geolocalized
-        if (!ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
+        // We don't need EC's that are not geolocalized
+        if (!event['geoip-latitude'] || !event['geoip-longitude']) { return; }
 
         // Approximate coordinates in a radius of ~20km (0.2°)
-        ec['geoip-latitude']  = parseFloat(ec['geoip-latitude']) + 0.4 * (Math.random() - 0.5);
-        ec['geoip-longitude'] = parseFloat(ec['geoip-longitude']) + 0.4 * (Math.random() - 0.5);
+        event['geoip-latitude'] = parseFloat(event['geoip-latitude']) + 0.4 * (Math.random() - 0.5);
+        event['geoip-longitude'] = parseFloat(event['geoip-longitude']) + 0.4 * (Math.random() - 0.5);
 
-        if (ec['host']) {
-          ec['host'] = sha256(ec['host']);
+        if (event.host) {
+          event.host = sha256(event.host);
         }
-
         // send the filtered EC to the client through websocket
-        websockets[clientId].emit('ezpaarse-ec', ec);
-      }
+        websockets[sid].emit('ezpaarse-ec', event);
+      });
     }));
-
-});
-server.listen(enricherCfg.port, enricherCfg.host, function () {
-  console.log('Waiting for bibliomap-enricher data at ' + enricherCfg.host + ':' + enricherCfg.port);
 });
 
+server.listen(enricherCfg.port, enricherCfg.host, () => {
+  console.log(`Waiting for bibliomap-enricher data at ${enricherCfg.host}  : ${enricherCfg.port}`);
+});
 
 /**
  * bibliomap => web browser through websocket
  */
-var express    = require('express');
-var app        = express();
-var httpServer = require('http').Server(app);
-var io         = require('socket.io')(httpServer);
-
 httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliomap-viewer'].host);
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.header('X-UA-Compatible', 'IE=edge');
-  console.log(process.env.BBV_INDEX)
-  res.sendFile(path.join(__dirname, '/' + process.env.BBV_INDEX));
-  
+  console.log(process.env.BBV_INDEX);
+  res.sendFile(path.resolve(__dirname, process.env.BBV_INDEX));
 });
 
-app.use('/', express.static(path.join(__dirname, '/public')));
-app.use(function (req, res, next) { res.status(404).end(); });
+app.use('/', express.static(path.resolve(__dirname, 'public')));
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
-io.on('connection', function (client) {
-  console.log('Web browser connected through websocket ' + client.id);
+io.on('connection', (client) => {
+  console.log(`Web browser connected through websocket ${client.id}`);
   websockets[client.id] = client;
-  client.on('disconnect', function () {
-    console.log('Web browser disconnected from the websocket ' + client.id);
+  client.on('disconnect', () => {
+    console.log(`Web browser disconnected from the websocket ${client.id}`);
     delete websockets[client.id];
   });
 });
 
-console.log('Bibliomap is listening on http://' + config.listen['bibliomap-viewer'].host +
-  ':' + config.listen['bibliomap-viewer'].port + ' (open it with your browser!)');
+console.log(`Bibliomap is listening on http://${config.listen['bibliomap-viewer'].host}
+  : ${config.listen['bibliomap-viewer'].port} (open it with your browser!)`);
 
 // exit on CTRL+C
-exitOnSignal('SIGINT');
-exitOnSignal('SIGTERM');
 function exitOnSignal(signal) {
-  process.on(signal, function() {
-    console.log('Caught ' + signal + ', exiting');
-    // todo: stop here all critical tasks before exiting the process
+  process.on(signal, () => {
+    console.log(`Caught ${signal}, exiting`);
     process.exit(1);
   });
 }
+exitOnSignal('SIGINT');
+exitOnSignal('SIGTERM');
