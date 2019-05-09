@@ -19,15 +19,81 @@ img {
 #legend {
   z-index: 2;
   position: fixed;
-  top: 20px;
-  left: 45px;
+  top: 0px;
+  left: 0px;
   background-color: #FFF;
-  opacity: 0.7;
+  opacity: 1;
   border: 2px solid #CCC;
   padding: 0 10px;
-  width: 20%;
-  min-width: 122px;
+  width: 5%;
+  min-width: 100px;
   max-width: 300px;
+  -webkit-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+  box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+  transition: all 0.5s ease; /* ease : rapide puis lent */ 
+}
+#legend:target > .content h4 {
+  font-size: 1em;
+  
+}
+#legend:target > .content h3 {
+  font-size: 1em;
+  
+}
+#legend:target .instituteSmall {
+  min-width: 100px;
+  
+}
+#legend:target {
+  width: 25%;
+  
+}
+#legend:target a.ouvrir{
+  display:none;
+  
+}
+#legend a.ouvrir {
+	position: absolute;
+	right: -30px;
+	top: 0px;
+
+	/* quelques styles CSS3 */
+
+
+	border-radius: 0 0 8px 8px;
+}
+#legend a.fermer {
+  display: none;
+  position: absolute;
+	right: -30px;
+	top: 0px;
+
+	/* quelques styles CSS3 */
+
+
+	border-radius: 0 0 8px 8px;
+}
+#legend a.ouvrir, #legend a.fermer {
+  padding: 5px;
+  background-color: white;
+  font-size: 2em;
+  width: 30px;
+  text-decoration: none;
+  box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
+
+}
+#legend:target a.fermer {
+	display: block;
+}
+#legend_clos:target > .content h4, #legend_clos:target > .content h3 {
+  font-size: 0;
+}
+#legend_clos:target .instituteSmall {
+  min-width: 60px;
+}
+#legend_clos:target #legend {
+  width: 5%;
 }
 
 #legend .controls {
@@ -38,13 +104,26 @@ img {
 #legend h2, #legend h3 {
   margin-top: 5px;
   margin-bottom: 5px;
+  font-size:0;
 }
 
 #legend h4 {
   font-style: italic;
+  font-size: 0;
+  transition: all 0.4s ease 0.5s;
 }
 
 #legend a {
+  width: 150px;
+  text-align: center;
+  color: inherit;
+}
+#legend .desc {
+  width: 150px;
+  font-size: 1.1em;
+  font-style: italic;
+  text-align: center;
+  padding: 10px auto;
   color: inherit;
 }
 
@@ -56,14 +135,37 @@ img {
 }
 
 #legend .portal-logo {
+  display: hide;
   height: 30px;
   vertical-align: middle;
 }
 
 #legend .counter {
   vertical-align: middle;
+  min-width: 40px;
+  max-width:100px;
   padding: 5px;
-  font-size: 20px;
+  font-size: 1.8em;
+  text-align: center;
+  margin: auto;
+}
+#legend .ext_counter {
+  vertical-align: middle;
+  min-width: 40px;
+  max-width:100px;
+  padding: 5px;
+  font-size: 1.8em;
+  text-align: center;
+  margin: auto;
+}
+#legend .name {
+  vertical-align: middle;
+  padding: 5px;
+  min-width: 20px;
+  max-width:100px;
+  font-size: 1.6em;
+  text-align: center;
+  margin: auto;
 }
 
 #brand {
@@ -199,13 +301,43 @@ img.logo {
   display: -ms-flexbox;
   flex-direction: row;
   -webkit-flex-direction: row;
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  padding: 2px;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+.instituteSmall {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  min-width: 75px;
+  margin: auto 10px;
+  transition: all 0.5s ease 0.3s;
+
+}
+.instituteLarge {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  margin: auto 10px;
 }
 
 .intra {
-  width: 30%;
+  display: block;
+  width: 10%;
+  margin: auto;
+  line-height: 30px;
+  font-size : 20px;
+  font-family : Roboto,Arial,sans-serif;
+}
+
+.intro {
+  display: block;
+  width: 10%;
+  margin: auto;
   line-height: 30px;
   font-size: 20px;
   font-family: Roboto, Arial, sans-serif;

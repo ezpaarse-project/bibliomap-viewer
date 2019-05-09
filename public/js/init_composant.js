@@ -7,6 +7,7 @@ const portalsInfo = [
     color: '#9c126d',
     logo: 'bibcnrs-logo-biologie.png',
     link: 'https://bib.cnrs.fr/category/biologie/',
+    desc: 'Biologie',
     count: 0,
   },
   {
@@ -14,6 +15,7 @@ const portalsInfo = [
     color: '#007e94',
     logo: 'bibcnrs-logo-chimie.png',
     link: 'https://bib.cnrs.fr/category/chimie/',
+    desc: 'Chimie',
     count: 0,
   },
   {
@@ -21,6 +23,7 @@ const portalsInfo = [
     color: '#62ae25',
     logo: 'bibcnrs-logo-ecologie.png',
     link: 'https://bib.cnrs.fr/category/ecologie/',
+    desc: 'Ecologie & Environnement',
     count: 0,
   },
   {
@@ -28,6 +31,7 @@ const portalsInfo = [
     color: '#820e12',
     logo: 'bibcnrs-logo-homme.png',
     link: 'https://bib.cnrs.fr/category/homme/',
+    desc: 'Homme & Société',
     count: 0,
   },
   {
@@ -35,6 +39,7 @@ const portalsInfo = [
     color: '#d4002d',
     logo: 'bibcnrs-logo-ingenierie.png',
     link: 'https://bib.cnrs.fr/category/ingenierie/',
+    desc: 'Ingénierie & Systèmes',
     count: 0,
   },
   {
@@ -42,6 +47,7 @@ const portalsInfo = [
     color: '#547d3d',
     logo: 'bibcnrs-logo-mathematiques.png',
     link: 'https://bib.cnrs.fr/category/mathematiques/',
+    desc: 'Mathématiques',
     count: 0,
   },
   {
@@ -49,6 +55,7 @@ const portalsInfo = [
     color: '#e75113',
     logo: 'bibcnrs-logo-nucleaire.png',
     link: 'https://bib.cnrs.fr/category/nucleaire/',
+    desc: 'Nucléaire & Particules',
     count: 0,
   },
   {
@@ -56,6 +63,7 @@ const portalsInfo = [
     color: '#004494',
     logo: 'bibcnrs-logo-physique.png',
     link: 'https://bib.cnrs.fr/category/physique/',
+    desc: 'Physique',
     count: 0,
   },
   {
@@ -63,6 +71,7 @@ const portalsInfo = [
     color: '#562a84',
     logo: 'bibcnrs-logo-information.png',
     link: 'https://bib.cnrs.fr/category/information/',
+    desc: "Sciences de l'information",
     count: 0,
   },
   {
@@ -70,9 +79,15 @@ const portalsInfo = [
     color: '#cc2381',
     logo: 'bibcnrs-logo-terre.png',
     link: 'https://bib.cnrs.fr/category/terre/',
+    desc: 'Terre & Univers',
     count: 0,
   },
 ];
+
+const extCount = {
+  pdf: 0,
+  html: 0,
+};
 
 /**
  * Init the background map and the outside map
@@ -115,6 +130,7 @@ function initMap() {
 function getQueryVariable(variable) {
   const query = window.location.search.substring(1);
   const vars = query.split('&');
+
   for (let i = 0; i < vars.length; i += 1) {
     const pair = vars[i].split('=');
     if (pair[0] === variable) {
@@ -138,6 +154,17 @@ function timer() {
     document.getElementById('Timer').innerHTML = `${days}j ${hours}h ${minutes}m ${seconds}s`;
     time += 1;
   }, 1000);
+}
+
+function hexToRGB(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  if (alpha) {
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  return `rgba(${r}, ${g}, ${b})`;
 }
 
 /**
@@ -195,9 +222,8 @@ function initLegend() {
 
   // button "Réduire" on legend
   legend.find('.reduce').click(() => {
-    legend.css('width', 'auto').css('height', 'auto');
     if (content.is(':visible')) {
-      legend.animate({ top: '20px', left: '80px' });
+      legend.animate({ top: '0px', left: '0px' });
       $(this).text('Agrandir');
     } else {
       legend.animate(currentPosition);
@@ -210,19 +236,28 @@ function initLegend() {
   const institutesList = $('<div/>').addClass('institutesList');
 
   // for each institutes
-  for (let i = 0; i < portalsInfo.length; i += 1) {
+  portalsInfo.forEach((portal) => {
     const institute = $('<div/>').addClass('institute');
-    const link = (`<a href="${portalsInfo[i].link}" target="_blank"><img class="portal-logo" src="images/${portalsInfo[i].logo}" title="${portalsInfo[i].name}"></a>`);
-    institute.append($('<div/>').addClass('intra').append(link));
-    const title = (`<div class="intra" style="color:${portalsInfo[i].color}">${portalsInfo[i].name}`);
-    institute.append($('<div/>').addClass('intra').append(title));
-    const span = $(`<span id="${portalsInfo[i].name}" class="counter"></span>`);
-    institute.append($('<div/>').addClass('intra').append(span));
+    const instituteSmall = $('<div/>').addClass('instituteSmall');
+    const instituteLarge = $('<div/>').addClass('instituteLarge');
+    institute.css('background-color', hexToRGB(portal.color, 0.3));
+    institute.css('border-radius', 10);
+    const title = (`<div class="name" >${portal.name}`);
+    instituteSmall.append(title);
+    const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="images/${portal.logo}" title="${portal.name}"></a>`);
+    instituteLarge.append(link);
+    const span = $(`<span id="${portal.name}" class="counter">0</span>`);
+    instituteSmall.append(span);
+    const instituteDesc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`);
+    instituteLarge.append(instituteDesc);
 
-    // consultation counter
-    portalsInfo[i].counter = span;
+    institute.append(instituteSmall, instituteLarge);
+    console.log(extCount);
+
+    portal.counter = span; // le compteur de consultations
     institutesList.append(institute);
-  }
+  });
+
   // insertion in legend
   content.append(institutesList);
 }
