@@ -126,6 +126,13 @@ $(document).ready(() => {
       portal.count += 1;
       if (portal.counter) {
         portal.counter.text(portal.count.toLocaleString());
+        if (ec.mime === 'HTML') {
+          extCount.html += 1;
+        }
+        if (ec.mime === 'PDF') {
+          extCount.pdf += 1;
+        }
+        document.getElementById('ext_count').innerHTML = `${extCount.html}html ${extCount.pdf}pdf`;
       }
     }
 
