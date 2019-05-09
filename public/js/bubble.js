@@ -31,7 +31,12 @@ $(document).ready(function() {
       var portal = portalsInfo[ec.ezproxyName];
       if (portal) {
         portal.count++;
-        if (portal.counter) { portal.counter.text(portal.count.toLocaleString()); }
+        if (portal.counter) { 
+          portal.counter.text(portal.count.toLocaleString()); 
+          if (ec.mime === 'HTML') {ext_count.html++}
+          if (ec.mime === 'PDF') {ext_count.pdf++}
+          document.getElementById("ext_count").innerHTML = `${ext_count.html}html ${ext_count.pdf}pdf`
+        }
       }
     
       var colorbubble = portalsInfo[ec.ezproxyName].color;

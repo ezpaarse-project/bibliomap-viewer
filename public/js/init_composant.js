@@ -16,6 +16,11 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
 /**
  * information about CNRS institute on legend
  */
+var ext_count = {
+  pdf : 0,
+  html: 0
+
+}
 var portalsInfo = {
     'INSB': {
       name: 'INSB',
@@ -167,7 +172,7 @@ var portalsInfo = {
 
     //button "Réduire" on legend
     legend.find('.reduce').click(function () {
-        legend.css('width', '10%').css('height', 'auto');
+        
         if (content.is(':visible')) {
           legend.animate({ top: '0px', left: '0px' });
           $(this).text('Agrandir');
@@ -213,18 +218,21 @@ var portalsInfo = {
       instituteSmall.append(title);
       const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="images/${portal.logo}" title="${portal.name}"></a>`);
       instituteLarge.append(link);
-      const span = $(`<span id="${portal.name}" class="counter"></span>`)
+      const span = $(`<span id="${portal.name}" class="counter">0</span>`)
       instituteSmall.append(span);
       const institute_desc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`)
       instituteLarge.append(institute_desc);
 
       institute.append(instituteSmall,instituteLarge)
-
+      console.log(ext_count)
+      
       portal.counter = span; // le compteur de consultations
       institutesList.append(institute);
     }
-    content.append(institutesList); // insertion dans la légende
-
+    
+    content.append(institutesList); // insertion dans la légende;
+    
+    
     time = 0;
     setInterval(function(){
       
@@ -236,6 +244,7 @@ var portalsInfo = {
       
       document.getElementById("Timer").innerHTML = `${days}j ${hours}h ${minutes}m ${seconds}s` //montre minuterie
       time++;
+      
 
     },1000);
   }

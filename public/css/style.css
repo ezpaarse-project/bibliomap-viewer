@@ -147,6 +147,15 @@ img { border: none; }
   text-align: center;
   margin: auto;
 }
+#legend .ext_counter {
+  vertical-align: middle;
+  min-width: 40px;
+  max-width:100px;
+  padding: 5px;
+  font-size: 1.8em;
+  text-align: center;
+  margin: auto;
+}
 #legend .name {
   vertical-align: middle;
   padding: 5px;
