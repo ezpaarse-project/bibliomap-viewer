@@ -17,10 +17,6 @@ function filter(ec) {
   if (ec.mime === 'PDF') {
     ec.mime = '<img src="images/icon_pdf.png" height="25px"/><br>';
   }
-  if (ec.mime === 'GIF') {
-    ec.mime = '<img src="images/icon_gif.png" height="25px"/><br>';
-  }
-  // TODO créer un icon pour misc / changer celui de html pour qu'il ressemble au autre
 }
 
 let val = 0;
@@ -97,6 +93,7 @@ function showInfo(ec) {
     map.removeLayer(bubble);
   }, 6000);
 }
+
 function BibliomapOverlay(map) {
   this.ezpaarseEC = {};
   this.nbEC = 0;
@@ -134,5 +131,6 @@ $(document).ready(() => {
 
     filter(ec);
     showInfo(ec);
+    console.log(ec);
   };
 });
