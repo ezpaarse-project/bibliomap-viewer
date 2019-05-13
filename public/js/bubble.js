@@ -135,7 +135,8 @@ $(document).ready(() => {
         if (ec.mime === 'PDF') {
           extCount.pdf += 1;
         }
-        document.getElementById('ext_count').innerHTML = `${extCount.html}html ${extCount.pdf}pdf`;
+        document.getElementById('extCountHTML').innerHTML = `${extCount.html}`;
+        document.getElementById('extCountPDF').innerHTML = `${extCount.pdf}`;
       }
     }
 

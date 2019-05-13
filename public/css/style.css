@@ -15,7 +15,20 @@ html, body, #bibliomap-canvas {
 img {
   border: none;
 }
+#countExt {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  overflow: hidden ; 
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+  margin-top:8px;
+  white-space: nowrap;
 
+
+}
 #legend {
   z-index: 2;
   position: fixed;
@@ -32,6 +45,7 @@ img {
   -moz-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
   box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
   transition: all 0.5s ease; /* ease : rapide puis lent */ 
+
 }
 #legend:target > .content h4 {
   font-size: 1em;
@@ -149,6 +163,12 @@ img {
   text-align: center;
   margin: auto;
 }
+#extCountHTML, #extCountPDF{
+  font-size: 1.8em;
+  text-align: center;
+  margin-right:3px;
+
+}
 #legend .ext_counter {
   vertical-align: middle;
   min-width: 40px;
@@ -194,14 +214,14 @@ img {
 #description {
   z-index: 5;
   position: absolute;
-  top: 35%;
+  top: 10%;
   left: 15%;
   width: 70%;
-  height: 45%;
+  height: 72%;
   padding: 15px;
   overflow: auto;
   text-align: justify;
-  line-height: 1.5em;
+  line-height: 1.4em;
 }
 
 #description a {

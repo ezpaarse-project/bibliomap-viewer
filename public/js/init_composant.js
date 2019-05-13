@@ -186,27 +186,42 @@ function initBrand() {
 
   if (!expo) {
     $('#description').fadeIn();
+    
   }
 
   if (expo) {
-    let showDuration = 60000;
-    let hideDuration = 60000 * 10;
+    let showDuration = 5000;
+    let hideDuration = 100 * 10;
 
-    if (typeof expo === 'string') {
-      const durations = expo.split(',');
-      showDuration = (parseInt(durations[0], 10) * 1000) || showDuration;
-      hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
-      (function displayCycle() {
-        $('#description').fadeIn();
-        setTimeout(() => {
-          $('#description').fadeOut();
-          setTimeout(displayCycle, hideDuration);
-        }, showDuration);
-      }());
+
+    if (expo) {
+      let showDuration = 6000;
+      let hideDuration = 60 * 10;
+  
+      if (typeof expo === 'string') {
+        const durations = expo.split(',');
+        showDuration = (parseInt(durations[0], 10) * 1000) || showDuration;
+        hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
+        
+        (function displayCycle() {
+          $('#description').fadeIn();
+          $("#description").scrollTop(0);
+          setTimeout(() => {
+            $("#description").animate({ scrollTop: $("#description")[0].scrollHeight }, 3000);
+            
+            setTimeout(() => {
+              $('#description').fadeOut();
+              
+              setTimeout(displayCycle,hideDuration);
+            }, showDuration/2);
+          }, showDuration/2);
+    
+        }());
+        
+      }
     }
   }
 }
-
 /**
  * add evenement for button and update the DOM
  */
@@ -252,7 +267,7 @@ function initLegend() {
     instituteLarge.append(instituteDesc);
 
     institute.append(instituteSmall, instituteLarge);
-    console.log(extCount);
+   
 
     portal.counter = span; // le compteur de consultations
     institutesList.append(institute);
