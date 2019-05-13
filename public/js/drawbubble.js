@@ -12,26 +12,19 @@ $(document).ready(() => {
 
     initialize(options) {
       L.setOptions(this, options);
-
       // css
-
       const uniqueClassName = `lpi-${new Date().getTime()}-${Math.round(Math.random() * 100000)}`;
-
       const before = [`background-color: ${this.options.fillColor}`];
       const after = [
-
         `box-shadow: 0 0 6px 2px ${this.options.color}`,
-
         `animation: pulsate ${this.options.heartbeat}s ease-out`,
         'animation-iteration-count: infinite',
         `animation-delay: ${this.options.heartbeat + 0.1}s`,
       ];
-
       if (!this.options.animate) {
         after.push('animation: none');
         after.push('box-shadow:none');
       }
-
       const css = [
         `.${uniqueClassName}{${before.join(';')};}`,
         `.${uniqueClassName}:after{${after.join(';')};}`,
@@ -43,15 +36,11 @@ $(document).ready(() => {
       } else {
         el.appendChild(document.createTextNode(css));
       }
-
       document.getElementsByTagName('head')[0].appendChild(el);
-
       // apply css class
-
       this.options.className = `${this.options.className} leaflet-pulsing-icon ${uniqueClassName}`;
 
       // initialize icon
-
       L.DivIcon.prototype.initialize.call(this, options);
     },
   });
@@ -64,6 +53,5 @@ $(document).ready(() => {
       L.Marker.prototype.initialize.call(this, latlng, options);
     },
   });
-
   L.marker.pulse = (latlng, options) => new L.Marker.Pulse(latlng, options);
 });

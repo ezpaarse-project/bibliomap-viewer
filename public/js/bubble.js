@@ -10,15 +10,38 @@ function filter(ec) {
     }
   }
 
-  // add icon
-  if (ec.mime === 'HTML') {
-    ec.mime = '<img src="images/icon_html.png" height="25px"/><br>';
+  const mime = {
+    HTML: 'icon_html.png',
+    PDF: 'icon_pdf.png',
+    GIF: 'icon_gif.png',
+    MISC: 'icon_misc.png',
+    XML: 'icon_xml.png',
+    JSON: 'icon_json.png',
+  };
+
+  const rtype = {
+    ARTICLE: 'icon_article.png',
+    BOOK: 'icon_book.png',
+    BOOK_SECTION: 'icon_book.png',
+    BROCHE: 'icon_book.png',
+    BOOKSERIE: 'icon_book.png',
+    IMAGE: 'icon_image.png',
+    AUDIO: 'icon_audio.png',
+    VIDEO: 'icon_video.png',
+    TOC: 'icon_toc.png',
+    SEARCH: 'icon_search.png',
+  };
+
+  if (mime[ec.mime]) {
+    ec.mime = `<img src="images/${mime[ec.mime]}" class="icon-popup" />`;
   }
-  if (ec.mime === 'PDF') {
-    ec.mime = '<img src="images/icon_pdf.png" height="25px"/><br>';
+
+  if (rtype[ec.rtype]) {
+    ec.rtype = `<img src="images/${rtype[ec.rtype]}" class="icon-popup" />`;
   }
 }
 
+// TODO voir comment changer ce val
 let val = 0;
 /**
  * place the view of outide map
@@ -40,7 +63,15 @@ function startMapOutside(lat, lng) {
  * @param {*} ec
  */
 function showInfo(ec) {
-  const lng = ec['geoip-longitude'];
+  const bounds = map.getBounds();
+  const north = bounds.getNorth();
+  const south = bounds.getSouth();
+  const east = bounds.getEast();
+  const west = bounds.getWest();
+
+  const nbMap = (Math.round(((east + west) / 2) / 360));
+
+  const lng = ec['geoip-longitude'] + (nbMap * 360);
   const lat = ec['geoip-latitude'];
   const colorBubble = portalsInfo.find(portal => portal.name === ec.ezproxyName);
   // draw bubble
@@ -60,17 +91,14 @@ function showInfo(ec) {
     closeButton: false,
   }).setLatLng([lat - 0.2, lng]).setContent(`
     <div class='text-popup'><strong>${ec.platform_name}</strong></div> 
-    <div class='text-popup'>${(ec.mime || '')} ${(ec.rtype || '')} ${(ec.publication_title || '')}</div>
+    <div class='text-popup'> ${(ec.rtype || '')} ${(ec.mime || '')} ${(ec.publication_title || '')}</div>
   `);
 
-  // outside map
-  const bounds = map.getBounds();
-  const north = bounds.getNorth();
-  const south = bounds.getSouth();
-  const east = bounds.getEast();
-  const west = bounds.getWest();
   if (lat > north || lat < south || lng > east || lng < west) {
-    startMapOutside(lat, lng);
+    const etat = document.getElementById('filter-button');
+    if (etat.value === 'on') {
+      startMapOutside(lat, lng);
+    }
     map2.addLayer(bubble);
     popup.openOn(map2);
   } else {
@@ -138,6 +166,5 @@ $(document).ready(() => {
 
     filter(ec);
     showInfo(ec);
-    console.log(ec);
   };
 });

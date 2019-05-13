@@ -391,7 +391,7 @@ img.logo {
 }
 
 #outside_map {
-  display: inline;
+  display: block;
   position: fixed;
   top: 20px;
   right: 45px;
@@ -401,11 +401,6 @@ img.logo {
   padding: 0%;
   margin: 0%;
   border: 3px inset #2c3e50;
-}
-
-.leaflet-control-zoom.leaflet-bar.leaflet-control {
-  top: 5px;
-  right: 10px;
 }
 
 .leaflet-popup-tip-container {
@@ -435,4 +430,66 @@ img.logo {
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   background: rgba(255, 255, 255, 0.7);
+}
+
+.switch { 
+  display: block;
+  position: fixed;
+  width: 60px;
+  height: 34px;
+  top: 300px;
+  right: 45px;
+  z-index: 2;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #30fa6a;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #fc4113;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #fc4113;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.icon-popup {
+  height: 25px;
 }

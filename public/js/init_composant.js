@@ -84,6 +84,7 @@ const portalsInfo = [
   },
 ];
 
+// eslint-disable-next-line no-unused-vars
 const extCount = {
   pdf: 0,
   html: 0,
@@ -100,7 +101,6 @@ function initMap() {
   map = L.map('bibliomap-canvas', {
     minZoom: 3,
     maxZoom: 8,
-    maxBounds: [L.latLng(-80, -180), L.latLng(80, 180)],
     zoomControl: false,
   }).setView(franceCenter, 6);
 
@@ -113,14 +113,18 @@ function initMap() {
   }).addTo(map);
 
   map2 = L.map('outside_map', {
-    minZoom: 4,
+    minZoom: 2,
     maxZoom: 4,
-    dragging: false,
     doubleClickZoom: false,
     zoomControl: false,
   }).setView([0, 0], 4);
   document.getElementById('outside_map').style.display = 'none';
+
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
+
+  L.control.zoom({
+    position: 'topleft',
+  }).addTo(map2);
 }
 
 /**
@@ -252,7 +256,6 @@ function initLegend() {
     instituteLarge.append(instituteDesc);
 
     institute.append(instituteSmall, instituteLarge);
-    console.log(extCount);
 
     portal.counter = span; // le compteur de consultations
     institutesList.append(institute);
@@ -262,6 +265,19 @@ function initLegend() {
   content.append(institutesList);
 }
 
+function initFilter() {
+  const filterBouton = document.getElementById('filter-button');
+  function updateBtn() {
+    if (filterBouton.value === 'on') {
+      filterBouton.value = 'off';
+      $('#outside_map').fadeOut(1000);
+    } else {
+      filterBouton.value = 'on';
+    }
+  }
+  filterBouton.addEventListener('click', updateBtn);
+}
+
 /**
  * Initializatton of all parts
  */
@@ -269,5 +285,6 @@ $(document).ready(() => {
   initMap();
   initBrand();
   initLegend();
+  initFilter();
   timer();
 });
