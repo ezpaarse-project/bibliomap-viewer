@@ -193,19 +193,26 @@ function initBrand() {
   }
 
   if (expo) {
-    let showDuration = 60000;
-    let hideDuration = 60000 * 10;
+    let showDuration = 6000;
+    let hideDuration = 60 * 10;
 
     if (typeof expo === 'string') {
       const durations = expo.split(',');
       showDuration = (parseInt(durations[0], 10) * 1000) || showDuration;
       hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
+
       (function displayCycle() {
         $('#description').fadeIn();
+        $('#description').scrollTop(0);
         setTimeout(() => {
-          $('#description').fadeOut();
-          setTimeout(displayCycle, hideDuration);
-        }, showDuration);
+          $('#description').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
+
+          setTimeout(() => {
+            $('#description').fadeOut();
+
+            setTimeout(displayCycle, hideDuration);
+          }, showDuration / 2);
+        }, showDuration / 2);
       }());
     }
   }
