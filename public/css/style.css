@@ -470,7 +470,7 @@ img.logo {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #30fa6a;
+  background-color: #fc4113;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -488,11 +488,11 @@ img.logo {
 }
 
 input:checked + .slider {
-  background-color: #fc4113;
+  background-color: #30fa6a;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #fc4113;
+  box-shadow: 0 0 1px #30fa6a;
 }
 
 input:checked + .slider:before {
