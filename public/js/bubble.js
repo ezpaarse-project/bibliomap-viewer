@@ -1,3 +1,5 @@
+
+
 /**
  * filter informations receive
  * @param {*} ec
@@ -63,7 +65,6 @@ function startMapOutside(lat, lng) {
  * @param {*} ec
  */
 function showInfo(ec) {
-  const bounds = map.getBounds();
   const north = bounds.getNorth();
   const south = bounds.getSouth();
   const east = bounds.getEast();
@@ -81,6 +82,10 @@ function showInfo(ec) {
     fillColor: colorBubble.color,
   });
   const bubble = L.marker([lat, lng], { icon: pulsingIcon });
+  bubble.origin = {
+    lat,
+    lng,
+  };
 
   // popup with informations about consultation
   const popup = L.popup({
@@ -93,6 +98,10 @@ function showInfo(ec) {
     <div class='text-popup'><strong>${ec.platform_name}</strong></div> 
     <div class='text-popup'> ${(ec.rtype || '')} ${(ec.mime || '')} ${(ec.publication_title || '')}</div>
   `);
+  popup.origin = {
+    lat: lat - 0.2,
+    lng,
+  };
 
   if (lat > north || lat < south || lng > east || lng < west) {
     const etat = document.getElementById('filter-button');
@@ -105,6 +114,7 @@ function showInfo(ec) {
     map.addLayer(bubble);
     popup.openOn(map);
   }
+
 
   bubble._icon.style.display = 'none';
 
@@ -142,7 +152,6 @@ $(document).ready(() => {
   BibliomapOverlay.prototype.addEzpaarseEC = (ec) => {
     // ignore not geolocalized EC
     if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
-
     const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
     if (match) {
       ec.ezproxyName = match[1];

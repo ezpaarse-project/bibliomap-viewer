@@ -95,12 +95,13 @@ const extCount = {
  */
 let map = '';
 let map2 = '';
+let bounds = '';
 
 function initMap() {
   const franceCenter = [46.3630104, 2.9846608];
   map = L.map('bibliomap-canvas', {
-    minZoom: 3,
-    maxZoom: 8,
+    // minZoom: 3,
+    // maxZoom: 8,
     zoomControl: false,
   }).setView(franceCenter, 6);
 
@@ -111,6 +112,23 @@ function initMap() {
   L.control.zoom({
     position: 'topright',
   }).addTo(map);
+
+  bounds = map.getBounds();
+  map.on('dragend', () => {
+    bounds = map.getBounds();
+    const east = bounds.getEast();
+    const west = bounds.getWest();
+    const nbMap = (Math.round(((east + west) / 2) / 360));
+    Object.keys(map._layers).forEach((element) => {
+      const layer = map._layers[element];
+      if (layer._latlng) {
+        const nbMapBulle = (Math.round((layer._latlng.lng) / 360));
+        const lng = layer._latlng.lng + ((nbMap - nbMapBulle) * 360);
+        layer.setLatLng([layer._latlng.lat, lng]).update();
+        console.log(nbMap, nbMapBulle);
+      }
+    });
+  });
 
   map2 = L.map('outside_map', {
     minZoom: 2,
