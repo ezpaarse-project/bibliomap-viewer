@@ -99,8 +99,8 @@ let map2 = '';
 function initMap() {
   const franceCenter = [46.3630104, 2.9846608];
   map = L.map('bibliomap-canvas', {
-    minZoom: 3,
-    maxZoom: 8,
+    // minZoom: 3,
+    // maxZoom: 8,
     zoomControl: false,
   }).setView(franceCenter, 6);
 
@@ -193,8 +193,12 @@ function initBrand() {
   }
 
   if (expo) {
-    let showDuration = 6000;
-    let hideDuration = 60 * 10;
+    // add /?expo=<showDuration>,<hideDuration> at the end of the url to have custom durations
+    // or add /?expo=true to have the default durations
+
+    // default durations when expo=true
+    let showDuration = 60000 * 2;
+    let hideDuration = 60000 * 15;
 
     if (typeof expo === 'string') {
       const durations = expo.split(',');
