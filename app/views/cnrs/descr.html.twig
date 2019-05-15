@@ -1,64 +1,8 @@
-<!doctype html>
-<html lang="fr">
-
-<head>
-
-  <meta charset="utf-8">
-  <title>bibliomap.inist.fr</title>
-  <link rel="icon" type="image/png" href="images/favicon/cnrs.png" />
-  <link rel="stylesheet" href="leaflet/leaflet.css" />
-  <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-
-  <!-- Map -->
-  <div id="bibliomap-canvas"></div>
-  <div id="outside_map"></div>
-  <label class="switch">
-    <input type="checkbox" value="on" id="filter-button">
-    <span class="slider round"></span>
-  </label>
-
-  <!-- information about number of connexion -->
-  <div id="legend" class="gm-style">
-
-    <div class="content">
-      <a href="#legend" class="ouvrir"> &rsaquo; </a>
-      <a href="#legend_clos" class="fermer"> &lsaquo; </a>
-
-      <a href="http://www.cnrs.fr/" target="_blank"><img class="logo" src="images/logo-cnrs.jpg" alt="CNRS"></a>
-      <h3>Consultations en direct</h3>
-      <h4>des articles de plusieurs milliers de revues scientifiques électroniques disponibles en texte intégral ainsi
-        que des bases de données.</h4>
-      <h3 id="Timer">0j 0h 0m 0s</h3>
-      
-      <h2>Instituts du CNRS</h2>
-    </div>
-    <div id=countExt>
-      <div id="extCountHTML">fghfghfgh</div>
-      <img src="images/icon_html.png" height="25px"/>
-      <div id="extCountPDF">0</div>
-      <img src="images/icon_pdf.png" height="25px"/>
-    </div>
-    <div class="controls"><a class="close" href="javascript:void(0)">Fermer</a> - <a class="reduce"
-        href="javascript:void(0)">Réduire</a></div>
-    </div>
-
-  <!-- informations about version and ezPAARRSE -->
-  <div id="brand">
-    <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> 4.2.2</div>
-    <div class="sub">Connecté à <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
-  </div>
-
-  <!-- informations about goal of this web-app at launch-->
-  <div id="description">
-    <a href="javascript:void(0)" class="close">Fermer</a>
-
+{% block description %}
     <div class="header">
       <div class="logocnrs">
         <a href="http://www.cnrs.fr/" target="_blank">
-          <img src="images/logocnrs.png" alt="CNRS">
+          <img src="/public/images/logocnrs.png" alt="CNRS">
         </a>
       </div>
       <div class="title">
@@ -76,21 +20,23 @@
       et pourtant BiblioMap vous montre qu’elle ne s’arrête jamais</p>
 
     <a href="https://bib.cnrs.fr" target="_blank">
-      <img class="logo" src="images/bibCnrs.png" alt="bibCNRS">
+      <img class="logo" src="/public/images/bibCnrs.png" alt="bibCNRS">
     </a>
+
+    
 
     <p>Les plateformes des portails d’accès spécialisés sont gérées par
       l'<a href="http://www.inist.fr" target="_blank">Inist-CNRS</a>.</p>
 
     <div class="logos">
       <div class="twoLogos">
-        <a href="http://ezpaarse.couperin.org" target="_blank">
-          <img src="images/logo-ezpaarse.png" alt="ezPAARSE">
+        <a href="http://ezpaarse.couperin.org" target="_blank"> 
+          <img src="/public/images/logo-ezpaarse.png" alt="ezPAARSE">
         </a>
       </div>
       <div class=twoLogos>
         <a href="http://analogist.couperin.org" target="_blank">
-          <img src="images/logo-analogist.png" alt="analogIST">
+          <img src="/public/images/logo-analogist.png" alt="analogIST">
         </a>
       </div>
     </div>
@@ -116,28 +62,18 @@
     <div class="logos">
       <div class="threeLogos">
         <a href="http://www.couperin.org/" target="_blank">
-          <img src="images/logo-couperin.jpg" alt="COUPERIN">
+          <img src="/public/images/logo-couperin.jpg" alt="COUPERIN">
         </a>
       </div>
       <div class="threeLogos">
         <a href="http://www.cnrs.fr/" target="_blank">
-          <img src="images/logo-cnrs.jpg" alt="CNRS">
+          <img src="/public/images/logo-cnrs.jpg" alt="CNRS">
         </a>
       </div>
       <div class="threeLogos">
         <a href="http://www.univ-lorraine.fr/" target="_blank">
-          <img src="images/logo-universite-de-lorraine.png" alt="Université de Lorraine">
+          <img src="/public/images/logo-universite-de-lorraine.png" alt="Université de Lorraine">
         </a>
       </div>
     </div>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-  <script src="leaflet/leaflet.js"></script>
-  <script type="text/javascript" src="js/init_composant.js"></script>
-  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="js/drawbubble.js"></script>
-  <script type="text/javascript" src="js/bubble.js"></script>
-
-</body>
-</html>
+{% endblock %}

@@ -1,4 +1,3 @@
-const path = require('path');
 const es = require('event-stream');
 const JSONStream = require('JSONStream');
 const sha256 = require('sha256');
@@ -57,13 +56,14 @@ server.listen(enricherCfg.port, enricherCfg.host, () => {
  */
 httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliomap-viewer'].host);
 
+app.set('views', `${__dirname}/app/views`);
+app.use(express.static(__dirname));
 app.get('/', (req, res) => {
+  const entity = process.env.BBV_INDEX || 'cnrs';
   res.header('X-UA-Compatible', 'IE=edge');
-  console.log(process.env.BBV_INDEX);
-  res.sendFile(path.resolve(__dirname, process.env.BBV_INDEX));
+  return res.render('index.html.twig', { entity });
 });
 
-app.use('/', express.static(path.resolve(__dirname, 'public')));
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
