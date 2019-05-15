@@ -1,88 +1,6 @@
 /**
  * information about CNRS institute on legend
  */
-const portalsInfo = [
-  {
-    name: 'INSB',
-    color: '#9c126d',
-    logo: 'bibcnrs-logo-biologie.png',
-    link: 'https://bib.cnrs.fr/category/biologie/',
-    desc: 'Biologie',
-    count: 0,
-  },
-  {
-    name: 'INC',
-    color: '#007e94',
-    logo: 'bibcnrs-logo-chimie.png',
-    link: 'https://bib.cnrs.fr/category/chimie/',
-    desc: 'Chimie',
-    count: 0,
-  },
-  {
-    name: 'INEE',
-    color: '#62ae25',
-    logo: 'bibcnrs-logo-ecologie.png',
-    link: 'https://bib.cnrs.fr/category/ecologie/',
-    desc: 'Ecologie & Environnement',
-    count: 0,
-  },
-  {
-    name: 'INSHS',
-    color: '#820e12',
-    logo: 'bibcnrs-logo-homme.png',
-    link: 'https://bib.cnrs.fr/category/homme/',
-    desc: 'Homme & Société',
-    count: 0,
-  },
-  {
-    name: 'INSIS',
-    color: '#d4002d',
-    logo: 'bibcnrs-logo-ingenierie.png',
-    link: 'https://bib.cnrs.fr/category/ingenierie/',
-    desc: 'Ingénierie & Systèmes',
-    count: 0,
-  },
-  {
-    name: 'INSMI',
-    color: '#547d3d',
-    logo: 'bibcnrs-logo-mathematiques.png',
-    link: 'https://bib.cnrs.fr/category/mathematiques/',
-    desc: 'Mathématiques',
-    count: 0,
-  },
-  {
-    name: 'IN2P3',
-    color: '#e75113',
-    logo: 'bibcnrs-logo-nucleaire.png',
-    link: 'https://bib.cnrs.fr/category/nucleaire/',
-    desc: 'Nucléaire & Particules',
-    count: 0,
-  },
-  {
-    name: 'INP',
-    color: '#004494',
-    logo: 'bibcnrs-logo-physique.png',
-    link: 'https://bib.cnrs.fr/category/physique/',
-    desc: 'Physique',
-    count: 0,
-  },
-  {
-    name: 'INS2I',
-    color: '#562a84',
-    logo: 'bibcnrs-logo-information.png',
-    link: 'https://bib.cnrs.fr/category/information/',
-    desc: "Sciences de l'information",
-    count: 0,
-  },
-  {
-    name: 'INSU',
-    color: '#cc2381',
-    logo: 'bibcnrs-logo-terre.png',
-    link: 'https://bib.cnrs.fr/category/terre/',
-    desc: 'Terre & Univers',
-    count: 0,
-  },
-];
 
 // eslint-disable-next-line no-unused-vars
 const extCount = {
@@ -281,14 +199,19 @@ function initLegend() {
     const instituteLarge = $('<div/>').addClass('instituteLarge');
     institute.css('color', portal.color);
     institute.css('border-radius', 10);
-    const title = (`<div class="name" >${portal.name}`);
+    const title = (`<div class="name" >${(portal.fullName ? portal.fullName : portal.name)}`);
     instituteSmall.append(title);
-    const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="images/${portal.logo}" title="${portal.name}"></a>`);
-    instituteLarge.append(link);
+
+    if (portal.logo) {
+      const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="${portal.logo}" title="${portal.name}"></a>`);
+      instituteLarge.append(link);
+    }
     const span = $(`<span id="${portal.name}" class="counter">0</span>`);
     instituteSmall.append(span);
-    const instituteDesc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`);
-    instituteLarge.append(instituteDesc);
+    if (portal.desc) {
+      const instituteDesc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`);
+      instituteLarge.append(instituteDesc);
+    }
 
     institute.append(instituteSmall, instituteLarge);
 

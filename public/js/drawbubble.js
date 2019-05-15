@@ -19,7 +19,7 @@ $(document).ready(() => {
         `box-shadow: 0 0 6px 2px ${this.options.color}`,
         `animation: pulsate ${this.options.heartbeat}s ease-out`,
         'animation-iteration-count: infinite',
-        `animation-delay: ${this.options.heartbeat + 0.1}s`,
+        'animation-delay: 0',
       ];
       if (!this.options.animate) {
         after.push('animation: none');

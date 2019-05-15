@@ -1,48 +1,3 @@
-
-
-/**
- * filter informations receive
- * @param {*} ec
- */
-function filter(ec) {
-  // verification if informations receive and reduction of string if string > 22
-  if (ec.publication_title) {
-    if (ec.publication_title.length > 22) {
-      ec.publication_title = `${ec.publication_title.substring(0, 22)}...`;
-    }
-  }
-
-  const mime = {
-    HTML: 'icon_html.png',
-    PDF: 'icon_pdf.png',
-    GIF: 'icon_gif.png',
-    MISC: 'icon_misc.png',
-    XML: 'icon_xml.png',
-    JSON: 'icon_json.png',
-  };
-
-  const rtype = {
-    ARTICLE: 'icon_article.png',
-    BOOK: 'icon_book.png',
-    BOOK_SECTION: 'icon_book.png',
-    BROCHE: 'icon_book.png',
-    BOOKSERIE: 'icon_book.png',
-    IMAGE: 'icon_image.png',
-    AUDIO: 'icon_audio.png',
-    VIDEO: 'icon_video.png',
-    TOC: 'icon_toc.png',
-    SEARCH: 'icon_search.png',
-  };
-
-  if (mime[ec.mime]) {
-    ec.mime = `<img src="images/${mime[ec.mime]}" class="icon-popup" />`;
-  }
-
-  if (rtype[ec.rtype]) {
-    ec.rtype = `<img src="images/${rtype[ec.rtype]}" class="icon-popup" />`;
-  }
-}
-
 // TODO voir comment changer ce val
 let val = 0;
 /**
@@ -144,39 +99,29 @@ $(document).ready(() => {
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
     if (BibliomapOverlay) {
-      BibliomapOverlay.prototype.addEzpaarseEC(ec);
+      BibliomapOverlay.addEzpaarseEC(ec);
     }
   });
 
   /**
    * fonction who draw circles
    */
-  BibliomapOverlay.prototype.addEzpaarseEC = (ec) => {
+  BibliomapOverlay.addEzpaarseEC = (ec) => {
     // ignore not geolocalized EC
     if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
     const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
     if (match) {
       ec.ezproxyName = match[1];
     }
-
+    filter(ec);
+    showInfo(ec);
     // update legend
     const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
     if (portal) {
       portal.count += 1;
       if (portal.counter) {
         portal.counter.text(portal.count.toLocaleString());
-        if (ec.mime === 'HTML') {
-          extCount.html += 1;
-        }
-        if (ec.mime === 'PDF') {
-          extCount.pdf += 1;
-        }
-        document.getElementById('extCountHTML').innerHTML = `${extCount.html}`;
-        document.getElementById('extCountPDF').innerHTML = `${extCount.pdf}`;
       }
     }
-
-    filter(ec);
-    showInfo(ec);
   };
 });

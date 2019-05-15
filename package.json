@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon ./app.js -e js,html,css",
+    "dev": "nodemon ./app.js -e js,html,css,twig",
     "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap-viewer:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml && sed -i \"s#\\(Bibliomap</a> \\)\\([\\.0-9]\\+\\)#\\1${npm_package_version}#g\" index*.html",
     "version": "npm run insertversion && git add docker-compose.yml index*.html ",
     "postversion": "git push && git push --tags",
@@ -31,7 +31,8 @@
     "nodemon": "^1.18.11",
     "request": "^2.88.0",
     "sha256": "^0.2.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "twig": "^1.13.3"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
