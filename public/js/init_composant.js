@@ -95,13 +95,12 @@ const extCount = {
  */
 let map = '';
 let map2 = '';
-let bounds = '';
 
 function initMap() {
   const franceCenter = [46.3630104, 2.9846608];
   map = L.map('bibliomap-canvas', {
-    // minZoom: 3,
-    // maxZoom: 8,
+    minZoom: 3,
+    maxZoom: 8,
     zoomControl: false,
   }).setView(franceCenter, 6);
 
@@ -113,22 +112,21 @@ function initMap() {
     position: 'topright',
   }).addTo(map);
 
-  bounds = map.getBounds();
   map.on('dragend', () => {
-    bounds = map.getBounds();
-    const east = bounds.getEast();
-    const west = bounds.getWest();
-    const nbMap = (Math.round(((east + west) / 2) / 360));
+    const mapCenterLng = map.getCenter().lng;
+    const nbMap = (Math.round(((mapCenterLng) / 360)));
+
     Object.keys(map._layers).forEach((element) => {
       const layer = map._layers[element];
       if (layer._latlng) {
         const nbMapBulle = (Math.round((layer._latlng.lng) / 360));
         const lng = layer._latlng.lng + ((nbMap - nbMapBulle) * 360);
         layer.setLatLng([layer._latlng.lat, lng]).update();
-        console.log(nbMap, nbMapBulle);
       }
     });
+  
   });
+
 
   map2 = L.map('outside_map', {
     minZoom: 2,
@@ -143,6 +141,14 @@ function initMap() {
   L.control.zoom({
     position: 'topleft',
   }).addTo(map2);
+
+  map2.on('click', () => {
+    const oldZoom = map.getZoom();
+    map.flyTo(map2.getCenter(), oldZoom);
+    $('#outside_map').fadeOut(100)
+    
+    
+  });
 }
 
 /**
@@ -215,7 +221,7 @@ function initBrand() {
     // or add /?expo=true to have the default durations
 
     // default durations when expo=true
-    let showDuration = 60000 * 2;
+    let showDuration = 60000 ;
     let hideDuration = 60000 * 15;
 
     if (typeof expo === 'string') {
@@ -273,7 +279,7 @@ function initLegend() {
     const institute = $('<div/>').addClass('institute');
     const instituteSmall = $('<div/>').addClass('instituteSmall');
     const instituteLarge = $('<div/>').addClass('instituteLarge');
-    institute.css('background-color', hexToRGB(portal.color, 0.3));
+    institute.css('color', portal.color);
     institute.css('border-radius', 10);
     const title = (`<div class="name" >${portal.name}`);
     instituteSmall.append(title);

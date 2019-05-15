@@ -65,12 +65,9 @@ function startMapOutside(lat, lng) {
  * @param {*} ec
  */
 function showInfo(ec) {
-  const north = bounds.getNorth();
-  const south = bounds.getSouth();
-  const east = bounds.getEast();
-  const west = bounds.getWest();
 
-  const nbMap = (Math.round(((east + west) / 2) / 360));
+  const mapCenterLng = map.getCenter().lng;
+  const nbMap = (Math.round((mapCenterLng / 360)));
 
   const lng = ec['geoip-longitude'] + (nbMap * 360);
   const lat = ec['geoip-latitude'];
@@ -102,6 +99,11 @@ function showInfo(ec) {
     lat: lat - 0.2,
     lng,
   };
+  const bounds = map.getBounds();
+  const north = bounds.getNorth();
+  const south = bounds.getSouth();
+  const east = bounds.getEast();
+  const west = bounds.getWest();
 
   if (lat > north || lat < south || lng > east || lng < west) {
     const etat = document.getElementById('filter-button');

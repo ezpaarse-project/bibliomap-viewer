@@ -15,7 +15,7 @@ html, body, #bibliomap-canvas {
 img {
   border: none;
 }
-#countExt {
+#extHTML, #extPDF {
   display: flex;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -27,15 +27,14 @@ img {
   margin-top:8px;
   white-space: nowrap;
 
-
 }
 #legend {
   z-index: 2;
   position: fixed;
   top: 0px;
   left: 0px;
-  background-color: #FFF;
-  opacity: 1;
+  background-color:rgb(255, 255, 255);
+  opacity: 0.9;
   border: 2px solid #CCC;
   padding: 0 10px;
   width: 5%;
@@ -186,6 +185,7 @@ img {
   font-size: 1.6em;
   text-align: center;
   margin: auto;
+  font-family : Roboto,Arial,sans-serif;
 }
 
 #brand {
@@ -320,6 +320,7 @@ img.logo {
   display: -webkit-flex;
   display: -ms-flexbox;
   flex-direction: row;
+  background-color: rgba(0, 0, 0, 0.035);
   -webkit-flex-direction: row;
   overflow: hidden;
   margin-bottom: 2px;
@@ -408,6 +409,7 @@ img.logo {
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-family : Roboto,Arial,sans-serif;
 }
 
 #outside_map {
