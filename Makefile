@@ -16,7 +16,7 @@ ifneq "$(SUPPORTS_MAKE_ARGS)" ""
 endif
 
 install: ## install depedencies thanks to a dockerized npm install
-	@docker run -it --rm -v $$(pwd):/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:6.9.1 npm install
+	@docker run -it --rm -v $$(pwd):/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:10.15.3 npm install
 	@make chown
 
 build: ## build the docker ezpaarseproject/bibliomap-viewer image localy
@@ -32,7 +32,7 @@ run-prod: ## run bibliomap-viewer in production mode with the full dockerized im
 
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:
-	@test ! -d $$(pwd)/node_modules || docker run -it --rm -v $$(pwd):/app node:6.9.1 chown -R $$(id -u):$$(id -g) /app/
+	@test ! -d $$(pwd)/node_modules || docker run -it --rm -v $$(pwd):/app node:10.15.3 chown -R $$(id -u):$$(id -g) /app/
 
 clean: ## remove node_modules and temp files
 	@rm -Rf ./node_modules/ ./npm-debug.log
