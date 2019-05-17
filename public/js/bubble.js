@@ -78,33 +78,34 @@ function showInfo(ec) {
   const west = bounds.getWest();
 
   if (lat > north || lat < south || lng > east || lng < west) {
-    const etat = document.getElementById('filter-button');
-    if (etat.value === 'on') {
-      startMapOutside(lat, lng);
-    }
-    map2.addLayer(bubble2);
-    popup2.openOn(map2);
+    // const etat = document.getElementById('filter-button');
+    // if (etat.value === 'on') {
+    startMapOutside(lat, lng);
+    // }
     map.addLayer(bubble);
     popup.openOn(map);
+    map2.addLayer(bubble2);
+    popup2.openOn(map2);
+    bubble2._icon.style.display = 'none';
   } else {
     map.addLayer(bubble);
     popup.openOn(map);
   }
 
-
   bubble._icon.style.display = 'none';
-
   $(bubble._icon).fadeIn(1000);
+  $(bubble2._icon).fadeIn(1000);
 
   setTimeout(() => {
     map.removeLayer(popup);
     map2.removeLayer(popup2);
     $(bubble._icon).fadeOut(1000);
+    $(bubble2._icon).fadeOut(1000);
   }, 5000);
 
   setTimeout(() => {
-    map2.removeLayer(bubble2);
     map.removeLayer(bubble);
+    map2.removeLayer(bubble2);
   }, 6000);
 }
 

@@ -209,18 +209,18 @@ function initLegend() {
   content.append(institutesList);
 }
 
-function initFilter() {
-  const filterBouton = document.getElementById('filter-button');
-  function updateBtn() {
-    if (filterBouton.value === 'on') {
-      filterBouton.value = 'off';
-      $('#outside_map').fadeOut(1000);
-    } else {
-      filterBouton.value = 'on';
-    }
-  }
-  filterBouton.addEventListener('click', updateBtn);
-}
+// function initFilter() {
+//   const filterBouton = document.getElementById('filter-button');
+//   function updateBtn() {
+//     if (filterBouton.value === 'on') {
+//       filterBouton.value = 'off';
+//       $('#outside_map').fadeOut(1000);
+//     } else {
+//       filterBouton.value = 'on';
+//     }
+//   }
+//   filterBouton.addEventListener('click', updateBtn);
+// }
 
 /**
  * Initializatton of all parts
@@ -229,6 +229,6 @@ $(document).ready(() => {
   initMap();
   initBrand();
   initLegend();
-  initFilter();
+  // initFilter();
   timer();
 });
