@@ -37,7 +37,11 @@ function showInfo(ec) {
     lat,
     lng,
   };
-
+  const bubble2 = L.marker([lat, lng], { icon: pulsingIcon });
+  bubble.origin = {
+    lat,
+    lng,
+  };
   // popup with informations about consultation
   const popup = L.popup({
     closeOnClick: false,
@@ -53,6 +57,20 @@ function showInfo(ec) {
     lat: lat - 0.2,
     lng,
   };
+  const popup2 = L.popup({
+    closeOnClick: false,
+    autoClose: false,
+    autoPan: false,
+    maxWidth: 100,
+    closeButton: false,
+  }).setLatLng([lat - 0.2, lng]).setContent(`
+    <div class='text-popup'><strong>${ec.platform_name}</strong></div> 
+    <div class='text-popup'> ${(ec.rtype || '')} ${(ec.mime || '')} ${(ec.publication_title || '')}</div>
+  `);
+  popup2.origin = {
+    lat: lat - 0.2,
+    lng,
+  };
   const bounds = map.getBounds();
   const north = bounds.getNorth();
   const south = bounds.getSouth();
@@ -64,8 +82,10 @@ function showInfo(ec) {
     if (etat.value === 'on') {
       startMapOutside(lat, lng);
     }
-    map2.addLayer(bubble);
-    popup.openOn(map2);
+    map2.addLayer(bubble2);
+    popup2.openOn(map2);
+    map.addLayer(bubble);
+    popup.openOn(map);
   } else {
     map.addLayer(bubble);
     popup.openOn(map);
@@ -78,12 +98,12 @@ function showInfo(ec) {
 
   setTimeout(() => {
     map.removeLayer(popup);
-    map2.removeLayer(popup);
+    map2.removeLayer(popup2);
     $(bubble._icon).fadeOut(1000);
   }, 5000);
 
   setTimeout(() => {
-    map2.removeLayer(bubble);
+    map2.removeLayer(bubble2);
     map.removeLayer(bubble);
   }, 6000);
 }
