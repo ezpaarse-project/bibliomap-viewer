@@ -5,9 +5,12 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "dev": "nodemon ./app.js -e js,html,css,twig",
     "insertversion": "sed -i \"s#\\(image: ezpaarseproject/bibliomap-viewer:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml && sed -i \"s#\\(Bibliomap</a> \\)\\([\\.0-9]\\+\\)#\\1${npm_package_version}#g\" index*.html",
     "version": "npm run insertversion && git add docker-compose.yml index*.html ",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "lint": "eslint --ext .js .",
+    "precommit": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -23,14 +26,20 @@
     "JSONStream": "^0.9.0",
     "debug": "^2.6.0",
     "event-stream": "^3.1.7",
-    "express": "^4.9.5",
+    "express": "^4.16.4",
+    "materialize-css": "^1.0.0-rc.2",
     "nconf": "^0.6.9",
-    "nodemon": "^1.9.1",
-    "request": "^2.39.0",
+    "nodemon": "^1.18.11",
+    "request": "^2.88.0",
     "sha256": "^0.2.0",
-    "socket.io": "^1.1.0"
+    "socket.io": "^2.2.0",
+    "twig": "^1.13.3"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "husky": "^2.2.0",
+    "mocha": "^6.1.4"
   }
 }
