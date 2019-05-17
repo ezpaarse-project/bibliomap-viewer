@@ -1,6 +1,6 @@
 {
   "name": "bibliomap-viewer",
-  "version": "4.2.2",
+  "version": "5.0.0",
   "description": "BiblioMap (viewer) shows ezpaarse geolocalized EC's on a map",
   "main": "app.js",
   "scripts": {
