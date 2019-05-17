@@ -16,15 +16,34 @@ function startMapOutside(lat, lng) {
 }
 
 /**
- * place the puldateIcon and information bubble on map
- * @param {*} ec
+ * animation the bubble and the popup on en map enter in param
+ * @param {*} bubble
+ * @param {*} popup
+ * @param {*} map
  */
-function showInfo(ec) {
-  const mapCenterLng = map.getCenter().lng;
-  const nbMap = (Math.round((mapCenterLng / 360)));
+function annimation(bubble, popup, map) {
+  map.addLayer(bubble);
+  popup.openOn(map);
+  bubble._icon.style.display = 'none';
+  $(bubble._icon).fadeIn(1000);
 
-  const lng = ec['geoip-longitude'] + (nbMap * 360);
-  const lat = ec['geoip-latitude'];
+  setTimeout(() => {
+    map.removeLayer(popup);
+    $(bubble._icon).fadeOut(1000);
+  }, 5000);
+
+  setTimeout(() => {
+    map.removeLayer(bubble);
+  }, 6000);
+}
+
+/**
+ * create a object bubble with ec and position
+ * @param {*} ec
+ * @param {*} lat
+ * @param {*} lng
+ */
+function createBubble(ec, lat, lng) {
   const colorBubble = portalsInfo.find(portal => portal.name === ec.ezproxyName);
   // draw bubble
   const pulsingIcon = L.icon.pulse({
@@ -37,12 +56,16 @@ function showInfo(ec) {
     lat,
     lng,
   };
-  const bubble2 = L.marker([lat, lng], { icon: pulsingIcon });
-  bubble.origin = {
-    lat,
-    lng,
-  };
-  // popup with informations about consultation
+  return bubble;
+}
+
+/**
+ * create a object popup with ec and position
+ * @param {*} ec
+ * @param {*} lat
+ * @param {*} lng
+ */
+function createPopup(ec, lat, lng) {
   const popup = L.popup({
     closeOnClick: false,
     autoClose: false,
@@ -57,20 +80,23 @@ function showInfo(ec) {
     lat: lat - 0.2,
     lng,
   };
-  const popup2 = L.popup({
-    closeOnClick: false,
-    autoClose: false,
-    autoPan: false,
-    maxWidth: 100,
-    closeButton: false,
-  }).setLatLng([lat - 0.2, lng]).setContent(`
-    <div class='text-popup'><strong>${ec.platform_name}</strong></div> 
-    <div class='text-popup'> ${(ec.rtype || '')} ${(ec.mime || '')} ${(ec.publication_title || '')}</div>
-  `);
-  popup2.origin = {
-    lat: lat - 0.2,
-    lng,
-  };
+  return popup;
+}
+
+/**
+ * place the puldateIcon and information bubble on map
+ * @param {*} ec
+ */
+function showInfo(ec) {
+  const mapCenterLng = map.getCenter().lng;
+  const nbMap = (Math.round((mapCenterLng / 360)));
+
+  const lng = ec['geoip-longitude'] + (nbMap * 360);
+  const lat = ec['geoip-latitude'];
+
+  const bubble = createBubble(ec, lat, lng);
+  const popup = createPopup(ec, lat, lng);
+
   const bounds = map.getBounds();
   const north = bounds.getNorth();
   const south = bounds.getSouth();
@@ -82,31 +108,13 @@ function showInfo(ec) {
     // if (etat.value === 'on') {
     startMapOutside(lat, lng);
     // }
-    map.addLayer(bubble);
-    popup.openOn(map);
-    map2.addLayer(bubble2);
-    popup2.openOn(map2);
-    bubble2._icon.style.display = 'none';
+    annimation(bubble, popup, map);
+    const bubble2 = createBubble(ec, lat, lng);
+    const popup2 = createPopup(ec, lat, lng);
+    annimation(bubble2, popup2, map2);
   } else {
-    map.addLayer(bubble);
-    popup.openOn(map);
+    annimation(bubble, popup, map);
   }
-
-  bubble._icon.style.display = 'none';
-  $(bubble._icon).fadeIn(1000);
-  $(bubble2._icon).fadeIn(1000);
-
-  setTimeout(() => {
-    map.removeLayer(popup);
-    map2.removeLayer(popup2);
-    $(bubble._icon).fadeOut(1000);
-    $(bubble2._icon).fadeOut(1000);
-  }, 5000);
-
-  setTimeout(() => {
-    map.removeLayer(bubble);
-    map2.removeLayer(bubble2);
-  }, 6000);
 }
 
 function BibliomapOverlay(map) {

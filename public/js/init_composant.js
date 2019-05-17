@@ -44,7 +44,6 @@ function initMap() {
     });
   });
 
-
   map2 = L.map('outside_map', {
     minZoom: 2,
     maxZoom: 4,
