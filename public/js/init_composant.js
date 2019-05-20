@@ -20,7 +20,6 @@ function initMap() {
     minZoom: 3,
     maxZoom: 8,
     zoomControl: false,
-    
   }).setView(franceCenter, 6);
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

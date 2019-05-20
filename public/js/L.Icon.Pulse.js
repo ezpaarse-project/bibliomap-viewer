@@ -1,6 +1,5 @@
 $(document).ready(() => {
   L.Icon.Pulse = L.DivIcon.extend({
-
     options: {
       className: '',
       iconSize: [12, 12],
@@ -9,7 +8,6 @@ $(document).ready(() => {
       animate: true,
       heartbeat: 1,
     },
-
     initialize(options) {
       L.setOptions(this, options);
       // css

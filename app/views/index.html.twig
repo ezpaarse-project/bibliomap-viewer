@@ -3,19 +3,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
+<<<<<<< HEAD
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+=======
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+>>>>>>> 65b5a5c9ccc2edb951f552842492c29bcab8e1c7
   <link rel="icon" type="image/png" href="/public/images/favicon/cnrs.png" />
+  <link rel="stylesheet" href="/node_modules/materialize-css/dist/css/materialize.min.css" />
   <link rel="stylesheet" href="/public/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="/public/css/L.Icon.Pulse.css">
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body style='font-family:Roboto,Arial,sans-serif'>
   <!-- Map -->
   <div id="bibliomap-canvas"></div>
   <div id="outside_map"></div>
-  <label class="switch">
+  <!-- <label class="switch">
     <input type="checkbox" value="on" id="filter-button">
     <span class="slider round"></span>
-  </label>
+  </label> -->
 
   <!-- information about number of connexion -->
   <div id="legend" class="gm-style">
@@ -44,13 +50,18 @@
   </div>
 
   <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+  <script src="/node_modules/materialize-css/dist/js/materialize.min.js"></script>
   <script src="/public/leaflet/leaflet.js"></script>
   <script type="text/javascript" src="/public/js/{{ entity }}/legend.js"></script>
   <script type="text/javascript" src="/public/js/init_composant.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/public/js/drawbubble.js"></script>
+  <script type="text/javascript" src="/public/js/L.Icon.Pulse.js"></script>
   <script type="text/javascript" src="/public/js/{{ entity }}/filter.js"></script> 
+<<<<<<< HEAD
   <script type="text/javascript" src="/public/js/bubble.js"></script> 
   
+=======
+  <script type="text/javascript" src="/public/js/bubble.js"></script>
+>>>>>>> 65b5a5c9ccc2edb951f552842492c29bcab8e1c7
 </body>
 </html>
