@@ -370,7 +370,6 @@ img.logo {
 .leaflet-pulsing-icon {
   border-radius: 100%;
   box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.75);
-  cursor : url('/public/images/extend_icon.png'), auto;	
 }
 
 .leaflet-pulsing-icon:after {
@@ -423,8 +422,7 @@ img.logo {
   margin: 0%;
   border: 3px inset #2c3e50;
   cursor: url('/public/images/extend_icon.png'), auto;	
-  transition-duration: 0.5s;
-  transition-timing-function: ease;
+
 }
 #outside_map:hover {
   width: 280px;

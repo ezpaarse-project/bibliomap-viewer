@@ -20,6 +20,7 @@ function initMap() {
     minZoom: 3,
     maxZoom: 8,
     zoomControl: false,
+    
   }).setView(franceCenter, 6);
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -42,7 +43,6 @@ function initMap() {
         layer.setLatLng([layer._latlng.lat, lng]).update();
       }
     });
-  
   });
 
 
@@ -63,9 +63,7 @@ function initMap() {
   map2.on('click', () => {
     const oldZoom = map.getZoom();
     map.flyTo(map2.getCenter(), oldZoom);
-    $('#outside_map').fadeOut(100)
-    
-    
+    $('#outside_map').fadeOut(100);
   });
 }
 
@@ -102,16 +100,6 @@ function timer() {
   }, 1000);
 }
 
-function hexToRGB(hex, alpha) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-
-  if (alpha) {
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  }
-  return `rgba(${r}, ${g}, ${b})`;
-}
 
 /**
  * Init the message when you arrive on Bibliomap
@@ -139,7 +127,7 @@ function initBrand() {
     // or add /?expo=true to have the default durations
 
     // default durations when expo=true
-    let showDuration = 60000 ;
+    let showDuration = 60000;
     let hideDuration = 60000 * 15;
 
     if (typeof expo === 'string') {

@@ -20,7 +20,6 @@ function startMapOutside(lat, lng) {
  * @param {*} ec
  */
 function showInfo(ec) {
-
   const mapCenterLng = map.getCenter().lng;
   const nbMap = (Math.round((mapCenterLng / 360)));
 
