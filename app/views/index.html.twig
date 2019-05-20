@@ -3,11 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
   <link rel="icon" type="image/png" href="/public/images/favicon/cnrs.png" />
   <link rel="stylesheet" href="/public/leaflet/leaflet.css" />
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
-<body>
+<body style='font-family:Roboto,Arial,sans-serif'>
   <!-- Map -->
   <div id="bibliomap-canvas"></div>
   <div id="outside_map"></div>
@@ -50,5 +51,6 @@
   <script type="text/javascript" src="/public/js/drawbubble.js"></script>
   <script type="text/javascript" src="/public/js/{{ entity }}/filter.js"></script> 
   <script type="text/javascript" src="/public/js/bubble.js"></script> 
+  
 </body>
 </html>
