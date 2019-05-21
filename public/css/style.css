@@ -219,7 +219,7 @@ html, body, .container, #bibliomap-canvas {
 
 .threeLogos img {
   max-height: 100px;
-  max-width: 100%;
+  width: 100%;
 }
 
 .description {

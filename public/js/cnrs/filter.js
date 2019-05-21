@@ -8,13 +8,13 @@ function filter(ec) {
     let mime = '';
     if (ec.mime === 'HTML') {
       extCount.html += 1;
-      $('#extHTML').html(extCount.html);
+      $('#extHTML').html(extCount.html.toLocaleString());
       mime = 'html';
     }
 
     if (ec.mime === 'PDF') {
       extCount.pdf += 1;
-      $('#extPDF').html(extCount.pdf);
+      $('#extPDF').html(extCount.pdf.toLocaleString());
       mime = 'pdf';
     }
     ec.mime = `<span class="label label-bubble ${mime}">${ec.mime}</span>`;

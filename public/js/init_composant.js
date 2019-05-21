@@ -110,7 +110,7 @@ function initBrand() {
   const expo = getQueryVariable('expo') || getQueryVariable('e');
 
   if (!expo) {
-    $('#description').fadeIn();
+    $('.modal').modal('open');
   }
 
   if (expo) {
@@ -127,13 +127,13 @@ function initBrand() {
       hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
 
       (function displayCycle() {
-        $('#description').fadeIn();
+        $('.modal').modal('open');
         $('#description').scrollTop(0);
         setTimeout(() => {
           $('#description').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
 
           setTimeout(() => {
-            $('#description').fadeOut();
+            $('.modal').modal('close');
 
             setTimeout(displayCycle, hideDuration);
           }, showDuration / 2);
@@ -163,7 +163,7 @@ function initLegend() {
 }
 
 
-function initFilter() {
+/* function initFilter() {
   const filterBouton = document.getElementById('filter-button');
   function updateBtn() {
     if (filterBouton.value === 'on') {
@@ -174,7 +174,7 @@ function initFilter() {
     }
   }
   filterBouton.addEventListener('click', updateBtn);
-};
+}; */
 
 /**
  * Initializatton of all parts
