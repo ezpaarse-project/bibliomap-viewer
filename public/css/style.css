@@ -1,8 +1,8 @@
 html {
-  font-size: 62.5%
+  font-size: 12px;
 }
 
-html, body, #bibliomap-canvas {
+html, body, .container, #bibliomap-canvas {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -12,182 +12,120 @@ html, body, #bibliomap-canvas {
   z-index: 1;
 }
 
-img {
-  border: none;
-}
-#extHTML, #extPDF {
-  display: flex;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  flex-direction: row;
-  -webkit-flex-direction: row;
-  overflow: hidden ; 
-  text-overflow: ellipsis;
-  margin-bottom: 2px;
-  margin-top:8px;
-  white-space: nowrap;
-
-}
-#legend {
-  z-index: 2;
+#outside_map {
+  display: block;
   position: fixed;
-  top: 0px;
-  left: 0px;
-  background-color:rgb(255, 255, 255);
-  opacity: 0.9;
-  border: 2px solid #CCC;
-  padding: 0 10px;
-  width: 5%;
-  min-width: 120px;
-  max-width: 300px;
-  -webkit-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
-  box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
-  transition: all 0.5s ease; /* ease : rapide puis lent */ 
-
-}
-#legend:target > .content h4 {
-  font-size: 1em;
-  
-}
-#legend:target > .content h3 {
-  font-size: 1em;
-  
-}
-#legend:target .instituteSmall {
-  min-width: 100px;
-  
-}
-#legend:target {
-  width: 25%;
-  
-}
-#legend:target a.ouvrir{
-  display:none;
-  
-}
-#legend a.ouvrir {
-	position: absolute;
-	right: -30px;
-	top: 0px;
-
-	/* quelques styles CSS3 */
-
-
-	border-radius: 0 0 8px 8px;
-}
-#legend a.fermer {
-  display: none;
-  position: absolute;
-	right: -30px;
-	top: 0px;
-
-	/* quelques styles CSS3 */
-
-
-	border-radius: 0 0 8px 8px;
-}
-#legend a.ouvrir, #legend a.fermer {
-  padding: 5px;
-  background-color: white;
-  font-size: 2em;
-  width: 30px;
-  text-decoration: none;
-  box-shadow: 6px 1px 5px 0px rgba(0,0,0,0.2);
-
-}
-#legend:target a.fermer {
-	display: block;
-}
-#legend_clos:target > .content h4, #legend_clos:target > .content h3 {
-  font-size: 0;
-}
-#legend_clos:target .instituteSmall {
-  min-width: 60px;
-}
-#legend_clos:target #legend {
-  width: 5%;
+  top: 20px;
+  right: 45px;
+  width: 250px;
+  height: 250px;
+  z-index: 4;
+  padding: 0%;
+  margin: 0%;
+  border: 3px inset #2c3e50;
 }
 
-#legend .controls {
-  text-align: right;
-  padding: 5px 0;
+.bibliomap-collection, .bibliomap-collection-item {
+  border: none;
+  border-radius: none;
 }
 
-#legend h2, #legend h3 {
+.bibliomap-collection-item {
+  min-height: 0 !important;
+}
+
+.bibliomap-collection-item:hover {
+  background-color: rgba(200, 200, 200)
+}
+.bibliomap-clear-circle {
+  border-radius: 0;
+}
+
+.bibliomap-counter {
+  padding: 5px 8px;
+  margin-top: 9px;
+  font-size: 1.2em;
+  border-radius: 3px;
+  background-color: #9c126d;
+  color: #fff;
+  float: right;
+}
+
+.bibliomap-institut-title {
   margin-top: 5px;
-  margin-bottom: 5px;
-  font-size:0;
-}
-
-#legend h4 {
-  font-style: italic;
-  font-size: 0;
-  transition: all 0.4s ease 0.5s;
-}
-
-#legend a {
-  width: 150px;
-  text-align: center;
-  color: inherit;
-}
-#legend .desc {
-  width: 150px;
-  font-size: 1.1em;
-  font-style: italic;
-  text-align: center;
-  padding: 10px auto;
-  color: inherit;
-}
-
-#legend .logo {
-  max-width: 100px;
-  max-height: 100px;
-  margin: 5px auto;
   display: block;
 }
 
-#legend .portal-logo {
-  display: hide;
-  height: 30px;
-  vertical-align: middle;
+.bibliomap-institut-desc {
+  font-size: 10px;
 }
 
-#legend .counter {
-  vertical-align: middle;
-  min-width: 40px;
-  max-width:100px;
-  padding: 5px;
-  font-size: 1.8em;
-  text-align: center;
-  margin: auto;
-}
-#extCountHTML, #extCountPDF{
-  font-size: 1.8em;
-  text-align: center;
-  margin-right:3px;
-
-}
-#legend .ext_counter {
-  vertical-align: middle;
-  min-width: 40px;
-  max-width:100px;
-  padding: 5px;
-  font-size: 1.8em;
-  text-align: center;
-  margin: auto;
-}
-#legend .name {
-  vertical-align: middle;
-  padding: 5px;
-  min-width: 20px;
-  max-width:100px;
-  font-size: 1.6em;
-  text-align: center;
-  margin: auto;
+.bibliomap-collection a {
+  color: inherit;
 }
 
-#brand {
+.sidenav .collection {
+  margin: 5px 0 5px 0;
+}
+
+.sidenav .divider {
+  margin: 0;
+}
+
+.label {
+  margin: 3px;
+  padding: 5px 8px;
+  font-size: 1.2em;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #7f8c8d;
+  box-sizing: border-box;
+}
+
+.label-bubble {
+  font-size: 10px;
+}
+
+.rtype {
+  background-color: #16a085;
+}
+
+.html {
+  background-color: #d35400;
+}
+
+.rtypeMime {
+  padding: 0 0 3px 0;
+}
+
+.pdf {
+  background-color: #c0392b;
+}
+
+.close-side {
+  margin: 5px 0 0 -15px;
+  color: #000;
+}
+
+.open-side, .brand {
+  box-shadow: 2px 2px 2px 1px rgba(204, 204, 204, 1);
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+  color: #000;
+  background-color: #fff;
+}
+
+.open-side {
+  width: 50px;
+  height: 50px;
+}
+
+.open-side i {
+  margin-top: 13px;
+}
+
+.brand {
   z-index: 2;
   position: fixed;
   bottom: 20px;
@@ -195,45 +133,38 @@ img {
   padding: 10px 10px;
   cursor: pointer;
   text-align: center;
+  border-radius: 5px;
+  opacity: 0.7;
 }
 
-#brand a {
+.brand a {
   color: inherit;
 }
 
-#brand .main {
+.brand .main {
   font-size: 1.3em;
   font-weight: bold;
 }
 
-#brand .sub {
+.brand .sub {
   font-size: 0.9em;
 }
 
-#description {
-  z-index: 5;
-  position: absolute;
-  top: 10%;
-  left: 15%;
-  width: 70%;
-  height: 72%;
-  padding: 15px;
-  overflow: auto;
-  text-align: justify;
-  line-height: 1.4em;
+.top-side {
+  margin-bottom: 0;
+  line-height: 18px;
+  text-align: center;
 }
 
-#description a {
-  color: inherit;
+.top-side img {
+  margin: 25px 0 0 0;
 }
 
-#description .close {
-  position: absolute;
-  top: 5px;
-  right: 10px;
+.modal {
+  width: 960px
 }
 
-#description .header {
+.top-description .header {
   font-size: 2.4rem;
   font-weight: bold;
   margin: 10px 0;
@@ -245,18 +176,22 @@ img {
   -webkit-flex-direction: row;
 }
 
-#description .header .logocnrs {
+.top-description .header .logocnrs {
   max-width: 25%;
   margin-right: 10%;
 }
 
-#description .header .title {
+.top-description .header .title {
   max-width: 65%;
   align-self: center;
 }
 
-#description .header .logocnrs img {
+.top-description .header .logocnrs img {
   width: 100%;
+}
+
+.justify-align {
+  text-align: justify;
 }
 
 .logos {
@@ -287,118 +222,28 @@ img {
   max-width: 100%;
 }
 
-#brand, #description {
-  background: #FFF;
-  opacity: 0.8;
-  font-size: large;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  -moz-box-shadow: 0px 0px 10px #000000;
-  -webkit-box-shadow: 0px 0px 10px #000000;
-  box-shadow: 0px 0px 10px #000000;
+.description {
+  font-size: 1.2em;
 }
 
-img.logo {
-  display: block;
-  margin: 5px auto;
-  max-width: 100%;
-  height: 100px;
+.platformName {
+  font-weight: 600;
 }
 
-.institutesList {
-  display: flex;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  flex-direction: column;
-  -webkit-flex-direction: column;
+.leaflet-popup-content-wrapper {
+  border-radius: 5px;
 }
 
-.institute {
-  display: flex;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  flex-direction: row;
-  background-color: rgba(0, 0, 0, 0.035);
-  -webkit-flex-direction: row;
-  overflow: hidden;
-  margin-bottom: 2px;
-}
-
-.instituteSmall {
-  display: flex;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  flex-direction: column;
-  -webkit-flex-direction: column;
-  min-width: 75px;
-  margin: auto 10px;
-  transition: all 0.5s ease 0.3s;
-
-}
-.instituteLarge {
-  display: flex;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  flex-direction: column;
-  -webkit-flex-direction: column;
-  margin: auto 10px;
-}
-
-.intra {
-  display: block;
-  width: 10%;
-  margin: auto;
-  line-height: 30px;
-  font-size : 20px;
-  font-family : Roboto,Arial,sans-serif;
-}
-
-.intro {
-  display: block;
-  width: 10%;
-  margin: auto;
-  line-height: 30px;
-  font-size: 20px;
-  font-family: Roboto, Arial, sans-serif;
-}
-
-.label {
-  font-size: 10px;
-}
-
-.text-popup {
-  margin: 0;
-  padding: 0;
+.leaflet-popup-content {
   text-align: center;
-  overflow-x: hidden;
+  margin: 5px !important;
+}
+
+.publicationTitle {
+  text-align: center;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-family : Roboto,Arial,sans-serif;
-}
-
-#outside_map {
-  display: block;
-  position: fixed;
-  top: 20px;
-  right: 45px;
-  width: 250px;
-  height: 250px;
-  z-index: 4;
-  padding: 0%;
-  margin: 0%;
-  border: 3px inset #2c3e50;
-  cursor: url('/public/images/extend_icon.png'), auto;	
-
-
-}
-#outside_map:hover {
-  width: 280px;
-  height: 280px;
-  -webkit-box-shadow: 0px 0px 73px 4px rgba(84,84,84,1);
-  -moz-box-shadow: 0px 0px 73px 4px rgba(84,84,84,1);
-  box-shadow: 0px 0px 73px 4px rgba(84,84,84,1);
-
 }
 
 .leaflet-popup-tip-container {
@@ -425,69 +270,8 @@ img.logo {
 .leaflet-popup-content {
   margin: 7px 7px;
 }
+
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   background: rgba(255, 255, 255, 0.7);
-}
-
-.switch { 
-  display: block;
-  position: fixed;
-  width: 60px;
-  height: 34px;
-  top: 300px;
-  right: 45px;
-  z-index: 2;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fc4113;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #30fa6a;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #30fa6a;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-.icon-popup {
-  height: 25px;
 }

@@ -105,15 +105,7 @@ function timer() {
  * with the demo mode, it appear in a regular rhythm
  */
 function initBrand() {
-  // button "Fermer" on description
-  const description = $('#description');
-  description.find('.close').click(() => {
-    description.slideUp(description.remove);
-  });
-
-  $('#brand').click(() => { $('#description').fadeToggle(); });
-  $('#description .close').click(() => { $('#description').fadeOut(); });
-  $('#brand a').click((e) => { e.stopPropagation(); });
+  $('.modal').modal('open');
 
   const expo = getQueryVariable('expo') || getQueryVariable('e');
 
@@ -155,60 +147,21 @@ function initBrand() {
  * add evenement for button and update the DOM
  */
 function initLegend() {
-  // button "fermer" on legend
-  const legend = $('#legend');
-  legend.find('.close').click(() => {
-    legend.slideUp(legend.remove);
-  });
-
-  const content = legend.find('.content').first();
-  const currentPosition = legend.position();
-
-  // button "Réduire" on legend
-  legend.find('.reduce').click(() => {
-    if (content.is(':visible')) {
-      legend.animate({ top: '0px', left: '0px' });
-      $(this).text('Agrandir');
-    } else {
-      legend.animate(currentPosition);
-      $(this).text('Réduire');
-    }
-    content.slideToggle();
-  });
-
-  // a div to put everything away
-  const institutesList = $('<div/>').addClass('institutesList');
+  const content = $('#legend');
 
   // for each institutes
   portalsInfo.forEach((portal) => {
-    const institute = $('<div/>').addClass('institute');
-    const instituteSmall = $('<div/>').addClass('instituteSmall');
-    const instituteLarge = $('<div/>').addClass('instituteLarge');
-    institute.css('color', portal.color);
-    institute.css('border-radius', 10);
-    const title = (`<div class="name" >${(portal.fullName ? portal.fullName : portal.name)}`);
-    instituteSmall.append(title);
-
-    if (portal.logo) {
-      const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="${portal.logo}" title="${portal.name}"></a>`);
-      instituteLarge.append(link);
-    }
-    const span = $(`<span id="${portal.name}" class="counter">0</span>`);
-    instituteSmall.append(span);
-    if (portal.desc) {
-      const instituteDesc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`);
-      instituteLarge.append(instituteDesc);
-    }
-
-    institute.append(instituteSmall, instituteLarge);
-
-    portal.counter = span; // le compteur de consultations
-    institutesList.append(institute);
+    content.append(`<a href="${portal.link}" target="_blank">
+      <li class="collection-item avatar bibliomap-collection-item">  
+        <img src="${portal.logo}" class="circle bibliomap-clear-circle">
+        <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
+        <span class="title bibliomap-institut-title">${(portal.fullName ? portal.fullName : portal.name)}</span>
+        <p class="bibliomap-institut-desc">${portal.desc}</p>
+      </li>
+    </a>`);
   });
-
-  // insertion in legend
-  content.append(institutesList);
 }
+
 
 function initFilter() {
   const filterBouton = document.getElementById('filter-button');
@@ -221,15 +174,36 @@ function initFilter() {
     }
   }
   filterBouton.addEventListener('click', updateBtn);
-}
+};
 
 /**
  * Initializatton of all parts
  */
 $(document).ready(() => {
+  $('.sidenav').sidenav({
+    isFixed: false,
+    isOpen: true,
+  });
+  $('#close-side').on('click', () => {
+    $('.sidenav').sidenav('close');
+  });
+  $('#open-side').on('click', () => {
+    $('.sidenav').sidenav('open');
+  });
+
+  $('.modal').modal({
+    opacity: 0,
+  });
+  $('.modal').modal('open');
+  $('#brand').on('click', () => {
+    $('.modal').modal('open');
+  });
+
+  $('.fixed-action-btn').floatingActionButton();
+
   initMap();
   initBrand();
   initLegend();
-  initFilter();
+  // initFilter();
   timer();
 });
