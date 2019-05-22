@@ -5,10 +5,11 @@ let val = 0;
  * @param {*} lat latitude
  * @param {*} lng longitude
  */
-function startMapOutside(lat, lng) {
-  map2.setView([lat, lng]);
+function startMapOutside(latLng) {
+  map2.setView(latLng, map2.getZoom(), {
+    animation: true,
+  });
   $('#outside_map').fadeIn(1000);
-  document.querySelector('#outside_map').style.visible = 'visible';
   window.clearTimeout(val);
   val = setTimeout(() => {
     $('#outside_map').fadeOut(1000);
@@ -106,15 +107,13 @@ function showInfo(ec) {
   if (lat > north || lat < south || lng > east || lng < west) {
     // const etat = document.getElementById('filter-button');
     // if (etat.value === 'on') {
-    startMapOutside(lat, lng);
     // }
-    annimation(bubble, popup, map);
     const bubble2 = createBubble(ec, lat, lng);
     const popup2 = createPopup(ec, lat, lng);
     annimation(bubble2, popup2, map2);
-  } else {
-    annimation(bubble, popup, map);
+    startMapOutside([lat, lng]);
   }
+  annimation(bubble, popup, map);
 }
 
 function BibliomapOverlay(map) {

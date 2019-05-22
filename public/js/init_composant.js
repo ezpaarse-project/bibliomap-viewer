@@ -13,9 +13,9 @@ const extCount = {
  */
 let map = '';
 let map2 = '';
+const franceCenter = [46.3630104, 2.9846608];
 
 function initMap() {
-  const franceCenter = [46.3630104, 2.9846608];
   map = L.map('bibliomap-canvas', {
     minZoom: 3,
     maxZoom: 8,
@@ -44,7 +44,6 @@ function initMap() {
     });
   });
 
-
   map2 = L.map('outside_map', {
     minZoom: 2,
     maxZoom: 4,
@@ -62,7 +61,14 @@ function initMap() {
   map2.on('click', () => {
     const oldZoom = map.getZoom();
     map.flyTo(map2.getCenter(), oldZoom);
-    $('#outside_map').fadeOut(100);
+    $('#outside_map').fadeOut(1000);
+  });
+}
+
+function initMenu() {
+  $('#zoom2').click(() => {
+    const oldZoom = map.getZoom();
+    map.flyTo(franceCenter, oldZoom);
   });
 }
 
@@ -230,6 +236,7 @@ $(document).ready(() => {
   initMap();
   initBrand();
   initLegend();
-  initFilter();
+  // initFilter();
   timer();
+  initMenu();
 });
