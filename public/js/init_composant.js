@@ -7,7 +7,7 @@ const extCount = {
   pdf: 0,
   html: 0,
 };
-
+// eslint-disable-next-line no-unused-vars
 let displayOutsideMap = true;
 let disabledInstitutes = [];
 /**
