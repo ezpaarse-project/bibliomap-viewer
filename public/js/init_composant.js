@@ -111,20 +111,13 @@ function timer() {
  * with the demo mode, it appear in a regular rhythm
  */
 function initBrand() {
-  // button "Fermer" on description
-  const description = $('#description');
-  description.find('.close').click(() => {
-    description.slideUp(description.remove);
+  $('.modal').modal({
+    opacity: 0,
   });
-
-  $('#brand').click(() => { $('#description').fadeToggle(); });
-  $('#description .close').click(() => { $('#description').fadeOut(); });
-  $('#brand a').click((e) => { e.stopPropagation(); });
-
+  $('.fixed-action-btn').floatingActionButton();
   const expo = getQueryVariable('expo') || getQueryVariable('e');
-
   if (!expo) {
-    $('#description').fadeIn();
+    $('.modal').modal('open');
   }
 
   if (expo) {
@@ -141,13 +134,13 @@ function initBrand() {
       hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
 
       (function displayCycle() {
-        $('#description').fadeIn();
+        $('.modal').modal('open');
         $('#description').scrollTop(0);
         setTimeout(() => {
           $('#description').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
 
           setTimeout(() => {
-            $('#description').fadeOut();
+            $('.modal').modal('close');
 
             setTimeout(displayCycle, hideDuration);
           }, showDuration / 2);
@@ -155,6 +148,9 @@ function initBrand() {
       }());
     }
   }
+  $('#brand').on('click', () => {
+    $('.modal').modal('open');
+  });
 }
 
 /**
@@ -173,6 +169,16 @@ function initLegend() {
         <p class="bibliomap-institut-desc">${portal.desc}</p>
       </li>
     </a>`);
+  });
+  $('.sidenav').sidenav({
+    isFixed: false,
+    isOpen: true,
+  });
+  $('#close-side').on('click', () => {
+    $('.sidenav').sidenav('close');
+  });
+  $('#open-side').on('click', () => {
+    $('.sidenav').sidenav('open');
   });
 }
 
