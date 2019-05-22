@@ -5,13 +5,14 @@ let val = 0;
  * @param {*} lat latitude
  * @param {*} lng longitude
  */
-function startMapOutside(lat, lng) {
-  map2.setView([lat, lng]);
-  $('#outside_map').fadeIn(1000);
-  document.querySelector('#outside_map').style.visible = 'visible';
+function startMapOutside(latLng) {
+  map2.setView(latLng, map2.getZoom(), {
+    animation: true,
+  });
+  $('#outside-map').addClass('fadeIn');
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside_map').fadeOut(1000);
+    $('#outside-map').removeClass('fadeIn');
   }, 6000);
 }
 
@@ -24,7 +25,6 @@ function startMapOutside(lat, lng) {
 function annimation(bubble, popup, map) {
   map.addLayer(bubble);
   popup.openOn(map);
-  bubble._icon.style.display = 'none';
   $(bubble._icon).fadeIn(1000);
 
   setTimeout(() => {
@@ -110,50 +110,39 @@ function showInfo(ec) {
   const west = bounds.getWest();
 
   if (lat > north || lat < south || lng > east || lng < west) {
-    // const etat = document.getElementById('filter-button');
-    // if (etat.value === 'on') {
-    startMapOutside(lat, lng);
-    // }
-    annimation(bubble, popup, map);
-    const bubble2 = createBubble(ec, lat, lng);
-    const popup2 = createPopup(ec, lat, lng);
-    annimation(bubble2, popup2, map2);
-  } else {
-    annimation(bubble, popup, map);
+    if (displayOutsideMap) {
+      const bubble2 = createBubble(ec, lat, lng);
+      const popup2 = createPopup(ec, lat, lng);
+      annimation(bubble2, popup2, map2);
+      startMapOutside([lat, lng]);
+    }
   }
-}
-
-function BibliomapOverlay(map) {
-  this.ezpaarseEC = {};
-  this.nbEC = 0;
-  this.setMap(map);
+  annimation(bubble, popup, map);
 }
 
 $(document).ready(() => {
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
-    if (BibliomapOverlay) {
-      BibliomapOverlay.addEzpaarseEC(ec);
+    if (ec) {
+      // ignore not geolocalized EC
+      if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
+
+      const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
+      if (match) {
+        ec.ezproxyName = match[1];
+      }
+
+      const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+      if (isDisabled) return;
+
+      filter(ec);
+      showInfo(ec);
+      // update legend
+      const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
+      if (portal) {
+        portal.count += 1;
+        $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
+      }
     }
   });
-
-  /**
-   * fonction who draw circles
-   */
-  BibliomapOverlay.addEzpaarseEC = (ec) => {
-    // ignore not geolocalized EC
-    if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
-    const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
-    if (match) {
-      ec.ezproxyName = match[1];
-    }
-    filter(ec);
-    showInfo(ec);
-    // update legend
-    const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
-    if (portal) {
-      portal.count += 1;
-      $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
-    }
-  };
 });

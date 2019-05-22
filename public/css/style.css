@@ -12,7 +12,7 @@ html, body, .container, #bibliomap-canvas {
   z-index: 1;
 }
 
-#outside_map {
+.outside-map {
   display: block;
   position: fixed;
   top: 20px;
@@ -23,6 +23,11 @@ html, body, .container, #bibliomap-canvas {
   padding: 0%;
   margin: 0%;
   border: 3px inset #2c3e50;
+  visibility: hidden;
+}
+
+.fadeIn {
+  visibility: visible;
 }
 
 .bibliomap-collection, .bibliomap-collection-item {
@@ -274,4 +279,10 @@ html, body, .container, #bibliomap-canvas {
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   background: rgba(255, 255, 255, 0.7);
+}
+
+.menu-option {
+  vertical-align: center;
+  margin: 20px 10px;
+  font-size: 1.5em;
 }

@@ -7,6 +7,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/biologie/',
     desc: 'Biologie',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INC',
@@ -15,6 +17,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/chimie/',
     desc: 'Chimie',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INEE',
@@ -23,6 +27,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/ecologie/',
     desc: 'Ecologie & Environnement',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INSHS',
@@ -31,6 +37,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/homme/',
     desc: 'Homme & Société',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INSIS',
@@ -39,6 +47,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/ingenierie/',
     desc: 'Ingénierie & Systèmes',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INSMI',
@@ -47,6 +57,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/mathematiques/',
     desc: 'Mathématiques',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'IN2P3',
@@ -55,6 +67,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/nucleaire/',
     desc: 'Nucléaire & Particules',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INP',
@@ -63,6 +77,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/physique/',
     desc: 'Physique',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INS2I',
@@ -71,6 +87,8 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/information/',
     desc: "Sciences de l'information",
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'INSU',
@@ -79,5 +97,7 @@ const portalsInfo = [
     link: 'https://bib.cnrs.fr/category/terre/',
     desc: 'Terre & Univers',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
 ];

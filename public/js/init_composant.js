@@ -8,14 +8,16 @@ const extCount = {
   html: 0,
 };
 
+let displayOutsideMap = true;
+let disabledInstitutes = [];
 /**
  * Init the background map and the outside map
  */
 let map = '';
 let map2 = '';
+const franceCenter = [46.3630104, 2.9846608];
 
 function initMap() {
-  const franceCenter = [46.3630104, 2.9846608];
   map = L.map('bibliomap-canvas', {
     minZoom: 3,
     maxZoom: 8,
@@ -44,14 +46,12 @@ function initMap() {
     });
   });
 
-
-  map2 = L.map('outside_map', {
+  map2 = L.map('outside-map', {
     minZoom: 2,
     maxZoom: 4,
     doubleClickZoom: false,
     zoomControl: false,
   }).setView([0, 0], 4);
-  document.getElementById('outside_map').style.display = 'none';
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
 
@@ -62,7 +62,14 @@ function initMap() {
   map2.on('click', () => {
     const oldZoom = map.getZoom();
     map.flyTo(map2.getCenter(), oldZoom);
-    $('#outside_map').fadeOut(100);
+    $('#outside-map').removeClass('fadeIn');
+  });
+}
+
+function initMenu() {
+  $('#zoom2').click(() => {
+    const oldZoom = map.getZoom();
+    map.flyTo(franceCenter, oldZoom);
   });
 }
 
@@ -105,12 +112,12 @@ function timer() {
  * with the demo mode, it appear in a regular rhythm
  */
 function initBrand() {
-  $('.modal').modal('open');
-
+  $('.modal').modal({
+    opacity: 0,
+  });
   const expo = getQueryVariable('expo') || getQueryVariable('e');
-
   if (!expo) {
-    $('.modal').modal('open');
+    $('#description').modal('open');
   }
 
   if (expo) {
@@ -127,7 +134,7 @@ function initBrand() {
       hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
 
       (function displayCycle() {
-        $('.modal').modal('open');
+        $('#description').modal('open');
         $('#description').scrollTop(0);
         setTimeout(() => {
           $('#description').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
@@ -141,6 +148,9 @@ function initBrand() {
       }());
     }
   }
+  $('#brand').on('click', () => {
+    $('#description').modal('open');
+  });
 }
 
 /**
@@ -151,35 +161,51 @@ function initLegend() {
 
   // for each institutes
   portalsInfo.forEach((portal) => {
-    content.append(`<a href="${portal.link}" target="_blank">
-      <li class="collection-item avatar bibliomap-collection-item">  
+    content.append(`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="HTML : ${portal.html} | PDF : ${portal.pdf}" target="_blank">
+      <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">  
         <img src="${portal.logo}" class="circle bibliomap-clear-circle">
         <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
         <span class="title bibliomap-institut-title">${(portal.fullName ? portal.fullName : portal.name)}</span>
         <p class="bibliomap-institut-desc">${portal.desc}</p>
       </li>
     </a>`);
+
+    $('#disabled').append(`
+    <div class="col s6">
+      <label>
+        <input id="${portal.name}-switch" type="checkbox" checked="checked" />
+        <span>${portal.name}</span>
+      </label>
+    </div>`);
+
+    $(`#${portal.name}-switch`).on('change', (el) => {
+      const isDisabled = disabledInstitutes.find(institut => institut === portal.name);
+      if (el.currentTarget.checked) {
+        if (isDisabled) {
+          disabledInstitutes = disabledInstitutes.filter(institut => institut !== portal.name);
+          $(`#${portal.name}-legend`).css('display', 'block');
+        }
+      }
+
+      if (!el.currentTarget.checked) {
+        if (!isDisabled) {
+          disabledInstitutes.push(portal.name);
+          $(`#${portal.name}-legend`).css('display', 'none');
+          portal.count = 0;
+          $(`#${portal.name}-counter`).html(portal.count);
+
+          extCount.html -= portal.html;
+          $('#extHTML').html(extCount.html.toLocaleString());
+          portal.html = 0;
+
+          extCount.pdf -= portal.pdf;
+          $('#extPDF').html(extCount.pdf.toLocaleString());
+          portal.pdf = 0;
+        }
+      }
+    });
   });
-}
 
-
-/* function initFilter() {
-  const filterBouton = document.getElementById('filter-button');
-  function updateBtn() {
-    if (filterBouton.value === 'on') {
-      filterBouton.value = 'off';
-      $('#outside_map').fadeOut(1000);
-    } else {
-      filterBouton.value = 'on';
-    }
-  }
-  filterBouton.addEventListener('click', updateBtn);
-}; */
-
-/**
- * Initializatton of all parts
- */
-$(document).ready(() => {
   $('.sidenav').sidenav({
     isFixed: false,
     isOpen: true,
@@ -190,23 +216,46 @@ $(document).ready(() => {
   $('#open-side').on('click', () => {
     $('.sidenav').sidenav('open');
   });
+}
 
-  $('.modal').modal({
-    opacity: 0,
-  });
-  $('.modal').modal('open');
-  $('#brand').on('click', () => {
-    $('.modal').modal('open');
-  });
+// function initFilter() {
+//   const filterBouton = document.getElementById('filter-button');
+//   function updateBtn() {
+//     if (filterBouton.value === 'on') {
+//       filterBouton.value = 'off';
+//       $('#outside-map').fadeOut(1000);
+//     } else {
+//       filterBouton.value = 'on';
+//     }
+//   }
+//   filterBouton.addEventListener('click', updateBtn);
+// }
 
-  $('.fixed-action-btn').floatingActionButton({
-    direction: 'top',
-    hoverEnabled: false,
-  });
-
+/**
+ * Initializatton of all parts
+ */
+$(document).ready(() => {
   initMap();
   initBrand();
   initLegend();
   // initFilter();
   timer();
+  initMenu();
+  $('.fixed-action-btn').floatingActionButton({
+    hoverEnabled: false,
+    direction: 'top',
+  });
+  $('#center').on('click', () => {
+    map.flyTo(franceCenter, 6);
+  });
+  $('.tooltipped').tooltip();
+  $('select').formSelect();
+  $('#outside-map-switch').on('change', (el) => {
+    if (el.currentTarget.checked) {
+      displayOutsideMap = true;
+    } else {
+      displayOutsideMap = false;
+      $('#outside-map').removeClass('fadeIn');
+    }
+  });
 });
