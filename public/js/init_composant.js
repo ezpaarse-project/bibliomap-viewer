@@ -199,7 +199,10 @@ $(document).ready(() => {
     $('.modal').modal('open');
   });
 
-  $('.fixed-action-btn').floatingActionButton();
+  $('.fixed-action-btn').floatingActionButton({
+    direction: 'top',
+    hoverEnabled: false,
+  });
 
   initMap();
   initBrand();

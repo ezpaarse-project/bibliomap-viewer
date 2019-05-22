@@ -129,7 +129,7 @@ html, body, .container, #bibliomap-canvas {
   z-index: 2;
   position: fixed;
   bottom: 20px;
-  right: 40px;
+  right: 100px;
   padding: 10px 10px;
   cursor: pointer;
   text-align: center;
