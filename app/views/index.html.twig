@@ -4,41 +4,160 @@
 	<meta charset="UTF-8">
 	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" type="image/png" href="/public/images/favicon/cnrs.png" />
   <link rel="stylesheet" href="/node_modules/materialize-css/dist/css/materialize.min.css" />
   <link rel="stylesheet" href="/public/leaflet/leaflet.css" />
   <link rel="stylesheet" href="/public/css/L.Icon.Pulse.css">
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
-<body style='font-family:Roboto,Arial,sans-serif'>
+
+  <a href="#" id="open-side" class="open-side">
+    <i class="material-icons">menu</i>
+  </a>  
+  
   <!-- Map -->
   <div id="bibliomap-canvas"></div>
   <div id="outside_map"></div>
 
-  <!-- information about number of connexion -->
-  <div id="legend" class="gm-style">
-    <div class="content">
-      <a href="#legend" class="ouvrir"> &rsaquo; </a>
-      <a href="#legend_clos" class="fermer"> &lsaquo; </a>
-      {% include entity ~ "/legend.html.twig" %}
-      <h3 id="Timer">0j 0h 0m 0s</h3>
-    </div>
-    {% block counter %}{% endblock %}
-    <div class="controls">
-      <a class="close" href="javascript:void(0)">Fermer</a> - 
-      <a class="reduce" href="javascript:void(0)">Réduire</a>
-    </div>
-  </div>
+<ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="row top-side">
+        <div class="col s3">
+          <img src="/public/images/logo-cnrs.svg" alt="Logo CNRS" width="66px">
+        </div>
+        <div class="col s8">
+          <p>
+            <strong>
+              Consultations en direct des articles de plusieurs milliers de revues scientifiques électroniques disponibles en texte intégral ainsi que des bases de données.
+            </strong>
+          </p>
+        </div>
+        <div class="col s1">
+          <a href="#">
+            <i class="material-icons close-side" id="close-side">close</i>
+          </a>
+        </div>
+      </div>      
+    </li>
+    <li><div class="divider"></div></li>
+    <li>
+      <ul class="collection bibliomap-collection">
+        <li class="collection-item center-align"> 
+          <span class="label html">
+            <strong>HTML</strong> : <span id="extHTML">0</span>
+          </span>
+          <span class="label pdf">
+            <strong>PDF</strong> : <span id="extPDF">0</span>
+          </span>
+        </li>
+      </ul>
+    </li>
+    <li><div class="divider"></div></li>
+    <li>
+      <ul class="collection bibliomap-collection" id="legend"></ul>
+    </li>
+    <li><div class="divider"></div></li>
+    <li class="center-align">
+      <div class="chip" id="Timer">0j 0h 0m 0s</div>         
+    </li>
+  </ul>
 
-  <div id="description">
-    <a href="javascript:void(0)" class="close">Fermer</a>
-    {% include entity ~ "/descr.html.twig" %}
-  </div>
-
-  <!-- informations about version and ezPAARRSE -->
-  <div id="brand">
-    <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> 4.2.2</div>
+  <div id="brand" class="brand">
+    <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> {{ version }}</div>
     <div class="sub">Connecté à <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
+  </div>
+  
+  <div id="description" class="modal">
+    <div class="modal-content description">
+      <div class="row">
+        <div class="col s12">
+          <div class="top-description">
+            <div class="header">
+              <div class="logocnrs">
+                <a href="http://www.cnrs.fr/" target="_blank">
+                  <img src="/public/images/logocnrs.png" alt="CNRS">
+                </a>
+              </div>
+              <div class="title">
+                “La recherche ne s'arrête jamais”
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12">
+          <p class="justify-align">
+            <strong>BiblioMap</strong> reflète les consultations en direct des
+            membres du <a href="http://www.cnrs.fr/fr/organisme/presentation.htm" target="_blank">CNRS</a> des
+            ressources numériques via le portail <a href="https://bib.cnrs.fr" target="_blank">bibCNRS</a>.
+            Cet outil numérique mis à leur disposition permet d’accéder au texte intégral des articles de
+            plusieurs milliers de revues scientifiques électroniques et à des bases de données bibliographiques.
+          </p>
+
+          <p class="justify-align">La recherche bibliographique ne représente qu’une petite partie du travail de la recherche, et pourtant BiblioMap vous montre qu’elle ne s’arrête jamais.</p>
+        
+          <a href="https://bib.cnrs.fr" target="_blank">
+            <img class="logo" src="/public/images/bibCnrs.png" alt="bibCNRS" width="100%">
+          </a>
+
+          <p class="justify-align">Les plateformes des portails d’accès spécialisés sont gérées par l'<a href="http://www.inist.fr" target="_blank">Inist-CNRS</a>.</p>
+        </div>
+
+        <div class="col s6 center-align">
+          <a href="http://ezpaarse.couperin.org" target="_blank"> 
+            <img src="/public/images/logo-ezpaarse.png" alt="ezPAARSE">
+          </a>
+        </div>
+
+        <div class="col s6 center-align">
+          <a href="http://analogist.couperin.org" target="_blank">
+            <img src="/public/images/logo-analogist.png" alt="analogIST">
+          </a>
+        </div>
+
+        <div class="col s12">
+          <p class="justify-align">
+            Les visualisations disponibles dans
+            <a href="https://github.com/ezpaarse-project/bibliomap" target="_blank">BiblioMap</a>
+            sont rendues possible par l’utilisation d’<a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a>,
+            un <a href="https://github.com/ezpaarse-project/ezpaarse" target="_blank">logiciel libre</a> développé
+            conjointement par <a href="http://www.couperin.org/presentation" target="_blank">COUPERIN</a>,
+            l'<a href="http://www.inist.fr" target="_blank">INIST-CNRS</a>
+            et l’<a href="http://www.univ-lorraine.fr/" target="_blank">Université de Lorraine</a> comme site pilote.
+            <a href="http://analogist.couperin.org/" target="_blank">AnalogIST</a> est le portail collaboratif de
+            l’Enseignement Supérieur et Recherche dédié à la problématique de la mesure des usages des ressources
+            électroniques.
+            Les développements associés à cette collaboration sont disponibles sous forme de logiciel libre au
+            sein d’<a href="https://github.com/ezpaarse-project/" target="_blank">ezPAARSE-project</a>.
+          </p>
+          <p class="justify-align">Remarque : la localisation des consultations apparaissant sur la carte est volontairement approximative.</p>
+        </div>
+
+        <div class="col s12">
+          <div class="logos">
+            <div class="threeLogos">
+              <a href="http://www.couperin.org/" target="_blank">
+                <img src="/public/images/logo-couperin.jpg" alt="COUPERIN">
+              </a>
+            </div>
+            <div class="threeLogos">
+              <a href="http://www.cnrs.fr/" target="_blank">
+                <img src="/public/images/logo-cnrs.svg" alt="CNRS">
+              </a>
+            </div>
+            <div class="threeLogos">
+              <a href="http://www.univ-lorraine.fr/" target="_blank">
+                <img src="/public/images/logo-universite-de-lorraine.png" alt="Université de Lorraine">
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Fermer</a>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>

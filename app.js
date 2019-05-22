@@ -9,6 +9,7 @@ const app = express();
 const httpServer = require('http').Server(app);
 const io = require('socket.io')(httpServer);
 const config = require('./config.js');
+const pkg = require('./package.json');
 
 const enricherCfg = config.listen['bibliomap-enricher'];
 // list of connected websockets
@@ -61,7 +62,7 @@ app.use(express.static(__dirname));
 app.get('/', (req, res) => {
   const entity = process.env.BBV_INDEX || 'cnrs';
   res.header('X-UA-Compatible', 'IE=edge');
-  return res.render('index.html.twig', { entity });
+  return res.render('index.html.twig', { entity, version: pkg.version });
 });
 
 app.use((req, res, next) => {

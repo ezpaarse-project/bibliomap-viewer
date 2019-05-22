@@ -67,16 +67,22 @@ function createBubble(ec, lat, lng) {
  * @param {*} lng
  */
 function createPopup(ec, lat, lng) {
+  const platformName = `<div class="leaflet-popup-content platformName">${ec.platform_name}</div>`;
+  const rtypeMime = `<div class="rtypeMime">${(ec.rtype || '')} ${(ec.mime || '')}</div>`;
+  // const publicationTitle =
+  // `<div class="leaflet-popup-content publicationTitle">${(ec.publication_title || '')}</div>`;
+
+  const popupContent = `${ec.platform_name ? platformName : ''}${(ec.rtype || ec.mime) ? rtypeMime : ''}`;
+  // ${ec.publication_title ? publicationTitle : ''}
+
   const popup = L.popup({
     closeOnClick: false,
     autoClose: false,
     autoPan: false,
-    maxWidth: 100,
+    minWidth: 80,
+    maxWidth: 150,
     closeButton: false,
-  }).setLatLng([lat - 0.2, lng]).setContent(`
-    <div class='text-popup'><strong>${ec.platform_name}</strong></div> 
-    <div class='text-popup'> ${(ec.rtype || '')} ${(ec.mime || '')} ${(ec.publication_title || '')}</div>
-  `);
+  }).setLatLng([lat - 0.2, lng]).setContent(popupContent);
   popup.origin = {
     lat: lat - 0.2,
     lng,
@@ -146,9 +152,7 @@ $(document).ready(() => {
     const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
     if (portal) {
       portal.count += 1;
-      if (portal.counter) {
-        portal.counter.text(portal.count.toLocaleString());
-      }
+      $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
     }
   };
 });
