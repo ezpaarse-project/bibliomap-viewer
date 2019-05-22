@@ -44,13 +44,12 @@ function initMap() {
     });
   });
 
-  map2 = L.map('outside_map', {
+  map2 = L.map('outside-map', {
     minZoom: 2,
     maxZoom: 4,
     doubleClickZoom: false,
     zoomControl: false,
   }).setView([0, 0], 4);
-  document.getElementById('outside_map').style.display = 'none';
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
 
@@ -61,7 +60,7 @@ function initMap() {
   map2.on('click', () => {
     const oldZoom = map.getZoom();
     map.flyTo(map2.getCenter(), oldZoom);
-    $('#outside_map').fadeOut(1000);
+    $('#outside-map').removeClass('fadeIn');
   });
 }
 
@@ -187,7 +186,7 @@ function initLegend() {
 //   function updateBtn() {
 //     if (filterBouton.value === 'on') {
 //       filterBouton.value = 'off';
-//       $('#outside_map').fadeOut(1000);
+//       $('#outside-map').fadeOut(1000);
 //     } else {
 //       filterBouton.value = 'on';
 //     }

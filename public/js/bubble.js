@@ -9,10 +9,10 @@ function startMapOutside(latLng) {
   map2.setView(latLng, map2.getZoom(), {
     animation: true,
   });
-  $('#outside_map').fadeIn(1000);
+  $('#outside-map').addClass('fadeIn');
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside_map').fadeOut(1000);
+    $('#outside-map').removeClass('fadeIn');
   }, 6000);
 }
 
@@ -25,7 +25,6 @@ function startMapOutside(latLng) {
 function annimation(bubble, popup, map) {
   map.addLayer(bubble);
   popup.openOn(map);
-  bubble._icon.style.display = 'none';
   $(bubble._icon).fadeIn(1000);
 
   setTimeout(() => {
