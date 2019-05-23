@@ -4,7 +4,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 function filter(ec) {
-  if (ec.mime) {
+  if (ec && ec.mime) {
     let mime = '';
     if (ec.mime === 'HTML') {
       extCount.html += 1;
@@ -20,7 +20,7 @@ function filter(ec) {
     ec.mime = `<span class="label label-bubble ${mime}">${ec.mime}</span>`;
   }
 
-  if (ec.rtype) {
+  if (ec && ec.rtype) {
     ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
   }
 }

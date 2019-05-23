@@ -17,46 +17,48 @@ function startMapOutside(latLng) {
 }
 
 /**
- * animation the bubble and the popup on en map enter in param
- * @param {*} bubble
+ * animation the marker and the popup on en map enter in param
+ * @param {*} marker
  * @param {*} popup
  * @param {*} map
  */
-function annimation(bubble, popup, map) {
-  map.addLayer(bubble);
+function animation(marker, popup, map) {
+  map.addLayer(marker);
   popup.openOn(map);
-  $(bubble._icon).fadeIn(1000);
+  $(marker._icon).fadeIn(1000);
 
   setTimeout(() => {
+    $(marker._icon).fadeOut(1000);
     map.removeLayer(popup);
-    $(bubble._icon).fadeOut(1000);
+    popup = undefined;
   }, 5000);
 
   setTimeout(() => {
-    map.removeLayer(bubble);
+    map.removeLayer(marker);
+    marker = undefined;
   }, 6000);
 }
 
 /**
- * create a object bubble with ec and position
+ * create a object marker with ec and position
  * @param {*} ec
  * @param {*} lat
  * @param {*} lng
  */
-function createBubble(ec, lat, lng) {
-  const colorBubble = portalsInfo.find(portal => portal.name === ec.ezproxyName);
-  // draw bubble
+function createMarker(ec, lat, lng) {
+  const colormarker = portalsInfo.find(portal => portal.name === ec.ezproxyName);
+  // draw marker
   const pulsingIcon = L.icon.pulse({
     iconSize: [60, 60],
-    color: colorBubble.color,
-    fillColor: colorBubble.color,
+    color: colormarker.color,
+    fillColor: colormarker.color,
   });
-  const bubble = L.marker([lat, lng], { icon: pulsingIcon });
-  bubble.origin = {
+  const marker = L.marker([lat, lng], { icon: pulsingIcon });
+  marker.origin = {
     lat,
     lng,
   };
-  return bubble;
+  return marker;
 }
 
 /**
@@ -90,17 +92,17 @@ function createPopup(ec, lat, lng) {
 }
 
 /**
- * place the puldateIcon and information bubble on map
+ * place the puldateIcon and information marker on map
  * @param {*} ec
  */
 function showInfo(ec) {
   const mapCenterLng = map.getCenter().lng;
-  const nbMap = (Math.round((mapCenterLng / 360)));
+  const nbMap = Math.round((mapCenterLng / 360));
 
   const lng = ec['geoip-longitude'] + (nbMap * 360);
   const lat = ec['geoip-latitude'];
 
-  const bubble = createBubble(ec, lat, lng);
+  const marker = createMarker(ec, lat, lng);
   const popup = createPopup(ec, lat, lng);
 
   const bounds = map.getBounds();
@@ -113,45 +115,36 @@ function showInfo(ec) {
     // const etat = document.getElementById('filter-button');
     // if (etat.value === 'on') {
     // }
-    const bubble2 = createBubble(ec, lat, lng);
-    const popup2 = createPopup(ec, lat, lng);
-    annimation(bubble2, popup2, map2);
+    const markerOutside = createMarker(ec, lat, lng);
+    const popupOutside = createPopup(ec, lat, lng);
+    animation(markerOutside, popupOutside, map2);
     startMapOutside([lat, lng]);
   }
-  annimation(bubble, popup, map);
-}
-
-function BibliomapOverlay(map) {
-  this.ezpaarseEC = {};
-  this.nbEC = 0;
-  this.setMap(map);
+  animation(marker, popup, map);
 }
 
 $(document).ready(() => {
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
-    if (BibliomapOverlay) {
-      BibliomapOverlay.addEzpaarseEC(ec);
+    if (ec) {
+      // ignore not geolocalized EC
+      if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
+
+      const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
+      if (match) {
+        ec.ezproxyName = match[1];
+      }
+
+      filter(ec);
+      showInfo(ec);
+
+      // update legend
+      const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
+      if (portal) {
+        portal.count += 1;
+        $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
+      }
+      ec = undefined;
     }
   });
-
-  /**
-   * fonction who draw circles
-   */
-  BibliomapOverlay.addEzpaarseEC = (ec) => {
-    // ignore not geolocalized EC
-    if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
-    const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
-    if (match) {
-      ec.ezproxyName = match[1];
-    }
-    filter(ec);
-    showInfo(ec);
-    // update legend
-    const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
-    if (portal) {
-      portal.count += 1;
-      $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
-    }
-  };
 });
