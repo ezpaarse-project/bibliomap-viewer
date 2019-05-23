@@ -184,6 +184,11 @@ function initLegend() {
         if (isDisabled) {
           disabledInstitutes = disabledInstitutes.filter(institut => institut !== portal.name);
           $(`#${portal.name}-legend`).css('display', 'block');
+          extCount.html += portal.html;
+          $('#extHTML').html(extCount.html.toLocaleString());
+
+          extCount.pdf += portal.pdf;
+          $('#extPDF').html(extCount.pdf.toLocaleString());
         }
       }
 
@@ -191,16 +196,13 @@ function initLegend() {
         if (!isDisabled) {
           disabledInstitutes.push(portal.name);
           $(`#${portal.name}-legend`).css('display', 'none');
-          portal.count = 0;
           $(`#${portal.name}-counter`).html(portal.count);
 
           extCount.html -= portal.html;
           $('#extHTML').html(extCount.html.toLocaleString());
-          portal.html = 0;
 
           extCount.pdf -= portal.pdf;
           $('#extPDF').html(extCount.pdf.toLocaleString());
-          portal.pdf = 0;
         }
       }
     });
@@ -257,5 +259,19 @@ $(document).ready(() => {
       displayOutsideMap = false;
       $('#outside-map').removeClass('fadeIn');
     }
+  });
+  $('#institute-all').on('click', () => {
+    portalsInfo.forEach((portal) => {
+      console.log($(`#${portal.name}-switch`));
+      $(`#${portal.name}-switch`).prop('checked', true);
+      $(`#${portal.name}-switch`).trigger('change');
+    });
+  });
+  $('#institute-none').on('click', () => {
+    portalsInfo.forEach((portal) => {
+      console.log($(`#${portal.name}-switch`));
+      $(`#${portal.name}-switch`).prop('checked', false);
+      $(`#${portal.name}-switch`).trigger('change');
+    });
   });
 });

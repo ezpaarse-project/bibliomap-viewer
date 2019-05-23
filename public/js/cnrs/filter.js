@@ -8,17 +8,22 @@ function filter(ec) {
 
   if (ec && ec.mime) {
     let mime = '';
+    const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
     if (ec.mime === 'HTML') {
+      if (!isDisabled) {
+        extCount.html += 1;
+        $('#extHTML').html(extCount.html.toLocaleString());
+      }
       portal.html += 1;
-      extCount.html += 1;
-      $('#extHTML').html(extCount.html.toLocaleString());
       mime = 'html';
     }
 
     if (ec.mime === 'PDF') {
+      if (!isDisabled) {
+        extCount.pdf += 1;
+        $('#extPDF').html(extCount.pdf.toLocaleString());
+      }
       portal.pdf += 1;
-      extCount.pdf += 1;
-      $('#extPDF').html(extCount.pdf.toLocaleString());
       mime = 'pdf';
     }
     ec.mime = `<span class="label label-bubble ${mime}">${ec.mime}</span>`;
