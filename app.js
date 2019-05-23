@@ -57,7 +57,7 @@ server.listen(enricherCfg.port, enricherCfg.host, () => {
  */
 httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliomap-viewer'].host);
 
-app.set('views', `${__dirname}/app/views`);
+app.set('views', `${__dirname}/themes`);
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
   const entity = process.env.BBV_INDEX || 'cnrs';

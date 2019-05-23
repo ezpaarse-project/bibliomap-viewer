@@ -9,10 +9,13 @@ function startMapOutside(latLng) {
   map2.setView(latLng, map2.getZoom(), {
     animation: true,
   });
-  $('#outside-map').addClass('fadeIn');
+  $('#outside-map').addClass('show').addClass('fadeIn');
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside-map').removeClass('fadeIn');
+    $('#outside-map').addClass('fadeOut');
+    setTimeout(() => {
+      $('#outside-map').addClass('hide');
+    }, 1000);
   }, 6000);
 }
 
@@ -112,13 +115,12 @@ function showInfo(ec) {
   const west = bounds.getWest();
 
   if (lat > north || lat < south || lng > east || lng < west) {
-    // const etat = document.getElementById('filter-button');
-    // if (etat.value === 'on') {
-    // }
-    const markerOutside = createMarker(ec, lat, lng);
-    const popupOutside = createPopup(ec, lat, lng);
-    animation(markerOutside, popupOutside, map2);
-    startMapOutside([lat, lng]);
+    if (displayOutsideMap) {
+      const marker2 = createMarker(ec, lat, lng);
+      const popup2 = createPopup(ec, lat, lng);
+      animation(marker2, popup2, map2);
+      startMapOutside([lat, lng]);
+    }
   }
   animation(marker, popup, map);
 }
@@ -135,16 +137,17 @@ $(document).ready(() => {
         ec.ezproxyName = match[1];
       }
 
+      const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+      if (isDisabled) return;
+
       filter(ec);
       showInfo(ec);
-
       // update legend
       const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
       if (portal) {
         portal.count += 1;
         $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
       }
-      ec = undefined;
     }
   });
 });

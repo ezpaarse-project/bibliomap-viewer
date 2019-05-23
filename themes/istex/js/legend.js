@@ -5,15 +5,21 @@ const portalsInfo = [
     fullName: 'FOUILLE DE TEXTE',
     color: '#62ae25',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'DOCUMENTAIRE',
     color: '#007e94',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
   {
     name: 'OTHER',
     color: '#9c126d',
     count: 0,
+    html: 0,
+    pdf: 0,
   },
 ];

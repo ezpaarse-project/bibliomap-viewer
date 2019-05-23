@@ -8,7 +8,6 @@
 	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="/public/images/favicon/cnrs.png" />
   <link rel="stylesheet" href="/node_modules/materialize-css/dist/css/materialize.min.css" />
   <link rel="stylesheet" href="/public/leaflet/leaflet.css" />
   <link rel="stylesheet" href="/public/css/L.Icon.Pulse.css">
@@ -16,18 +15,18 @@
 </head>
 
   <a href="#" id="open-side" class="open-side">
-    <i class="material-icons">menu</i>
+    <i class="material-icons">keyboard_arrow_right</i>
   </a>  
   
   <!-- Map -->
   <div id="bibliomap-canvas"></div>
   <div id="outside-map" class="outside-map"></div>
 
-<ul id="slide-out" class="sidenav sidenav-fixed">
+  <ul id="slide-out" class="sidenav sidenav-fixed">
     <li>
       <div class="row top-side">
         <div class="col s3">
-          <img src="/public/images/logo-cnrs.svg" alt="Logo CNRS" width="66px">
+          <img src="/themes/{{ entity }}/images/logo-cnrs.svg" alt="Logo CNRS" width="66px">
         </div>
         <div class="col s8">
           <p>
@@ -71,7 +70,43 @@
     <div class="sub">Connecté à <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
   </div>
   
-  <div id="description" class="modal">
+  <div class="fixed-action-btn">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons">menu</i>
+    </a>
+    <ul>
+      <li id="center"><a class="btn-floating blue tooltipped" data-position="left" data-tooltip="Recentrer sur la France"><i class="material-icons">gps_fixed</i></a></li>
+      <li><a class="btn-floating grey darken-3 tooltipped modal-trigger" href="#modal-settings" data-position="left" data-tooltip="Paramètres"><i class="material-icons">settings</i></a></li>    </ul>
+  </div>
+    <div id="modal-settings" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Paramètres :</h4>
+      <div class="divider"></div>
+      <div class="row menu-option">
+        <div class="col s2">
+          <div class="switch">
+          <label>
+            Off
+            <input value="off" id="outside-map-switch" type="checkbox" checked autocomplete="off">
+            <span class="lever"></span>
+            On
+          </label>
+          </div>
+        </div>
+        <div class="col s10">
+          Afficher la minimap
+        </div>
+      </div>
+      <div class="divider"></div>
+      <h5>Institus à afficher :</h5>
+      <div id="disabled" class="row menu-option"></div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Fermer</a>
+    </div>
+  </div>
+      
+  <div id="description" class="modal modal-fixed-footer">
     <div class="modal-content description">
       <div class="row">
         <div class="col s12">
@@ -79,7 +114,7 @@
             <div class="header">
               <div class="logocnrs">
                 <a href="http://www.cnrs.fr/" target="_blank">
-                  <img src="/public/images/logocnrs.png" alt="CNRS">
+                  <img src="/themes/{{ entity }}/images/logocnrs.png" alt="CNRS">
                 </a>
               </div>
               <div class="title">
@@ -101,7 +136,7 @@
           <p class="justify-align">La recherche bibliographique ne représente qu’une petite partie du travail de la recherche, et pourtant BiblioMap vous montre qu’elle ne s’arrête jamais.</p>
         
           <a href="https://bib.cnrs.fr" target="_blank">
-            <img class="logo" src="/public/images/bibCnrs.png" alt="bibCNRS" width="100%">
+            <img class="logo" src="/themes/{{ entity }}/images/bibCnrs.png" alt="bibCNRS" width="100%">
           </a>
 
           <p class="justify-align">Les plateformes des portails d’accès spécialisés sont gérées par l'<a href="http://www.inist.fr" target="_blank">Inist-CNRS</a>.</p>
@@ -109,13 +144,13 @@
 
         <div class="col s6 center-align">
           <a href="http://ezpaarse.couperin.org" target="_blank"> 
-            <img src="/public/images/logo-ezpaarse.png" alt="ezPAARSE">
+            <img src="/themes/{{ entity }}/images/logo-ezpaarse.png" alt="ezPAARSE">
           </a>
         </div>
 
         <div class="col s6 center-align">
           <a href="http://analogist.couperin.org" target="_blank">
-            <img src="/public/images/logo-analogist.png" alt="analogIST">
+            <img src="/themes/{{ entity }}/images/logo-analogist.png" alt="analogIST">
           </a>
         </div>
 
@@ -141,17 +176,17 @@
           <div class="logos">
             <div class="threeLogos">
               <a href="http://www.couperin.org/" target="_blank">
-                <img src="/public/images/logo-couperin.jpg" alt="COUPERIN">
+                <img src="/themes/{{ entity }}/images/logo-couperin.jpg" alt="COUPERIN">
               </a>
             </div>
             <div class="threeLogos">
               <a href="http://www.cnrs.fr/" target="_blank">
-                <img src="/public/images/logo-cnrs.svg" alt="CNRS">
+                <img src="/themes/{{ entity }}/images/logo-cnrs.svg" alt="CNRS">
               </a>
             </div>
             <div class="threeLogos">
               <a href="http://www.univ-lorraine.fr/" target="_blank">
-                <img src="/public/images/logo-universite-de-lorraine.png" alt="Université de Lorraine">
+                <img src="/themes/{{ entity }}/images/logo-universite-de-lorraine.png" alt="Université de Lorraine">
                 </a>
             </div>
           </div>
@@ -166,11 +201,11 @@
   <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
   <script src="/node_modules/materialize-css/dist/js/materialize.min.js"></script>
   <script src="/public/leaflet/leaflet.js"></script>
-  <script type="text/javascript" src="/public/js/{{ entity }}/legend.js"></script>
+  <script type="text/javascript" src="/themes/{{ entity }}/js/legend.js"></script>
   <script type="text/javascript" src="/public/js/init_composant.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/public/js/L.Icon.Pulse.js"></script>
-  <script type="text/javascript" src="/public/js/{{ entity }}/filter.js"></script> 
+  <script type="text/javascript" src="/themes/{{ entity }}/js/filter.js"></script> 
   <script type="text/javascript" src="/public/js/bubble.js"></script> 
   
 </body>

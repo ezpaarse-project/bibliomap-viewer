@@ -26,7 +26,7 @@ html, body, .container, #bibliomap-canvas {
   visibility: hidden;
 }
 
-.fadeIn {
+.fadeIn{  
   visibility: visible;
 }
 
@@ -134,7 +134,7 @@ html, body, .container, #bibliomap-canvas {
   z-index: 2;
   position: fixed;
   bottom: 20px;
-  right: 40px;
+  right: 100px;
   padding: 10px 10px;
   cursor: pointer;
   text-align: center;
@@ -279,4 +279,10 @@ html, body, .container, #bibliomap-canvas {
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   background: rgba(255, 255, 255, 0.7);
+}
+
+.menu-option {
+  vertical-align: center;
+  margin: 20px 10px;
+  font-size: 1.5em;
 }
