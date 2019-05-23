@@ -99,6 +99,8 @@ function createPopup(ec, lat, lng) {
  * @param {*} ec
  */
 function showInfo(ec) {
+  const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+  if (isDisabled) { return; }
   const mapCenterLng = map.getCenter().lng;
   const nbMap = Math.round((mapCenterLng / 360));
 
@@ -137,8 +139,6 @@ $(document).ready(() => {
         ec.ezproxyName = match[1];
       }
 
-      const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
-      if (isDisabled) return;
 
       filter(ec);
       showInfo(ec);
