@@ -135,9 +135,9 @@ function initBrand() {
 
       (function displayCycle() {
         $('#description').modal('open');
-        $('#description').scrollTop(0);
+        $('#description-content').scrollTop(0);
         setTimeout(() => {
-          $('#description').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
+          $('#description-content').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
 
           setTimeout(() => {
             $('.modal').modal('close');
