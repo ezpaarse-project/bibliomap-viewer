@@ -68,12 +68,11 @@ function createBubble(ec, lat, lng) {
 function createPopup(ec, lat, lng) {
   const platformName = `<div class="leaflet-popup-content platformName">${ec.platform_name}</div>`;
   const rtypeMime = `<div class="rtypeMime">${(ec.rtype || '')} ${(ec.mime || '')}</div>`;
-  // const publicationTitle =
-  // `<div class="leaflet-popup-content publicationTitle">${(ec.publication_title || '')}</div>`;
-
-  const popupContent = `${ec.platform_name ? platformName : ''}${(ec.rtype || ec.mime) ? rtypeMime : ''}`;
-  // ${ec.publication_title ? publicationTitle : ''}
-
+  const publicationTitle = `<div class="leaflet-popup-content publicationTitle">${(ec.publication_title || '')}</div>`;
+  let popupContent = `${ec.platform_name ? platformName : ''}${(ec.rtype || ec.mime) ? rtypeMime : ''}`;
+  if (showTitles) {
+    popupContent = `${popupContent}${ec.publication_title ? publicationTitle : ''}`;
+  }
   const popup = L.popup({
     closeOnClick: false,
     autoClose: false,

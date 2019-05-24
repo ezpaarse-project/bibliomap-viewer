@@ -9,6 +9,8 @@ const extCount = {
 };
 // eslint-disable-next-line no-unused-vars
 let displayOutsideMap = true;
+// eslint-disable-next-line no-unused-vars
+let showTitles = false;
 let disabledInstitutes = [];
 /**
  * Init the background map and the outside map
@@ -258,6 +260,13 @@ $(document).ready(() => {
     } else {
       displayOutsideMap = false;
       $('#outside-map').removeClass('fadeIn');
+    }
+  });
+  $('#show-titles').on('change', (el) => {
+    if (el.currentTarget.checked) {
+      showTitles = true;
+    } else {
+      showTitles = false;
     }
   });
   $('#institute-all').on('click', () => {
