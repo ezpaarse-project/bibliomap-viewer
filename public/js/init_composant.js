@@ -16,7 +16,7 @@ let disabledInstitutes = [];
  * Init the background map and the outside map
  */
 let map = '';
-let map2 = '';
+let outsideMap = '';
 const franceCenter = [46.3630104, 2.9846608];
 const urlMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -49,22 +49,22 @@ function initMap() {
     });
   });
 
-  map2 = L.map('outside-map', {
+  outsideMap = L.map('outside-map', {
     minZoom: 2,
     maxZoom: 4,
     doubleClickZoom: false,
     zoomControl: false,
   }).setView([0, 0], 4);
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(outsideMap);
 
   L.control.zoom({
     position: 'topleft',
-  }).addTo(map2);
+  }).addTo(outsideMap);
 
-  map2.on('click', () => {
+  outsideMap.on('click', () => {
     const oldZoom = map.getZoom();
-    map.flyTo(map2.getCenter(), oldZoom);
+    map.flyTo(outsideMap.getCenter(), oldZoom);
     $('#outside-map').removeClass('fadeIn');
   });
 }
@@ -101,7 +101,6 @@ function timer() {
     time += 1;
   }, 1000);
 }
-
 
 /**
  * Init the message when you arrive on Bibliomap
@@ -177,30 +176,26 @@ function initLegend() {
     // update legend with filter
     $(`#${portal.name}-switch`).on('change', (el) => {
       const isDisabled = disabledInstitutes.find(institut => institut === portal.name);
-      if (el.currentTarget.checked) {
-        if (isDisabled) {
-          disabledInstitutes = disabledInstitutes.filter(institut => institut !== portal.name);
-          $(`#${portal.name}-legend`).css('display', 'block');
-          extCount.html += portal.html;
-          $('#extHTML').html(extCount.html.toLocaleString());
+      if (el.currentTarget.checked && isDisabled) {
+        disabledInstitutes = disabledInstitutes.filter(institut => institut !== portal.name);
+        $(`#${portal.name}-legend`).css('display', 'block');
+        extCount.html += portal.html;
+        $('#extHTML').html(extCount.html.toLocaleString());
 
-          extCount.pdf += portal.pdf;
-          $('#extPDF').html(extCount.pdf.toLocaleString());
-        }
+        extCount.pdf += portal.pdf;
+        $('#extPDF').html(extCount.pdf.toLocaleString());
       }
 
-      if (!el.currentTarget.checked) {
-        if (!isDisabled) {
-          disabledInstitutes.push(portal.name);
-          $(`#${portal.name}-legend`).css('display', 'none');
-          $(`#${portal.name}-counter`).html(portal.count);
+      if (!el.currentTarget.checked && !isDisabled) {
+        disabledInstitutes.push(portal.name);
+        $(`#${portal.name}-legend`).css('display', 'none');
+        $(`#${portal.name}-counter`).html(portal.count);
 
-          extCount.html -= portal.html;
-          $('#extHTML').html(extCount.html.toLocaleString());
+        extCount.html -= portal.html;
+        $('#extHTML').html(extCount.html.toLocaleString());
 
-          extCount.pdf -= portal.pdf;
-          $('#extPDF').html(extCount.pdf.toLocaleString());
-        }
+        extCount.pdf -= portal.pdf;
+        $('#extPDF').html(extCount.pdf.toLocaleString());
       }
     });
   });
@@ -249,14 +244,12 @@ function initMenu() {
   });
   $('#institute-all').on('click', () => {
     portalsInfo.forEach((portal) => {
-      console.log($(`#${portal.name}-switch`));
       $(`#${portal.name}-switch`).prop('checked', true);
       $(`#${portal.name}-switch`).trigger('change');
     });
   });
   $('#institute-none').on('click', () => {
     portalsInfo.forEach((portal) => {
-      console.log($(`#${portal.name}-switch`));
       $(`#${portal.name}-switch`).prop('checked', false);
       $(`#${portal.name}-switch`).trigger('change');
     });
