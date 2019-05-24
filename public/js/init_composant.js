@@ -163,7 +163,7 @@ function initLegend() {
   portalsInfo.forEach((portal) => {
     content.append(`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="HTML : ${portal.html} | PDF : ${portal.pdf}" target="_blank">
       <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">  
-        <img src="${portal.logo}" class="circle bibliomap-clear-circle">
+        <img src="${portal.logo}" class="circle bibliomap-clear-circle" >
         <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
         <span class="title bibliomap-institut-title">${(portal.fullName ? portal.fullName : portal.name)}</span>
         <p class="bibliomap-institut-desc">${portal.desc}</p>
