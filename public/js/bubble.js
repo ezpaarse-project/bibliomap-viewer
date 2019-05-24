@@ -9,54 +9,62 @@ function startMapOutside(latLng) {
   map2.setView(latLng, map2.getZoom(), {
     animation: true,
   });
-  $('#outside-map').addClass('fadeIn');
+  $('#outside-map').css('visibility', 'visible');
+  $('#outside-map').removeClass('bounceOutRight');
+  $('#outside-map').addClass('bounceInDown');
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside-map').removeClass('fadeIn');
+    $('#outside-map').addClass('bounceOutRight');
+    setTimeout(() => {
+      $('#outside-map').css('visibility', 'hidden');
+      $('#outside-map').removeClass('bounceInDown');
+    }, 1000);
   }, 6000);
 }
 
 /**
- * animation the bubble and the popup on en map enter in param
- * @param {*} bubble
+ * animation the marker and the popup on en map enter in param
+ * @param {*} marker
  * @param {*} popup
  * @param {*} map
  */
-function annimation(bubble, popup, map) {
-  map.addLayer(bubble);
+function animation(marker, popup, map) {
+  map.addLayer(marker);
   popup.openOn(map);
-  $(bubble._icon).fadeIn(1000);
+  $(marker._icon).fadeIn(1000);
 
   setTimeout(() => {
+    $(marker._icon).fadeOut(1000);
     map.removeLayer(popup);
-    $(bubble._icon).fadeOut(1000);
+    popup = undefined;
   }, 5000);
 
   setTimeout(() => {
-    map.removeLayer(bubble);
+    map.removeLayer(marker);
+    marker = undefined;
   }, 6000);
 }
 
 /**
- * create a object bubble with ec and position
+ * create a object marker with ec and position
  * @param {*} ec
  * @param {*} lat
  * @param {*} lng
  */
-function createBubble(ec, lat, lng) {
-  const colorBubble = portalsInfo.find(portal => portal.name === ec.ezproxyName);
-  // draw bubble
+function createMarker(ec, lat, lng) {
+  const colormarker = portalsInfo.find(portal => portal.name === ec.ezproxyName);
+  // draw marker
   const pulsingIcon = L.icon.pulse({
     iconSize: [60, 60],
-    color: colorBubble.color,
-    fillColor: colorBubble.color,
+    color: colormarker.color,
+    fillColor: colormarker.color,
   });
-  const bubble = L.marker([lat, lng], { icon: pulsingIcon });
-  bubble.origin = {
+  const marker = L.marker([lat, lng], { icon: pulsingIcon });
+  marker.origin = {
     lat,
     lng,
   };
-  return bubble;
+  return marker;
 }
 
 /**
@@ -89,19 +97,19 @@ function createPopup(ec, lat, lng) {
 }
 
 /**
- * place the puldateIcon and information bubble on map
+ * place the puldateIcon and information marker on map
  * @param {*} ec
  */
 function showInfo(ec) {
   const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
   if (isDisabled) { return; }
   const mapCenterLng = map.getCenter().lng;
-  const nbMap = (Math.round((mapCenterLng / 360)));
+  const nbMap = Math.round((mapCenterLng / 360));
 
   const lng = ec['geoip-longitude'] + (nbMap * 360);
   const lat = ec['geoip-latitude'];
 
-  const bubble = createBubble(ec, lat, lng);
+  const marker = createMarker(ec, lat, lng);
   const popup = createPopup(ec, lat, lng);
 
   const bounds = map.getBounds();
@@ -112,13 +120,13 @@ function showInfo(ec) {
 
   if (lat > north || lat < south || lng > east || lng < west) {
     if (displayOutsideMap) {
-      const bubble2 = createBubble(ec, lat, lng);
+      const marker2 = createMarker(ec, lat, lng);
       const popup2 = createPopup(ec, lat, lng);
-      annimation(bubble2, popup2, map2);
+      animation(marker2, popup2, map2);
       startMapOutside([lat, lng]);
     }
   }
-  annimation(bubble, popup, map);
+  animation(marker, popup, map);
 }
 
 $(document).ready(() => {

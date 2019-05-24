@@ -18,6 +18,7 @@ let disabledInstitutes = [];
 let map = '';
 let map2 = '';
 const franceCenter = [46.3630104, 2.9846608];
+const urlMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 function initMap() {
   map = L.map('bibliomap-canvas', {
@@ -26,7 +27,7 @@ function initMap() {
     zoomControl: false,
   }).setView(franceCenter, 6);
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  L.tileLayer(urlMap, {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
@@ -65,13 +66,6 @@ function initMap() {
     const oldZoom = map.getZoom();
     map.flyTo(map2.getCenter(), oldZoom);
     $('#outside-map').removeClass('fadeIn');
-  });
-}
-
-function initMenu() {
-  $('#zoom2').click(() => {
-    const oldZoom = map.getZoom();
-    map.flyTo(franceCenter, oldZoom);
   });
 }
 
@@ -163,12 +157,12 @@ function initLegend() {
 
   // for each institutes
   portalsInfo.forEach((portal) => {
-    content.append(`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="HTML : ${portal.html} | PDF : ${portal.pdf}" target="_blank">
+    content.append(`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="" target="_blank">
       <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">  
         <img src="${portal.logo}" class="circle bibliomap-clear-circle" >
         <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
         <span class="title bibliomap-institut-title">${(portal.fullName ? portal.fullName : portal.name)}</span>
-        <p class="bibliomap-institut-desc">${portal.desc}</p>
+        <p class="bibliomap-institut-desc">${portal.desc || portal.name}</p>
       </li>
     </a>`);
 
@@ -180,6 +174,7 @@ function initLegend() {
       </label>
     </div>`);
 
+    // update legend with filter
     $(`#${portal.name}-switch`).on('change', (el) => {
       const isDisabled = disabledInstitutes.find(institut => institut === portal.name);
       if (el.currentTarget.checked) {
@@ -222,29 +217,12 @@ function initLegend() {
   });
 }
 
-// function initFilter() {
-//   const filterBouton = document.getElementById('filter-button');
-//   function updateBtn() {
-//     if (filterBouton.value === 'on') {
-//       filterBouton.value = 'off';
-//       $('#outside-map').fadeOut(1000);
-//     } else {
-//       filterBouton.value = 'on';
-//     }
-//   }
-//   filterBouton.addEventListener('click', updateBtn);
-// }
 
-/**
- * Initializatton of all parts
- */
-$(document).ready(() => {
-  initMap();
-  initBrand();
-  initLegend();
-  // initFilter();
-  timer();
-  initMenu();
+function initMenu() {
+  $('#zoom2').click(() => {
+    const oldZoom = map.getZoom();
+    map.flyTo(franceCenter, oldZoom);
+  });
   $('.fixed-action-btn').floatingActionButton({
     hoverEnabled: false,
     direction: 'top',
@@ -283,4 +261,15 @@ $(document).ready(() => {
       $(`#${portal.name}-switch`).trigger('change');
     });
   });
+}
+
+/**
+ * Initializatton of all parts
+ */
+$(document).ready(() => {
+  initMap();
+  initBrand();
+  initLegend();
+  initMenu();
+  timer();
 });

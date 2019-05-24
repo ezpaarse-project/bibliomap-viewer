@@ -1,0 +1,22 @@
+{% extends "../layout.html.twig" %}
+
+{% block legendDescription %}
+Une archive des articles de plusieurs milliers de revues scientifiques électroniques disponibles en texte intégral.
+{% endblock %}
+
+{% block description %}
+ <div class="row">
+    <div class="col s6">
+      <a href="http://www.istex.fr/" target="_blank">
+                <img src="/themes/{{ entity }}/images/logocnrs.png" alt="CNRS">
+            </a>
+    </div>
+    <div class="col s6">
+      <a href="http://www.istex.fr/" target="_blank">
+                <img src="/themes/{{ entity }}/images/logo.svg" alt="ISTEX" width="100%">
+            </a>
+    </div>
+    <div class="col s12"><strong>BiblioMap </strong> reflète les consultations en direct des membres de l’ESR (Enseignement Supérieur et de la Recherche) des ressources numériques via la plateforme ISTEX. Cet outil numérique mis à leur disposition permet <strong>d’accéder au texte intégral</strong> de <strong>plusieurs millions d’articles</strong> de revues, livres, corpus de textes appartenant à des <strong>collections rétrospectives</strong> de la littérature scientifique dans toutes les disciplines. Un second type d’accès dans le cadre des services ou usages d’<strong>ISTEX</strong> apporte une autre visualisation et est identifié en tant que accès <strong>DM (Text and Data Mining)</strong>.
+    </div>
+  </div>
+{% endblock %}

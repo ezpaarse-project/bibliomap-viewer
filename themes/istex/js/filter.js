@@ -23,5 +23,11 @@ function filter(ec) {
     } else {
       ec.ezproxyName = 'OTHER';
     }
+    if (ec.mime) {
+      ec.mime = `<span class="label label-bubble">${ec.mime}</span>`;
+    }
+    if (ec.rtype) {
+      ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
+    }
   }
 }

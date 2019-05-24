@@ -3,7 +3,7 @@ const portalsInfo = [
   {
     name: 'INSB',
     color: '#9c126d',
-    logo: '/public/images/bibcnrs-logo-biologie.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-biologie.png',
     link: 'https://bib.cnrs.fr/category/biologie/',
     desc: 'Biologie',
     count: 0,
@@ -13,7 +13,7 @@ const portalsInfo = [
   {
     name: 'INC',
     color: '#007e94',
-    logo: '/public/images/bibcnrs-logo-chimie.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-chimie.png',
     link: 'https://bib.cnrs.fr/category/chimie/',
     desc: 'Chimie',
     count: 0,
@@ -23,7 +23,7 @@ const portalsInfo = [
   {
     name: 'INEE',
     color: '#62ae25',
-    logo: '/public/images/bibcnrs-logo-ecologie.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-ecologie.png',
     link: 'https://bib.cnrs.fr/category/ecologie/',
     desc: 'Ecologie & Environnement',
     count: 0,
@@ -33,7 +33,7 @@ const portalsInfo = [
   {
     name: 'INSHS',
     color: '#820e12',
-    logo: '/public/images/bibcnrs-logo-homme.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-homme.png',
     link: 'https://bib.cnrs.fr/category/homme/',
     desc: 'Homme & Société',
     count: 0,
@@ -43,7 +43,7 @@ const portalsInfo = [
   {
     name: 'INSIS',
     color: '#d4002d',
-    logo: '/public/images/bibcnrs-logo-ingenierie.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-ingenierie.png',
     link: 'https://bib.cnrs.fr/category/ingenierie/',
     desc: 'Ingénierie & Systèmes',
     count: 0,
@@ -53,7 +53,7 @@ const portalsInfo = [
   {
     name: 'INSMI',
     color: '#547d3d',
-    logo: '/public/images/bibcnrs-logo-mathematiques.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-mathematiques.png',
     link: 'https://bib.cnrs.fr/category/mathematiques/',
     desc: 'Mathématiques',
     count: 0,
@@ -63,7 +63,7 @@ const portalsInfo = [
   {
     name: 'IN2P3',
     color: '#e75113',
-    logo: '/public/images/bibcnrs-logo-nucleaire.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-nucleaire.png',
     link: 'https://bib.cnrs.fr/category/nucleaire/',
     desc: 'Nucléaire & Particules',
     count: 0,
@@ -73,7 +73,7 @@ const portalsInfo = [
   {
     name: 'INP',
     color: '#004494',
-    logo: '/public/images/bibcnrs-logo-physique.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-physique.png',
     link: 'https://bib.cnrs.fr/category/physique/',
     desc: 'Physique',
     count: 0,
@@ -83,7 +83,7 @@ const portalsInfo = [
   {
     name: 'INS2I',
     color: '#562a84',
-    logo: '/public/images/bibcnrs-logo-information.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-information.png',
     link: 'https://bib.cnrs.fr/category/information/',
     desc: "Sciences de l'information",
     count: 0,
@@ -93,7 +93,7 @@ const portalsInfo = [
   {
     name: 'INSU',
     color: '#cc2381',
-    logo: '/public/images/bibcnrs-logo-terre.png',
+    logo: '/themes/cnrs/images/bibcnrs-logo-terre.png',
     link: 'https://bib.cnrs.fr/category/terre/',
     desc: 'Terre & Univers',
     count: 0,
