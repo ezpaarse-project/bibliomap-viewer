@@ -1,3 +1,4 @@
+// if you don't have image for portals, keep the circle by default
 // eslint-disable-next-line no-unused-vars
 const portalsInfo = [
   {

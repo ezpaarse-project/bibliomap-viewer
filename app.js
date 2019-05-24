@@ -62,13 +62,7 @@ app.use(express.static(__dirname));
 app.get('/', (req, res) => {
   const entity = process.env.BBV_INDEX || 'cnrs';
   res.header('X-UA-Compatible', 'IE=edge');
-  return res.render('index.html.twig', { entity, version: pkg.version });
-});
-
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  return res.render(`${entity}/index.html.twig`, { entity, version: pkg.version });
 });
 
 io.on('connection', (client) => {

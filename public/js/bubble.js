@@ -9,12 +9,15 @@ function startMapOutside(latLng) {
   map2.setView(latLng, map2.getZoom(), {
     animation: true,
   });
-  $('#outside-map').addClass('show').addClass('fadeIn');
+  $('#outside-map').css('visibility', 'visible');
+  $('#outside-map').removeClass('bounceOutRight');
+  $('#outside-map').addClass('bounceInDown');
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside-map').addClass('fadeOut');
+    $('#outside-map').addClass('bounceOutRight');
     setTimeout(() => {
-      $('#outside-map').addClass('hide');
+      $('#outside-map').css('visibility', 'hidden');
+      $('#outside-map').removeClass('bounceInDown');
     }, 1000);
   }, 6000);
 }
