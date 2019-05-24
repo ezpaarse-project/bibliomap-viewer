@@ -87,7 +87,7 @@ function createPopup(ec, lat, lng) {
     autoClose: false,
     autoPan: false,
     minWidth: 80,
-    maxWidth: 150,
+    maxWidth: 200,
     closeButton: false,
   }).setLatLng([lat - 0.2, lng]).setContent(popupContent);
   popup.origin = {
