@@ -155,12 +155,20 @@ function initLegend() {
 
   // for each institutes
   portalsInfo.forEach((portal) => {
-    content.append(`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="" target="_blank">
-      <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">  
-        <img src="${portal.logo}" class="circle bibliomap-clear-circle" >
+    let portalLogo = (`<img src="${portal.logo}" class="circle bibliomap-clear-circle"></img>`);
+    if (!portal.logo) {
+      portalLogo = (`<div class = "logoDefault" style = "background-color: ${portal.color}"></div>`);
+    }
+    let portalLink = (`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="" target="_blank">`);
+    if (!portal.link) {
+      portalLink = (`<a id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="">`);
+    }
+    content.append(`${portalLink}
+      <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item"> 
+        ${portalLogo}
         <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
-        <span class="title bibliomap-institut-title">${(portal.fullName ? portal.fullName : portal.name)}</span>
-        <p class="bibliomap-institut-desc">${portal.desc || portal.name}</p>
+        <span class="title bibliomap-institut-title">${(portal.name)}</span>
+        <p class="bibliomap-institut-desc">${portal.desc || ''}</p>
       </li>
     </a>`);
 

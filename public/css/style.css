@@ -105,6 +105,7 @@ html, body, .container, #bibliomap-canvas {
 
 .bibliomap-institut-desc {
   font-size: 10px;
+  height: 10px;
 }
 
 .bibliomap-collection a {
@@ -243,8 +244,14 @@ html, body, .container, #bibliomap-canvas {
 
 .logoDefault{
   border-radius: 50%;
-  height: 42px;
+  position: absolute;
   width: 42px;
+  height: 42px;
+  overflow: hidden;
+  left: 15px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.5rem;
 }
 
 .logos {
