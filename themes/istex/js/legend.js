@@ -3,7 +3,7 @@
 const portalsInfo = [
   {
     name: 'TDM',
-    fullName: 'FOUILLE DE TEXTE',
+    desc: 'Fouille de texte',
     color: '#62ae25',
     count: 0,
     html: 0,
