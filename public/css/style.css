@@ -293,7 +293,8 @@ html, body, .container, #bibliomap-canvas {
 }
 
 .publicationTitle {
-  font-weight: 300;
+  font-size: 1em;
+  font-weight: 450;
   text-align: center;
 }
 
