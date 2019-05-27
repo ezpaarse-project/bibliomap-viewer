@@ -16,12 +16,11 @@ function filter(ec) {
   ];
   ec.ezproxyName = 'OTHER';
   if (ec.sid) {
-    if ($.inArray(ec.sid, tdm) !== -1) {
+    if (tdm.includes(ec.sid)) {
       ec.ezproxyName = 'TDM';
-    } else if ($.inArray(ec.sid, documentaire) !== -1) {
+    }
+    if (documentaire.includes(ec.sid)) {
       ec.ezproxyName = 'DOCUMENTAIRE';
-    } else {
-      ec.ezproxyName = 'OTHER';
     }
     if (ec.mime) {
       ec.mime = `<span class="label label-bubble">${ec.mime}</span>`;

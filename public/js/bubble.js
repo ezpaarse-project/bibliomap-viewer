@@ -6,19 +6,14 @@ let val = 0;
  * @param {*} lng longitude
  */
 function startMapOutside(latLng) {
-  map2.setView(latLng, map2.getZoom(), {
+  outsideMap.setView(latLng, outsideMap.getZoom(), {
     animation: true,
   });
-  $('#outside-map').css('visibility', 'visible');
-  $('#outside-map').removeClass('bounceOutRight');
-  $('#outside-map').addClass('bounceInDown');
+  $('#outside-map').css('visibility', 'visible').removeClass('bounceOutRight').addClass('bounceInDown');
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside-map').addClass('bounceOutRight');
-    setTimeout(() => {
-      $('#outside-map').css('visibility', 'hidden');
-      $('#outside-map').removeClass('bounceInDown');
-    }, 1000);
+    $('#outside-map').addClass('bounceOutRight').delay(1000).css('visibility', 'hidden')
+      .removeClass('bounceInDown');
   }, 6000);
 }
 
@@ -31,18 +26,10 @@ function startMapOutside(latLng) {
 function animation(marker, popup, map) {
   map.addLayer(marker);
   popup.openOn(map);
-  $(marker._icon).fadeIn(1000);
-
-  setTimeout(() => {
-    $(marker._icon).fadeOut(1000);
+  $(marker._icon).fadeIn(1000).delay(5000).fadeOut(1000, () => {
     map.removeLayer(popup);
-    popup = undefined;
-  }, 5000);
-
-  setTimeout(() => {
     map.removeLayer(marker);
-    marker = undefined;
-  }, 6000);
+  });
 }
 
 /**
@@ -76,12 +63,11 @@ function createMarker(ec, lat, lng) {
 function createPopup(ec, lat, lng) {
   const platformName = `<div class="leaflet-popup-content platformName">${ec.platform_name}</div>`;
   const rtypeMime = `<div class="rtypeMime">${(ec.rtype || '')} ${(ec.mime || '')}</div>`;
-  // const publicationTitle =
-  // `<div class="leaflet-popup-content publicationTitle">${(ec.publication_title || '')}</div>`;
-
-  const popupContent = `${ec.platform_name ? platformName : ''}${(ec.rtype || ec.mime) ? rtypeMime : ''}`;
-  // ${ec.publication_title ? publicationTitle : ''}
-
+  const publicationTitle = `<div class="leaflet-popup-content publicationTitle">${(ec.publication_title || '')}</div>`;
+  let popupContent = `${ec.platform_name ? platformName : ''}${(ec.rtype || ec.mime) ? rtypeMime : ''}`;
+  if (showTitles) {
+    popupContent = `${popupContent}${ec.publication_title ? publicationTitle : ''}`;
+  }
   const popup = L.popup({
     closeOnClick: false,
     autoClose: false,
@@ -121,9 +107,9 @@ function showInfo(ec) {
 
   if (lat > north || lat < south || lng > east || lng < west) {
     if (displayOutsideMap) {
-      const marker2 = createMarker(ec, lat, lng);
-      const popup2 = createPopup(ec, lat, lng);
-      animation(marker2, popup2, map2);
+      const markerOutside = createMarker(ec, lat, lng);
+      const popupOutside = createPopup(ec, lat, lng);
+      animation(markerOutside, popupOutside, outsideMap);
       startMapOutside([lat, lng]);
     }
   }
@@ -133,24 +119,20 @@ function showInfo(ec) {
 $(document).ready(() => {
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
-    if (ec) {
-      // ignore not geolocalized EC
-      if (!ec['geoip-latitude'] || !ec['geoip-longitude']) return;
+    // ignore not geolocalized EC
+    if (!ec || !ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
 
-      const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
-      if (match) {
-        ec.ezproxyName = match[1];
-      }
-
-
-      filter(ec);
-      showInfo(ec);
-      // update legend
-      const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
-      if (portal) {
-        portal.count += 1;
-        $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
-      }
+    const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
+    if (match) {
+      ec.ezproxyName = match[1];
+    }
+    filter(ec);
+    showInfo(ec);
+    // update legend
+    const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
+    if (portal) {
+      portal.count += 1;
+      $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
     }
   });
 });
