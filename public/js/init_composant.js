@@ -15,6 +15,8 @@ let disabledInstitutes = [];
 /**
  * Init the background map and the outside map
  */
+// eslint-disable-next-line prefer-const
+let Editors = {};
 let map = '';
 let outsideMap = '';
 const franceCenter = [46.3630104, 2.9846608];
@@ -260,6 +262,14 @@ function initMenu() {
       $(`#${portal.name}-switch`).prop('checked', false);
       $(`#${portal.name}-switch`).trigger('change');
     });
+  });
+  $('.chips-autocomplete').chips({
+    placeholder: 'éditeur(s)',
+    autocompleteOptions: {
+      data: Editors,
+      limit: Infinity,
+      minLength: 1,
+    },
   });
 }
 

@@ -90,7 +90,21 @@ function createMarker(portal, ec, latLng) {
  * @param {*} ec
  */
 function showInfo(ec, portal) {
-  const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+  const enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
+  let isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+  // eslint-disable-next-line no-prototype-builtins
+  if (!Editors.hasOwnProperty(ec.platform_name)) {
+    // adding new editors to autocomplete
+    Editors[ec.platform_name] = null;
+  }
+  if (enabledEditors.length) {
+    // showing bubbles only if the editors are picked in the editor chip
+    // if the chip is empty : shows all editors
+    isDisabled = true;
+    enabledEditors.forEach((el) => {
+      if (ec.platform_name.toLowerCase().includes(el.tag.toLowerCase())) { isDisabled = false; }
+    });
+  }
   if (isDisabled) { return; }
 
   const mapCenterLng = map.getCenter().lng;
