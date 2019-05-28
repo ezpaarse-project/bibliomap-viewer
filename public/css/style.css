@@ -105,7 +105,8 @@ html, body, .container, #bibliomap-canvas {
 
 .bibliomap-institut-desc {
   font-size: 10px;
-  height: 10px;
+  height: 20px;
+  font-weight: 600;
 }
 
 .bibliomap-collection a {
@@ -290,6 +291,23 @@ html, body, .container, #bibliomap-canvas {
   font-weight: 600;
 }
 
+.menu-option {
+  vertical-align: center;
+  margin: 20px 10px;
+  font-size: 1.5em;
+}
+
+.bibliomap-pulse {
+  background-color: #c0392b;
+}
+
+.bibliomap-pulse:after {
+  box-shadow: 0 0 6px 2px #c0392b;
+  animation: pulsate 1s ease-out;
+  animation-iteration-count: infinite;
+  animation-delay: 1s;
+}
+
 .leaflet-popup-content-wrapper {
   border-radius: 5px;
 }
@@ -334,8 +352,6 @@ html, body, .container, #bibliomap-canvas {
   background: rgba(255, 255, 255, 0.7);
 }
 
-.menu-option {
-  vertical-align: center;
-  margin: 20px 10px;
-  font-size: 1.5em;
+.leaflet-popup {
+  bottom: -20px !important;
 }

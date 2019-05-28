@@ -220,7 +220,6 @@ function initLegend() {
   });
 }
 
-
 function initMenu() {
   $('#zoom2').click(() => {
     const oldZoom = map.getZoom();
@@ -264,6 +263,19 @@ function initMenu() {
   });
 }
 
+function initCSS() {
+  portalsInfo.forEach((portal) => {
+    const css = `.${portal.name} { background-color: ${portal.color} !important; } .${portal.name}:after { box-shadow: 0 0 6px 2px ${portal.color} !important; }`;
+    const el = document.createElement('style');
+    if (el.styleSheet) {
+      el.styleSheet.cssText = css;
+    } else {
+      el.appendChild(document.createTextNode(css));
+    }
+    document.getElementsByTagName('head')[0].appendChild(el);
+  });
+}
+
 /**
  * Initializatton of all parts
  */
@@ -272,5 +284,6 @@ $(document).ready(() => {
   initBrand();
   initLegend();
   initMenu();
+  initCSS();
   timer();
 });
