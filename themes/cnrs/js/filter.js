@@ -3,9 +3,7 @@
  * @param {*} ec
  */
 // eslint-disable-next-line no-unused-vars
-function filter(ec) {
-  const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
-
+function filter(ec, portal) {
   if (ec && ec.mime) {
     let mime = '';
     const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);

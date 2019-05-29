@@ -1,19 +1,30 @@
 // TODO voir comment changer ce val
 let val = 0;
+let outsideMapOpened = false;
 /**
  * place the view of outide map
  * @param {*} lat latitude
  * @param {*} lng longitude
  */
 function startMapOutside(latLng) {
-  outsideMap.setView(latLng, outsideMap.getZoom(), {
-    animation: true,
-  });
-  $('#outside-map').css('visibility', 'visible').removeClass('bounceOutRight').addClass('bounceInDown');
+  outsideMap.setView(latLng);
+
+  if (!outsideMapOpened) {
+    outsideMapOpened = true;
+    $('#outside-map')
+      .removeClass('bounceOutRight')
+      .css('visibility', 'visible')
+      .addClass('bounceInDown');
+  }
   window.clearTimeout(val);
   val = setTimeout(() => {
-    $('#outside-map').addClass('bounceOutRight').delay(1000).css('visibility', 'hidden')
+    $('#outside-map')
+      .addClass('bounceOutRight')
       .removeClass('bounceInDown');
+    outsideMapOpened = false;
+    setTimeout(() => {
+      $('#outside-map').css('visibility', 'hidden');
+    }, 1000);
   }, 6000);
 }
 
@@ -23,35 +34,14 @@ function startMapOutside(latLng) {
  * @param {*} popup
  * @param {*} map
  */
-function animation(marker, popup, map) {
+function animation(marker, map) {
   map.addLayer(marker);
-  popup.openOn(map);
-  $(marker._icon).fadeIn(1000).delay(5000).fadeOut(1000, () => {
-    map.removeLayer(popup);
+  marker.openPopup();
+  $(marker._icon).fadeIn(1000);
+
+  $(marker._icon).delay(5000).fadeOut(1000, () => {
     map.removeLayer(marker);
   });
-}
-
-/**
- * create a object marker with ec and position
- * @param {*} ec
- * @param {*} lat
- * @param {*} lng
- */
-function createMarker(ec, lat, lng) {
-  const colormarker = portalsInfo.find(portal => portal.name === ec.ezproxyName);
-  // draw marker
-  const pulsingIcon = L.icon.pulse({
-    iconSize: [60, 60],
-    color: colormarker.color,
-    fillColor: colormarker.color,
-  });
-  const marker = L.marker([lat, lng], { icon: pulsingIcon });
-  marker.origin = {
-    lat,
-    lng,
-  };
-  return marker;
 }
 
 /**
@@ -60,7 +50,7 @@ function createMarker(ec, lat, lng) {
  * @param {*} lat
  * @param {*} lng
  */
-function createPopup(ec, lat, lng) {
+function createPopup(ec) {
   const platformName = `<div class="leaflet-popup-content platformName">${ec.platform_name}</div>`;
   const rtypeMime = `<div class="rtypeMime">${(ec.rtype || '')} ${(ec.mime || '')}</div>`;
   const publicationTitle = `<div class="leaflet-popup-content publicationTitle">${(ec.publication_title || '')}</div>`;
@@ -68,26 +58,38 @@ function createPopup(ec, lat, lng) {
   if (showTitles) {
     popupContent = `${popupContent}${ec.publication_title ? publicationTitle : ''}`;
   }
-  const popup = L.popup({
+  return L.popup({
     closeOnClick: false,
     autoClose: false,
     autoPan: false,
     minWidth: 80,
     maxWidth: 200,
     closeButton: false,
-  }).setLatLng([lat - 0.2, lng]).setContent(popupContent);
-  popup.origin = {
-    lat: lat - 0.2,
-    lng,
-  };
-  return popup;
+  }).setContent(popupContent);
+}
+
+/**
+ * create a object marker with ec and position
+ * @param {*} ec
+ * @param {*} lat
+ * @param {*} lng
+ */
+function createMarker(portal, ec, latLng) {
+  // draw marker
+  const pulsingIcon = L.icon.pulse({
+    class: `bibliomap-pulse ${portal.name}`,
+    iconSize: [60, 60],
+  });
+  return L.marker(latLng, {
+    icon: pulsingIcon,
+  }).bindPopup(createPopup(ec));
 }
 
 /**
  * place the puldateIcon and information marker on map
  * @param {*} ec
  */
-function showInfo(ec) {
+function showInfo(ec, portal) {
   const enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
   let isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
   // eslint-disable-next-line no-prototype-builtins
@@ -108,27 +110,27 @@ function showInfo(ec) {
   const mapCenterLng = map.getCenter().lng;
   const nbMap = Math.round((mapCenterLng / 360));
 
-  const lng = ec['geoip-longitude'] + (nbMap * 360);
-  const lat = ec['geoip-latitude'];
+  const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
 
-  const marker = createMarker(ec, lat, lng);
-  const popup = createPopup(ec, lat, lng);
+  const marker = createMarker(portal, ec, latLng);
+  marker.off('click');
 
+  // marker._icon.css('opacity', '0.2');
   const bounds = map.getBounds();
   const north = bounds.getNorth();
   const south = bounds.getSouth();
   const east = bounds.getEast();
   const west = bounds.getWest();
 
-  if (lat > north || lat < south || lng > east || lng < west) {
+  if (latLng[0] > north || latLng[0] < south || latLng[1] > east || latLng[1] < west) {
     if (displayOutsideMap) {
-      const markerOutside = createMarker(ec, lat, lng);
-      const popupOutside = createPopup(ec, lat, lng);
-      animation(markerOutside, popupOutside, outsideMap);
-      startMapOutside([lat, lng]);
+      const markerOutside = createMarker(portal, ec, latLng);
+      markerOutside.off('click');
+      animation(markerOutside, outsideMap);
+      startMapOutside(latLng);
     }
   }
-  animation(marker, popup, map);
+  animation(marker, map);
 }
 
 $(document).ready(() => {
@@ -141,13 +143,14 @@ $(document).ready(() => {
     if (match) {
       ec.ezproxyName = match[1];
     }
-    filter(ec);
-    showInfo(ec);
-    // update legend
+
     const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
-    if (portal) {
-      portal.count += 1;
-      $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
-    }
+    if (!portal) { return; }
+
+    filter(ec, portal);
+    showInfo(ec, portal);
+    // update legend
+    portal.count += 1;
+    $(`#${portal.name}-counter`).html(portal.count.toLocaleString());
   });
 });
