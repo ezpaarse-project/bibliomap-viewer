@@ -1,0 +1,23 @@
+{
+    "brand": "Connected to",
+    "tooltip": {
+      "settings": "Parameters",
+      "center": "Center in France",
+      "locale": {
+        "fr": "Français",
+        "en": "English"
+      }
+    },
+    "settings": {
+      "map": "Background map",
+      "title": "Parameters",
+      "displayMiniMap": "Display minimap",
+      "legendFilter": "Institutes to display",
+      "selectAll": "Select all",
+      "selectNone": "Unselect all",
+      "displayReviews": "View journal titles",
+      "sortBy": "Sort editor platforms",
+      "placeholder": "Editor(s)"
+    },
+    "close": "Close"
+  }
