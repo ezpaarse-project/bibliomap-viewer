@@ -100,8 +100,8 @@ function createMarker(portal, ec, latLng, hidden) {
  */
 function showInfo(ec, portal) {
   const enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
-  let isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
-  let hidden = false
+  const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+  let hidden = false;
   // eslint-disable-next-line no-prototype-builtins
   if (!Editors.hasOwnProperty(ec.platform_name)) {
     // adding new editors to autocomplete
