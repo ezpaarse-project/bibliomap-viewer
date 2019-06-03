@@ -74,12 +74,21 @@ function createPopup(ec) {
  * @param {*} lat
  * @param {*} lng
  */
-function createMarker(portal, ec, latLng) {
+function createMarker(portal, ec, latLng, hidden) {
   // draw marker
   const pulsingIcon = L.icon.pulse({
     class: `bibliomap-pulse ${portal.name}`,
     iconSize: [60, 60],
   });
+  const pulsingHiddenIcon = L.icon.pulse({
+    class: `bibliomap-pulse ${portal.name}`,
+    iconSize: [30, 30],
+  });
+  if (hidden) {
+    return L.marker(latLng, {
+      icon: pulsingHiddenIcon,
+    }).setOpacity(0.3);
+  }
   return L.marker(latLng, {
     icon: pulsingIcon,
   }).bindPopup(createPopup(ec));
@@ -92,6 +101,7 @@ function createMarker(portal, ec, latLng) {
 function showInfo(ec, portal) {
   const enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
   let isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+  let hidden = false
   // eslint-disable-next-line no-prototype-builtins
   if (!Editors.hasOwnProperty(ec.platform_name)) {
     // adding new editors to autocomplete
@@ -100,9 +110,9 @@ function showInfo(ec, portal) {
   if (enabledEditors.length) {
     // showing bubbles only if the editors are picked in the editor chip
     // if the chip is empty : shows all editors
-    isDisabled = true;
+    hidden = true;
     enabledEditors.forEach((el) => {
-      if (ec.platform_name.toLowerCase().includes(el.tag.toLowerCase())) { isDisabled = false; }
+      if (ec.platform_name.toLowerCase().includes(el.tag.toLowerCase())) { hidden = false; }
     });
   }
   if (isDisabled) { return; }
@@ -112,7 +122,7 @@ function showInfo(ec, portal) {
 
   const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
 
-  const marker = createMarker(portal, ec, latLng);
+  const marker = createMarker(portal, ec, latLng, hidden);
   marker.off('click');
 
   // marker._icon.css('opacity', '0.2');
@@ -124,7 +134,7 @@ function showInfo(ec, portal) {
 
   if (latLng[0] > north || latLng[0] < south || latLng[1] > east || latLng[1] < west) {
     if (displayOutsideMap) {
-      const markerOutside = createMarker(portal, ec, latLng);
+      const markerOutside = createMarker(portal, ec, latLng, hidden);
       markerOutside.off('click');
       animation(markerOutside, outsideMap);
       startMapOutside(latLng);
