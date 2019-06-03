@@ -121,9 +121,8 @@ function showInfo(ec, portal) {
   const nbMap = Math.round((mapCenterLng / 360));
 
   const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
-
-  const marker = createMarker(portal, ec, latLng, hidden);
   counter(ec, portal);
+  const marker = createMarker(portal, ec, latLng, hidden);
   marker.off('click');
 
   // marker._icon.css('opacity', '0.2');

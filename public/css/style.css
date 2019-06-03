@@ -161,7 +161,6 @@ html, body, .container, #bibliomap-canvas {
 }
 
 .open-side, .brand {
-  box-shadow: 2px 2px 2px 1px rgba(204, 204, 204, 1);
   position: absolute;
   z-index: 2;
   text-align: center;
