@@ -1,12 +1,3 @@
 {
-  "legend": "Online consultation of articles from several thousand electronic scientific journals available in full text as well as databases.",
-  "settings": {
-    "map": "Background map",
-    "title": "Parameters",
-    "displayMiniMap": "Display minimap",
-    "legendFilter": "Institutes to display",
-    "displayReviews": "View journal titles",
-    "sortBy": "Sort editor platforms",
-    "placeholder": "Editor(s)"
-  }
+  "legend": "Online consultation of articles from several thousand electronic scientific journals available in full text as well as databases."
 }
