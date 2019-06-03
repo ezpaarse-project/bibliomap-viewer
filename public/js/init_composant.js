@@ -247,6 +247,7 @@ function initMenu() {
   $('#center').on('click', () => {
     map.flyTo(franceCenter, 6);
   });
+  $('.tooltipped').tooltip();
   $('select').formSelect();
   $('#outside-map-switch').on('change', (el) => {
     if (el.currentTarget.checked) {
