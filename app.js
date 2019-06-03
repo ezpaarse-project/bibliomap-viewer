@@ -8,6 +8,7 @@ const express = require('express');
 const app = express();
 const httpServer = require('http').Server(app);
 const io = require('socket.io')(httpServer);
+const fs = require('fs');
 const config = require('./config.js');
 const pkg = require('./package.json');
 
@@ -60,9 +61,27 @@ httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliom
 app.set('views', `${__dirname}/themes`);
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
+  let locale = req.query.lang || 'fr';
   const entity = process.env.BBV_INDEX || 'cnrs';
+  let i18nGlobal;
+  let i18nTheme;
+  try {
+    i18nGlobal = fs.readFileSync(`${__dirname}/themes/app/locale/${locale}.json`, 'utf-8');
+    i18nTheme = fs.readFileSync(`${__dirname}/themes/${entity}/locale/${locale}.json`, 'utf-8');
+  } catch (e) {
+    locale = 'fr';
+    i18nGlobal = fs.readFileSync(`${__dirname}/themes/app/locale/fr.json`, 'utf-8');
+    i18nTheme = fs.readFileSync(`${__dirname}/themes/${entity}/locale/fr.json`, 'utf-8');
+  }
+
+  i18nGlobal = JSON.parse(i18nGlobal);
+  i18nTheme = JSON.parse(i18nTheme);
+
+  const i18n = Object.assign(i18nGlobal, i18nTheme);
+  i18nGlobal.locale = locale;
+
   res.header('X-UA-Compatible', 'IE=edge');
-  return res.render(`${entity}/index.html.twig`, { entity, version: pkg.version });
+  return res.render('app/layout.html.twig', { entity, version: pkg.version, i18n });
 });
 
 io.on('connection', (client) => {

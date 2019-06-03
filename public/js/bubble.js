@@ -123,6 +123,7 @@ function showInfo(ec, portal) {
   const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
 
   const marker = createMarker(portal, ec, latLng, hidden);
+  counter(ec, portal);
   marker.off('click');
 
   // marker._icon.css('opacity', '0.2');
@@ -154,10 +155,11 @@ $(document).ready(() => {
       ec.ezproxyName = match[1];
     }
 
+    filter(ec);
+
     const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
     if (!portal) { return; }
 
-    filter(ec, portal);
     showInfo(ec, portal);
     // update legend
     portal.count += 1;

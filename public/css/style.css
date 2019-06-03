@@ -143,6 +143,10 @@ html, body, .container, #bibliomap-canvas {
   background-color: #d35400;
 }
 
+.json {
+  background-color: #3498db;
+}
+
 .rtypeMime {
   padding: 0 0 3px 0;
 }

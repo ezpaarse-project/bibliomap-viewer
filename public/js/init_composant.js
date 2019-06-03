@@ -20,7 +20,8 @@ let Editors = {};
 let map = '';
 let outsideMap = '';
 const franceCenter = [46.3630104, 2.9846608];
-const urlMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const lightenMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const darkenMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 
 function initMap() {
   map = L.map('bibliomap-canvas', {
@@ -29,7 +30,7 @@ function initMap() {
     zoomControl: false,
   }).setView(franceCenter, 6);
 
-  L.tileLayer(urlMap, {
+  L.tileLayer(lightenMap, {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
@@ -58,7 +59,7 @@ function initMap() {
     zoomControl: false,
   }).setView([0, 0], 4);
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(outsideMap);
+  L.tileLayer(lightenMap).addTo(outsideMap);
 
   L.control.zoom({
     position: 'topleft',
@@ -155,7 +156,10 @@ function initBrand() {
  */
 function initLegend() {
   const content = $('#legend');
-
+  let locale = getQueryVariable('lang') || 'fr';
+  if (locale !== 'en' && locale !== 'fr') {
+    locale = 'fr';
+  }
   // for each institutes
   portalsInfo.forEach((portal) => {
     let portalLogo = (`<img src="${portal.logo}" class="circle bibliomap-clear-circle"></img>`);
@@ -171,7 +175,7 @@ function initLegend() {
         ${portalLogo}
         <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
         <span class="title bibliomap-institut-title">${(portal.name)}</span>
-        <p class="bibliomap-institut-desc">${portal.desc || ''}</p>
+        <p class="bibliomap-institut-desc">${portal.desc ? portal.desc[locale] : ''}</p>
       </li>
     </a>`);
 
@@ -223,10 +227,6 @@ function initLegend() {
 }
 
 function initMenu() {
-  $('#zoom2').click(() => {
-    const oldZoom = map.getZoom();
-    map.flyTo(franceCenter, oldZoom);
-  });
   $('.fixed-action-btn').floatingActionButton({
     hoverEnabled: false,
     direction: 'top',
@@ -270,6 +270,18 @@ function initMenu() {
       limit: Infinity,
       minLength: 1,
     },
+  });
+  // eslint-disable-next-line consistent-return
+  $('#changeMap').on('click', () => {
+    const layer = map._layers[Object.keys(map._layers)[0]];
+    if (layer._url === lightenMap) {
+      layer._url = darkenMap;
+      return layer.redraw();
+    }
+    if (layer._url === darkenMap) {
+      layer._url = lightenMap;
+      return layer.redraw();
+    }
   });
 }
 

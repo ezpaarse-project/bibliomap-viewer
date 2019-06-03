@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+  <meta http-equiv="Expires" content="0" />
+	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/node_modules/materialize-css/dist/css/materialize.min.css" />
+  <link rel="stylesheet" href="/public/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="/public/css/L.Icon.Pulse.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+  <a href="#" id="open-side" class="open-side">
+    <i class="material-icons">keyboard_arrow_right</i>
+  </a>  
+
+  <!-- Map -->
+  <div id="bibliomap-canvas"></div>
+  <div id="outside-map" class="outside-map"></div>
+  
+  {% include "app/components/menu.html.twig" %}
+  {% include "app/components/modal.html.twig" %}
+  {% include "app/components/legend.html.twig", with entity %}
+
+  <div id="brand" class="brand">
+    <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> {{ version }}</div>
+    <div class="sub">{{ i18n.brand }} <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
+  </div>
+      
+  <div id="description" class="modal modal-fixed-footer">
+    <div class="modal-content description">
+      {% include entity ~ "/components/desc_" ~ i18n.locale ~ ".html.twig" %}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">{{ i18n.close }}</a>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+  <script src="/node_modules/materialize-css/dist/js/materialize.min.js"></script>
+  <script src="/public/leaflet/leaflet.js"></script>
+  <script type="text/javascript" src="/themes/{{ entity }}/js/legend.js"></script>
+  <script type="text/javascript" src="/themes/{{ entity }}/js/filter.js"></script> 
+  <script type="text/javascript" src="/public/js/init_composant.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="/public/js/L.Icon.Pulse.js"></script>
+  <script type="text/javascript" src="/public/js/bubble.js"></script> 
+
+</body>
+</html>

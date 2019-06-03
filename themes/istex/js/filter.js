@@ -22,11 +22,18 @@ function filter(ec) {
     if (documentaire.includes(ec.sid)) {
       ec.ezproxyName = 'DOCUMENTAIRE';
     }
-    if (ec.mime) {
-      ec.mime = `<span class="label label-bubble">${ec.mime}</span>`;
-    }
-    if (ec.rtype) {
-      ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
-    }
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+function counter(ec/* , portal */) {
+  if (!ec) {
+    return;
+  }
+  if (ec.mime) {
+    ec.mime = `<span class="label label-bubble ${ec.mime.toLowerCase()}">${ec.mime}</span>`;
+  }
+  if (ec.rtype) {
+    ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
   }
 }
