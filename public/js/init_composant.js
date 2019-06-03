@@ -166,9 +166,9 @@ function initLegend() {
     if (!portal.logo) {
       portalLogo = (`<div class = "logoDefault" style = "background-color: ${portal.color}"></div>`);
     }
-    let portalLink = (`<a href="${portal.link}" id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="" target="_blank">`);
+    let portalLink = (`<a href="${portal.link}" id="${portal.name}-tooltip" data-position="right" data-tooltip="" target="_blank">`);
     if (!portal.link) {
-      portalLink = (`<a id="${portal.name}-tooltip" class="tooltipped" data-position="right" data-tooltip="">`);
+      portalLink = (`<a id="${portal.name}-tooltip" data-position="right" data-tooltip="">`);
     }
     content.append(`${portalLink}
       <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item"> 
@@ -226,6 +226,19 @@ function initLegend() {
   });
 }
 
+function changeMap(m) {
+  const layer = m._layers[Object.keys(m._layers)[0]];
+  if (layer._url === lightenMap) {
+    layer._url = darkenMap;
+    return layer.redraw();
+  }
+  if (layer._url === darkenMap) {
+    layer._url = lightenMap;
+    return layer.redraw();
+  }
+  return null;
+}
+
 function initMenu() {
   $('.fixed-action-btn').floatingActionButton({
     hoverEnabled: false,
@@ -234,7 +247,6 @@ function initMenu() {
   $('#center').on('click', () => {
     map.flyTo(franceCenter, 6);
   });
-  $('.tooltipped').tooltip();
   $('select').formSelect();
   $('#outside-map-switch').on('change', (el) => {
     if (el.currentTarget.checked) {
@@ -264,7 +276,7 @@ function initMenu() {
     });
   });
   $('.chips-autocomplete').chips({
-    placeholder: 'éditeur(s)',
+    placeholder: 'ex: Wiley',
     autocompleteOptions: {
       data: Editors,
       limit: Infinity,
@@ -273,15 +285,8 @@ function initMenu() {
   });
   // eslint-disable-next-line consistent-return
   $('#changeMap').on('click', () => {
-    const layer = map._layers[Object.keys(map._layers)[0]];
-    if (layer._url === lightenMap) {
-      layer._url = darkenMap;
-      return layer.redraw();
-    }
-    if (layer._url === darkenMap) {
-      layer._url = lightenMap;
-      return layer.redraw();
-    }
+    changeMap(map);
+    changeMap(outsideMap);
   });
 }
 

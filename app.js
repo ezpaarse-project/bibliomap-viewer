@@ -76,9 +76,8 @@ app.get('/', (req, res) => {
 
   i18nGlobal = JSON.parse(i18nGlobal);
   i18nTheme = JSON.parse(i18nTheme);
-
-  const i18n = Object.assign(i18nGlobal, i18nTheme);
   i18nGlobal.locale = locale;
+  const i18n = Object.assign(i18nGlobal, i18nTheme);
 
   res.header('X-UA-Compatible', 'IE=edge');
   return res.render('app/layout.html.twig', { entity, version: pkg.version, i18n });

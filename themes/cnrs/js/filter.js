@@ -34,5 +34,9 @@ function counter(ec, portal) {
   if (ec.rtype) {
     ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
   }
+  if (portal.pdf === 1 || portal.html === 1) {
+    $(`#${portal.name}-tooltip`).addClass('tooltipped');
+    $(`#${portal.name}-tooltip`).tooltip();
+  }
   $(`#${portal.name}-tooltip`).attr('data-tooltip', `HTML : ${portal.html} | PDF : ${portal.pdf}`);
 }
