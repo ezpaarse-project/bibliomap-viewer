@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
   <meta http-equiv="Expires" content="0" />
-	<title>Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robot" content="all" />
+  <meta name="description" content="{{ i18n.description }}" />
+  <meta name="author" content="Inist-CNRS : EzTeam" />
+  <meta name"keywords" content="inist,cnrs,bibliomap,ezpaarse,analogist,ezmesure,istex,bibcnrs,metrics,consultation,log,logs,couperin,insb,inc,inee,insis,inshs,in2p3,insmi,ins2i,insu,inp,ezteam" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ host }}" />
+  <meta property="og:title" content="Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}" />
+  <meta property="og:description" content="{{ i18n.description }}" />
+  <meta property="og:image" content="{{ host }}/public/images/bibliomap.png" />
+  <meta property="og:language" content="{{ i18n.locale }}" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@ezpaarse" />
+  <meta name="twitter:title" content="Bibliomap{% if entity is defined %} - {{ entity }}{% endif %}" />
+  <meta name="twitter:description" content="{{ i18n.description }}" />
+  <meta name="twitter:image" content="{{ host }}/public/images/bibliomap.png" />
+  <meta name="twitter:url" content="{{ host }}" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="/node_modules/materialize-css/dist/css/materialize.min.css" />
   <link rel="stylesheet" href="/public/leaflet/leaflet.css" />

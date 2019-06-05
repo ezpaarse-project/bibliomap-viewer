@@ -1,4 +1,5 @@
 {
+  "description": "Bibliomap affiche les événements de consultation générés par une instance d'ezPAARSE en temps réel sur une carte. C'est un outil utile pour surveiller le trafic de votre ezproxy ou pour aider à porter le projet d'adoption d'ezPAARSE dans votre établissement.",
   "brand": "Connecté à",
   "tooltip": {
     "settings": "Paramètre",
@@ -16,7 +17,7 @@
     "selectAll": "Tout cocher",
     "selectNone": "Tout décocher",
     "displayReviews": "Afficher les titres des revues",
-    "sortBy": "Trier les plate-formes éditeur",
+    "sortBy": "filtrer par plate-formes éditeur",
     "placeholder": "Éditeur(s)"
   },
   "close": "Fermer"
