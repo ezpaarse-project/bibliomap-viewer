@@ -10,11 +10,18 @@ function filter(ec) {
   return ec;
 }
 
+/**
+ * update total counter and tooltip counter of portal
+ * @param {*} ec
+ */
 function updateCounter(ec) {
   updateTotalCount();
   tooltip(ec);
 }
 
+/**
+ * init counter of rtype and mime
+ */
 function init() {
   initTotalCounter([
     {

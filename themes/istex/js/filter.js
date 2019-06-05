@@ -4,7 +4,6 @@
  * filter informations receive
  * @param {*} ec
  */
-
 function filter(ec) {
   ec.filter = ec.sid;
   const tdm = ['istex-api-harvester', 'node-istex'];
@@ -28,6 +27,9 @@ function filter(ec) {
   }
 }
 
+/**
+ * init counter of rtype and mime
+ */
 function init() {
   initTotalCounter([
     {
@@ -42,6 +44,10 @@ function init() {
   initCounter(['json', 'article']);
 }
 
+/**
+ * update total counter and tooltip counter of portal
+ * @param {*} ec
+ */
 function updateCounter(ec) {
   updateTotalCount();
   tooltip(ec);

@@ -1,16 +1,12 @@
+/* eslint-disable no-unused-vars */
 /**
  * information about CNRS institute on legend
  */
 
-// eslint-disable-next-line no-unused-vars
 const totalCount = {};
-// eslint-disable-next-line no-unused-vars
 let displayOutsideMap = true;
-// eslint-disable-next-line no-unused-vars
 let showTitles = false;
-/**
- * Init the background map and the outside map
- */
+
 // eslint-disable-next-line prefer-const
 let editors = {};
 let map = '';
@@ -18,8 +14,10 @@ let outsideMap = '';
 const franceCenter = [46.3630104, 2.9846608];
 const lightenMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const darkenMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-
-function initMap() {
+/**
+ * Init the background map and the outside map
+ */
+function initMaps() {
   map = L.map('bibliomap-canvas', {
     minZoom: 3,
     maxZoom: 8,
@@ -223,6 +221,10 @@ function initLegend() {
   });
 }
 
+/**
+ * update the background
+ * @param {Map} m
+ */
 function changeMap(m) {
   const layer = m._layers[Object.keys(m._layers)[0]];
   if (layer._url === lightenMap) {
@@ -236,6 +238,9 @@ function changeMap(m) {
   return null;
 }
 
+/**
+ * init evenement on menu
+ */
 function initMenu() {
   $('.fixed-action-btn').floatingActionButton({
     hoverEnabled: false,
@@ -290,6 +295,9 @@ function initMenu() {
   });
 }
 
+/**
+ * init css for each annimation bubble
+ */
 function initCSS() {
   portalsInfo.forEach((portal) => {
     const css = `.${portal.name} { background-color: ${portal.color} !important; } .${portal.name}:after { box-shadow: 0 0 6px 2px ${portal.color} !important; }`;
@@ -307,7 +315,7 @@ function initCSS() {
  * Initializatton of all parts
  */
 $(document).ready(() => {
-  initMap();
+  initMaps();
   initBrand();
   initLegend();
   initMenu();

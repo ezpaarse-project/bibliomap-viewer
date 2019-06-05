@@ -4,18 +4,23 @@
  * filter informations receive
  * @param {*} ec
  */
-// eslint-disable-next-line no-unused-vars
 function filter(ec) {
   ec.filter = ec.ezproxyName;
   return ec;
 }
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * update total counter and tooltip counter of portal
+ * @param {*} ec
+ */
 function updateCounter(ec) {
   updateTotalCount();
   tooltip(ec);
 }
 
+/**
+ * init counter of rtype and mime
+ */
 function init() {
   initTotalCounter([
     {
