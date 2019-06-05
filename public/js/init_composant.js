@@ -1,29 +1,23 @@
+/* eslint-disable no-unused-vars */
 /**
  * information about CNRS institute on legend
  */
 
-// eslint-disable-next-line no-unused-vars
-const extCount = {
-  pdf: 0,
-  html: 0,
-};
-// eslint-disable-next-line no-unused-vars
+const totalCount = {};
 let displayOutsideMap = true;
-// eslint-disable-next-line no-unused-vars
 let showTitles = false;
-let disabledInstitutes = [];
-/**
- * Init the background map and the outside map
- */
+
 // eslint-disable-next-line prefer-const
-let Editors = {};
+let editors = {};
 let map = '';
 let outsideMap = '';
 const franceCenter = [46.3630104, 2.9846608];
 const lightenMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const darkenMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-
-function initMap() {
+/**
+ * Init the background map and the outside map
+ */
+function initMaps() {
   map = L.map('bibliomap-canvas', {
     minZoom: 3,
     maxZoom: 8,
@@ -162,6 +156,7 @@ function initLegend() {
   }
   // for each institutes
   portalsInfo.forEach((portal) => {
+    portal.isDisabled = false;
     let portalLogo = (`<img src="${portal.logo}" class="circle bibliomap-clear-circle"></img>`);
     if (!portal.logo) {
       portalLogo = (`<div class = "logoDefault" style = "background-color: ${portal.color}"></div>`);
@@ -189,27 +184,27 @@ function initLegend() {
 
     // update legend with filter
     $(`#${portal.name}-switch`).on('change', (el) => {
-      const isDisabled = disabledInstitutes.find(institut => institut === portal.name);
-      if (el.currentTarget.checked && isDisabled) {
-        disabledInstitutes = disabledInstitutes.filter(institut => institut !== portal.name);
+      if (el.currentTarget.checked && portal.isDisabled) {
+        portal.isDisabled = !portal.isDisabled;
         $(`#${portal.name}-legend`).css('display', 'block');
-        extCount.html += portal.html;
-        $('#extHTML').html(extCount.html.toLocaleString());
-
-        extCount.pdf += portal.pdf;
-        $('#extPDF').html(extCount.pdf.toLocaleString());
+        totalCounters.forEach((c) => {
+          totalCount[c] += portal[c];
+          const element = totalCounterElements.find(tce => tce.name === c);
+          $(`${element.id}`).html(totalCount[element.name].toLocaleString());
+        });
       }
 
-      if (!el.currentTarget.checked && !isDisabled) {
-        disabledInstitutes.push(portal.name);
+      if (!el.currentTarget.checked && !portal.isDisabled) {
         $(`#${portal.name}-legend`).css('display', 'none');
         $(`#${portal.name}-counter`).html(portal.count);
-
-        extCount.html -= portal.html;
-        $('#extHTML').html(extCount.html.toLocaleString());
-
-        extCount.pdf -= portal.pdf;
-        $('#extPDF').html(extCount.pdf.toLocaleString());
+        portal.isDisabled = !portal.isDisabled;
+        totalCounters.forEach((c) => {
+          if (totalCount[c] >= 0) {
+            totalCount[c] -= portal[c];
+            const element = totalCounterElements.find(tce => tce.name === c);
+            $(`${element.id}`).html(totalCount[element.name].toLocaleString());
+          }
+        });
       }
     });
   });
@@ -226,6 +221,10 @@ function initLegend() {
   });
 }
 
+/**
+ * update the background
+ * @param {Map} m
+ */
 function changeMap(m) {
   const layer = m._layers[Object.keys(m._layers)[0]];
   if (layer._url === lightenMap) {
@@ -239,6 +238,9 @@ function changeMap(m) {
   return null;
 }
 
+/**
+ * init evenement on menu
+ */
 function initMenu() {
   $('.fixed-action-btn').floatingActionButton({
     hoverEnabled: false,
@@ -276,14 +278,16 @@ function initMenu() {
       $(`#${portal.name}-switch`).trigger('change');
     });
   });
-  $('.chips-autocomplete').chips({
-    placeholder: 'ex: Wiley',
-    autocompleteOptions: {
-      data: Editors,
-      limit: Infinity,
-      minLength: 1,
-    },
-  });
+  if ($('.chips-autocomplete').length) {
+    $('.chips-autocomplete').chips({
+      placeholder: 'ex: Wiley',
+      autocompleteOptions: {
+        data: editors,
+        limit: Infinity,
+        minLength: 1,
+      },
+    });
+  }
   // eslint-disable-next-line consistent-return
   $('#changeMap').on('click', () => {
     changeMap(map);
@@ -291,6 +295,9 @@ function initMenu() {
   });
 }
 
+/**
+ * init css for each annimation bubble
+ */
 function initCSS() {
   portalsInfo.forEach((portal) => {
     const css = `.${portal.name} { background-color: ${portal.color} !important; } .${portal.name}:after { box-shadow: 0 0 6px 2px ${portal.color} !important; }`;
@@ -308,7 +315,7 @@ function initCSS() {
  * Initializatton of all parts
  */
 $(document).ready(() => {
-  initMap();
+  initMaps();
   initBrand();
   initLegend();
   initMenu();

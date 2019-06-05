@@ -43,11 +43,9 @@
           {{ i18n.settings.displayReviews }}
         </div>
     </div>
-    <div class="divider"></div>
-    <div class="row menu-option">
-      <h5>{{ i18n.settings.sortBy }} :</h5>
-      <div class="chips chips-autocomplete" id="enabled-editors"></div>
-    </div>
+
+    {% include  entity ~ "/components/params.html.twig" ignore missing %}
+
   </div>
   <div class="modal-footer">
     <a class="modal-close waves-effect waves-green btn-flat" href="#!">{{ i18n.close }}</a>

@@ -1,10 +1,10 @@
 // TODO voir comment changer ce val
 let val = 0;
 let outsideMapOpened = false;
+
 /**
- * place the view of outide map
- * @param {*} lat latitude
- * @param {*} lng longitude
+ * display and set view of outsidemap with coordinate
+ * @param {Array.<number>} latLng coordinate
  */
 function startMapOutside(latLng) {
   outsideMap.setView(latLng);
@@ -21,18 +21,18 @@ function startMapOutside(latLng) {
     $('#outside-map')
       .addClass('bounceOutRight')
       .removeClass('bounceInDown');
-    outsideMapOpened = false;
     setTimeout(() => {
       $('#outside-map').css('visibility', 'hidden');
     }, 1000);
-  }, 6000);
+    outsideMapOpened = false;
+  }, 5000);
 }
 
+
 /**
- * animation the marker and the popup on en map enter in param
- * @param {*} marker
- * @param {*} popup
- * @param {*} map
+ * add marker on layer and display it
+ * @param {layer} marker
+ * @param {Map} map
  */
 function animation(marker, map) {
   map.addLayer(marker);
@@ -45,10 +45,8 @@ function animation(marker, map) {
 }
 
 /**
- * create a object popup with ec and position
+ * create a object popup with ec
  * @param {*} ec
- * @param {*} lat
- * @param {*} lng
  */
 function createPopup(ec) {
   const platformName = `<div class="leaflet-popup-content platformName">${ec.platform_name}</div>`;
@@ -70,9 +68,11 @@ function createPopup(ec) {
 
 /**
  * create a object marker with ec and position
+ * css marker is set with the portal
+ * @param {*} portal
  * @param {*} ec
- * @param {*} lat
- * @param {*} lng
+ * @param {Array.<number>} latLng
+ * @param {boolean} hidden
  */
 function createMarker(portal, ec, latLng, hidden) {
   // draw marker
@@ -94,45 +94,145 @@ function createMarker(portal, ec, latLng, hidden) {
   }).bindPopup(createPopup(ec));
 }
 
+let portalCounter;
+
+/**
+ * update the tooltip with the ec
+ * @param {*} ec
+ */
+// eslint-disable-next-line no-unused-vars
+function tooltip(ec) {
+  const portal = portalsInfo.find(p => p.name === ec.filter);
+  const tooltips = [];
+  if (!portal) { return; }
+  if (portal.count === 0) {
+    $(`#${ec.filter}-tooltip`).addClass('tooltipped');
+    $(`#${ec.filter}-tooltip`).tooltip();
+  }
+  portalCounter.forEach((pc) => {
+    tooltips.push(`${pc.toUpperCase()}: ${portal[pc].toLocaleString()}`);
+  });
+  $(`#${ec.filter}-tooltip`).attr('data-tooltip', tooltips.join(' | '));
+}
+
+/**
+ * Init counters (rtype and mime) set 0 by portals
+ * @param {Array.<number>} data
+ */
+// eslint-disable-next-line no-unused-vars
+function initCounter(data) {
+  portalsInfo.map((portal) => {
+    data.forEach((c) => {
+      portal[c] = 0;
+    });
+    return null;
+  });
+  portalCounter = data;
+}
+
+// Total counters HTML elements
+let totalCounterElements;
+// Total counters name of vars
+const totalCounters = [];
+// Init total counters to 0
+// eslint-disable-next-line no-unused-vars
+function initTotalCounter(data) {
+  data.forEach((c) => {
+    totalCount[c.name] = 0;
+    totalCounters.push(c.name);
+  });
+  if (!totalCounterElements) {
+    totalCounterElements = data;
+  }
+}
+
+/**
+ * Update total counter (rtype and mime)
+ */
+// eslint-disable-next-line no-unused-vars
+function updateTotalCount() {
+  totalCounterElements.forEach((el) => {
+    $(`${el.id}`).html(totalCount[el.name].toLocaleString());
+  });
+}
+
+/**
+ * hide ec if filter is apply
+ * @param {*} ec
+ */
+function filterbyEditor(ec) {
+  let enabledEditors;
+  if ($('#enabled-editors').length) {
+    enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
+  }
+  let hidden = false;
+  // eslint-disable-next-line no-prototype-builtins
+  if (editors && !editors.hasOwnProperty(ec.platform_name)) {
+    // adding new editors to autocomplete
+    editors[ec.platform_name] = null;
+  }
+  if (enabledEditors) {
+    if (enabledEditors.length) {
+      // showing bubbles only if the editors are picked in the editor chip
+      // if the chip is empty : shows all editors
+      hidden = true;
+      enabledEditors.forEach((el) => {
+        if (ec.platform_name.toLowerCase().includes(el.tag.toLowerCase())) { hidden = false; }
+      });
+    }
+  }
+  return hidden;
+}
+
+/**
+ * update counterType in the tooltip with ec
+ * @param {*} ec
+ * @param {*} portal
+ */
+function counterTypeByPortal(ec, portal) {
+  if (ec.mime) {
+    if (portalCounter.includes(ec.mime.toLowerCase())) {
+      if (!portal.isDisabled) {
+        portal[ec.mime.toLowerCase()] += 1;
+      }
+      totalCount[ec.mime.toLowerCase()] += 1;
+    }
+    ec.mime = `<span class="label label-bubble ${ec.mime.toLowerCase()}">${ec.mime}</span>`;
+  }
+
+  if (ec.rtype) {
+    if (portalCounter.includes(ec.rtype.toLowerCase())) {
+      if (!portal.isDisabled) {
+        portal[ec.rtype.toLowerCase()] += 1;
+      }
+      totalCount[ec.rtype.toLowerCase()] += 1;
+    }
+    ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
+  }
+}
+
 /**
  * place the puldateIcon and information marker on map
  * @param {*} ec
+ * @param {*} portal
  */
 function showInfo(ec, portal) {
-  const enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
-  const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
-  let hidden = false;
-  // eslint-disable-next-line no-prototype-builtins
-  if (!Editors.hasOwnProperty(ec.platform_name)) {
-    // adding new editors to autocomplete
-    Editors[ec.platform_name] = null;
-  }
-  if (enabledEditors.length) {
-    // showing bubbles only if the editors are picked in the editor chip
-    // if the chip is empty : shows all editors
-    hidden = true;
-    enabledEditors.forEach((el) => {
-      if (ec.platform_name.toLowerCase().includes(el.tag.toLowerCase())) { hidden = false; }
-    });
-  }
-  if (isDisabled) { return; }
-
+  hidden = filterbyEditor(ec);
+  if (portal.isDisabled) { return; }
   const mapCenterLng = map.getCenter().lng;
   const nbMap = Math.round((mapCenterLng / 360));
 
   const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
-  counter(ec, portal);
+
+  counterTypeByPortal(ec, portal);
+  updateCounter(ec);
+
   const marker = createMarker(portal, ec, latLng, hidden);
   marker.off('click');
 
-  // marker._icon.css('opacity', '0.2');
   const bounds = map.getBounds();
-  const north = bounds.getNorth();
-  const south = bounds.getSouth();
-  const east = bounds.getEast();
-  const west = bounds.getWest();
 
-  if (latLng[0] > north || latLng[0] < south || latLng[1] > east || latLng[1] < west) {
+  if (!bounds.contains(latLng)) {
     if (displayOutsideMap) {
       const markerOutside = createMarker(portal, ec, latLng, hidden);
       markerOutside.off('click');
@@ -143,20 +243,16 @@ function showInfo(ec, portal) {
   animation(marker, map);
 }
 
+// connect and listen socket
 $(document).ready(() => {
+  init(totalCount);
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
     // ignore not geolocalized EC
     if (!ec || !ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
 
-    const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
-    if (match) {
-      ec.ezproxyName = match[1];
-    }
-
     filter(ec);
-
-    const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
+    const portal = portalsInfo.find(p => p.name === ec.filter);
     if (!portal) { return; }
 
     showInfo(ec, portal);
