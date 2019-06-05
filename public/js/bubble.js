@@ -94,20 +94,77 @@ function createMarker(portal, ec, latLng, hidden) {
   }).bindPopup(createPopup(ec));
 }
 
+let portalCounter;
+
+// eslint-disable-next-line no-unused-vars
+function tooltip(ec) {
+  const portal = portalsInfo.find(p => p.name === ec.filter);
+  const tooltips = [];
+  if (!portal) { return; }
+  if (portal.count === 0) {
+    $(`#${ec.filter}-tooltip`).addClass('tooltipped');
+    $(`#${ec.filter}-tooltip`).tooltip();
+  }
+  portalCounter.forEach((pc) => {
+    tooltips.push(`${pc.toUpperCase()}: ${portal[pc].toLocaleString()}`);
+  });
+  $(`#${ec.filter}-tooltip`).attr('data-tooltip', tooltips.join(' | '));
+}
+
+
+// Init counters (rtype and mime) by portals set 0
+// eslint-disable-next-line no-unused-vars
+function initCounter(data) {
+  portalsInfo.map((portal) => {
+    data.forEach((c) => {
+      portal[c] = 0;
+    });
+    return null;
+  });
+  portalCounter = data;
+}
+
+// Total counters HTML elements
+let totalCounterElements;
+// Total counters name of vars
+const totalCounters = [];
+// Init total counters to 0
+// eslint-disable-next-line no-unused-vars
+function initTotalCounter(data) {
+  data.forEach((c) => {
+    totalCount[c.name] = 0;
+    totalCounters.push(c.name);
+  });
+  if (!totalCounterElements) {
+    totalCounterElements = data;
+  }
+}
+
+// Update total counter (rtype and mime)
+// eslint-disable-next-line no-unused-vars
+function updateTotalCount() {
+  totalCounterElements.forEach((el) => {
+    $(`${el.id}`).html(totalCount[el.name].toLocaleString());
+  });
+}
+
+
 /**
  * place the puldateIcon and information marker on map
  * @param {*} ec
  */
 function showInfo(ec, portal) {
-  const enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
-  const isDisabled = disabledInstitutes.find(institut => institut === ec.ezproxyName);
+  let enabledEditors;
+  if ($('#enabled-editors').length) {
+    enabledEditors = M.Chips.getInstance($('#enabled-editors')).chipsData;
+  }
   let hidden = false;
   // eslint-disable-next-line no-prototype-builtins
-  if (!Editors.hasOwnProperty(ec.platform_name)) {
+  if (editors && !editors.hasOwnProperty(ec.platform_name)) {
     // adding new editors to autocomplete
-    Editors[ec.platform_name] = null;
+    editors[ec.platform_name] = null;
   }
-  if (enabledEditors.length) {
+  if (enabledEditors) {
     // showing bubbles only if the editors are picked in the editor chip
     // if the chip is empty : shows all editors
     hidden = true;
@@ -115,13 +172,35 @@ function showInfo(ec, portal) {
       if (ec.platform_name.toLowerCase().includes(el.tag.toLowerCase())) { hidden = false; }
     });
   }
-  if (isDisabled) { return; }
+  if (portal.isDisabled) { return; }
 
   const mapCenterLng = map.getCenter().lng;
   const nbMap = Math.round((mapCenterLng / 360));
 
   const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
-  counter(ec, portal);
+  /* ----------------------------- */
+  if (ec.mime) {
+    if (portalCounter.includes(ec.mime.toLowerCase())) {
+      if (!portal.isDisabled) {
+        portal[ec.mime.toLowerCase()] += 1;
+      }
+      totalCount[ec.mime.toLowerCase()] += 1;
+    }
+    ec.mime = `<span class="label label-bubble ${ec.mime.toLowerCase()}">${ec.mime}</span>`;
+  }
+
+  if (ec.rtype) {
+    if (portalCounter.includes(ec.rtype.toLowerCase())) {
+      if (!portal.isDisabled) {
+        portal[ec.rtype.toLowerCase()] += 1;
+      }
+      totalCount[ec.rtype.toLowerCase()] += 1;
+    }
+    ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
+  }
+  updateCounter(ec);
+  /* ----------------------------- */
+
   const marker = createMarker(portal, ec, latLng, hidden);
   marker.off('click');
 
@@ -144,19 +223,16 @@ function showInfo(ec, portal) {
 }
 
 $(document).ready(() => {
+  init(totalCount);
+
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
     // ignore not geolocalized EC
     if (!ec || !ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
 
-    const match = /^_([a-z0-9]+)_$/i.exec(ec.ezproxyName);
-    if (match) {
-      ec.ezproxyName = match[1];
-    }
-
     filter(ec);
 
-    const portal = portalsInfo.find(p => p.name === ec.ezproxyName);
+    const portal = portalsInfo.find(p => p.name === ec.filter);
     if (!portal) { return; }
 
     showInfo(ec, portal);

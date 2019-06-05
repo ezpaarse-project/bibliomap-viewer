@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
+
 /**
  * filter informations receive
  * @param {*} ec
  */
-// eslint-disable-next-line no-unused-vars
+
 function filter(ec) {
+  ec.filter = ec.sid;
   const tdm = ['istex-api-harvester', 'node-istex'];
   const documentaire = [
     'google', // résolveur de lien de Google Scholar
@@ -14,26 +17,32 @@ function filter(ec) {
     'istex-api-demo',
     'istex-widgets',
   ];
-  ec.ezproxyName = 'OTHER';
+  ec.filter = 'OTHER';
   if (ec.sid) {
     if (tdm.includes(ec.sid)) {
-      ec.ezproxyName = 'TDM';
+      ec.filter = 'TDM';
     }
     if (documentaire.includes(ec.sid)) {
-      ec.ezproxyName = 'DOCUMENTAIRE';
+      ec.filter = 'DOCUMENTAIRE';
     }
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-function counter(ec/* , portal */) {
-  if (!ec) {
-    return;
-  }
-  if (ec.mime) {
-    ec.mime = `<span class="label label-bubble ${ec.mime.toLowerCase()}">${ec.mime}</span>`;
-  }
-  if (ec.rtype) {
-    ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
-  }
+function init() {
+  initTotalCounter([
+    {
+      name: 'json',
+      id: '#extJSON',
+    },
+    {
+      name: 'article',
+      id: '#extARTICLE',
+    },
+  ]);
+  initCounter(['json', 'article']);
+}
+
+function updateCounter(ec) {
+  updateTotalCount();
+  tooltip(ec);
 }
