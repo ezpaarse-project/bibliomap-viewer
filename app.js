@@ -78,7 +78,7 @@ app.get('/', (req, res) => {
   i18nTheme = JSON.parse(i18nTheme);
   i18nGlobal.locale = locale;
   const i18n = Object.assign(i18nGlobal, i18nTheme);
-  const host = `${req.protocol}://${req.hostname}/`;
+  const host = `${req.protocol}://${req.get('x-forwarded-host') || req.hostname}`;
   res.header('X-UA-Compatible', 'IE=edge');
   return res.render('app/layout.html.twig', {
     entity,
