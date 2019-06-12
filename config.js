@@ -8,7 +8,10 @@ let localConf = {};
 try {
   // eslint-disable-next-line
   localConf = require('./config.local.js');
-} catch (err) { console.error(err); }
+} catch (err) {
+  // eslint-disable-next-line no-console
+  console.error(err);
+}
 
 nconf.argv()
   .env([

@@ -211,7 +211,7 @@ function initLegend() {
       portalLink = (`<a id="${portal.name}-tooltip" data-position="right" data-tooltip="">`);
     }
     content.append(`${portalLink}
-      <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item"> 
+      <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">
         ${portalLogo}
         <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
         <span class="title bibliomap-institut-title">${(portal.name)}</span>

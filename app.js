@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const es = require('event-stream');
 const JSONStream = require('JSONStream');
 const sha256 = require('sha256');
