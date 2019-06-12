@@ -9,6 +9,7 @@ const app = express();
 const httpServer = require('http').Server(app);
 const io = require('socket.io')(httpServer);
 const fs = require('fs');
+const useragent = require('useragent');
 const config = require('./config.js');
 const pkg = require('./package.json');
 
@@ -58,11 +59,21 @@ server.listen(enricherCfg.port, enricherCfg.host, () => {
  */
 httpServer.listen(config.listen['bibliomap-viewer'].port, config.listen['bibliomap-viewer'].host);
 
+const entity = process.env.BBV_INDEX || 'cnrs';
+
 app.set('views', `${__dirname}/themes`);
 app.use(express.static(__dirname));
+
+app.use((req, res, next) => {
+  const agent = useragent.is(req.headers['user-agent']).ie;
+  if (agent) {
+    return res.render('app/browser-compatibility.html.twig', { entity });
+  }
+  return next();
+});
+
 app.get('/', (req, res) => {
   let locale = req.query.lang || 'fr';
-  const entity = process.env.BBV_INDEX || 'cnrs';
   let i18nGlobal;
   let i18nTheme;
   try {
