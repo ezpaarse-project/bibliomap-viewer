@@ -1,28 +1,30 @@
+/* eslint-disable no-unused-vars */
 /**
  * information about CNRS institute on legend
  */
 
-// eslint-disable-next-line no-unused-vars
-const extCount = {
-  pdf: 0,
-  html: 0,
-};
+const totalCount = {};
+let displayOutsideMap = true;
+let showTitles = false;
 
+// eslint-disable-next-line prefer-const
+let editors = {};
+let map = '';
+let outsideMap = '';
+const franceCenter = [46.3630104, 2.9846608];
+const lightenMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const darkenMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 /**
  * Init the background map and the outside map
  */
-let map = '';
-let map2 = '';
-
-function initMap() {
-  const franceCenter = [46.3630104, 2.9846608];
+function initMaps() {
   map = L.map('bibliomap-canvas', {
     minZoom: 3,
     maxZoom: 8,
     zoomControl: false,
   }).setView(franceCenter, 6);
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  L.tileLayer(lightenMap, {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
@@ -44,24 +46,23 @@ function initMap() {
     });
   });
 
-  map2 = L.map('outside_map', {
+  outsideMap = L.map('outside-map', {
     minZoom: 2,
     maxZoom: 4,
     doubleClickZoom: false,
     zoomControl: false,
   }).setView([0, 0], 4);
-  document.getElementById('outside_map').style.display = 'none';
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map2);
+  L.tileLayer(lightenMap).addTo(outsideMap);
 
   L.control.zoom({
     position: 'topleft',
-  }).addTo(map2);
+  }).addTo(outsideMap);
 
-  map2.on('click', () => {
+  outsideMap.on('click', () => {
     const oldZoom = map.getZoom();
-    map.flyTo(map2.getCenter(), oldZoom);
-    $('#outside_map').fadeOut(100);
+    map.flyTo(outsideMap.getCenter(), oldZoom);
+    $('#outside-map').removeClass('fadeIn');
   });
 }
 
@@ -72,14 +73,14 @@ function initMap() {
 function getQueryVariable(variable) {
   const query = window.location.search.substring(1);
   const vars = query.split('&');
-
+  let res;
   for (let i = 0; i < vars.length; i += 1) {
     const pair = vars[i].split('=');
     if (pair[0] === variable) {
-      return (pair.length > 1 ? pair[1] : true);
+      res = (pair.length > 1 ? pair[1] : true);
     }
   }
-  return false;
+  return res;
 }
 
 /**
@@ -97,26 +98,65 @@ function timer() {
     time += 1;
   }, 1000);
 }
+/**
+ * Init the parameters given in the url
+ */
+function initUrlParameters() {
+  minimap = getQueryVariable('m') || getQueryVariable('minimap');
+  const title = getQueryVariable('t') || getQueryVariable('title');
+  const enabledCounters = getQueryVariable('c') || getQueryVariable('counters');
+  const enabledEditors = getQueryVariable('editors') || getQueryVariable('ed');
 
+  if (minimap === 'false') {
+    $('#outside-map-switch').prop('checked', false);
+    $('#outside-map-switch').trigger('change');
+  }
+  if (title === 'true') {
+    $('#show-titles').prop('checked', true);
+    $('#show-titles').trigger('change');
+  }
+  if (enabledCounters) {
+    portalsInfo.forEach((portal) => {
+      $(`#${portal.name}-switch`).prop('checked', false);
+      $(`#${portal.name}-switch`).trigger('change');
+    });
+    const tabCounters = enabledCounters.split(',');
+    tabCounters.forEach((el) => {
+      el = el.toUpperCase();
+      let i = 0;
+      let find = false;
+      while (i < portalsInfo.length && !find) {
+        if (el === portalsInfo[i].name) {
+          $(`#${el}-switch`).prop('checked', true);
+          $(`#${el}-switch`).trigger('change');
+          find = true;
+        } else {
+          i += 1;
+        }
+      }
+    });
+  }
+  if (enabledEditors) {
+    const tabEditors = enabledEditors.split(',');
+    edChips = M.Chips.getInstance($('#enabled-editors'));
+    tabEditors.forEach((el) => {
+      edChips.addChip({
+        tag: el,
+      });
+    });
+  }
+}
 /**
  * Init the message when you arrive on Bibliomap
  * with the demo mode, it appear in a regular rhythm
  */
 function initBrand() {
-  // button "Fermer" on description
-  const description = $('#description');
-  description.find('.close').click(() => {
-    description.slideUp(description.remove);
+  $('.modal').modal({
+    opacity: 0,
   });
-
-  $('#brand').click(() => { $('#description').fadeToggle(); });
-  $('#description .close').click(() => { $('#description').fadeOut(); });
-  $('#brand a').click((e) => { e.stopPropagation(); });
-
   const expo = getQueryVariable('expo') || getQueryVariable('e');
-
   if (!expo) {
-    $('#description').fadeIn();
+    $('#description').modal('open');
   }
 
   if (expo) {
@@ -126,20 +166,18 @@ function initBrand() {
     // default durations when expo=true
     let showDuration = 60000;
     let hideDuration = 60000 * 15;
-
     if (typeof expo === 'string') {
       const durations = expo.split(',');
       showDuration = (parseInt(durations[0], 10) * 1000) || showDuration;
       hideDuration = (parseInt(durations[1], 10) * 1000) || hideDuration;
 
       (function displayCycle() {
-        $('#description').fadeIn();
-        $('#description').scrollTop(0);
+        $('#description').modal('open');
+        $('#description-content').scrollTop(0);
         setTimeout(() => {
-          $('#description').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
-
+          $('#description-content').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
           setTimeout(() => {
-            $('#description').fadeOut();
+            $('.modal').modal('close');
 
             setTimeout(displayCycle, hideDuration);
           }, showDuration / 2);
@@ -147,87 +185,186 @@ function initBrand() {
       }());
     }
   }
+  $('#brand').on('click', () => {
+    $('#description').modal('open');
+  });
 }
 
 /**
  * add evenement for button and update the DOM
  */
 function initLegend() {
-  // button "fermer" on legend
-  const legend = $('#legend');
-  legend.find('.close').click(() => {
-    legend.slideUp(legend.remove);
-  });
-
-  const content = legend.find('.content').first();
-  const currentPosition = legend.position();
-
-  // button "Réduire" on legend
-  legend.find('.reduce').click(() => {
-    if (content.is(':visible')) {
-      legend.animate({ top: '0px', left: '0px' });
-      $(this).text('Agrandir');
-    } else {
-      legend.animate(currentPosition);
-      $(this).text('Réduire');
-    }
-    content.slideToggle();
-  });
-
-  // a div to put everything away
-  const institutesList = $('<div/>').addClass('institutesList');
-
+  const content = $('#legend');
+  let locale = getQueryVariable('lang') || 'fr';
+  if (locale !== 'en' && locale !== 'fr') {
+    locale = 'fr';
+  }
   // for each institutes
   portalsInfo.forEach((portal) => {
-    const institute = $('<div/>').addClass('institute');
-    const instituteSmall = $('<div/>').addClass('instituteSmall');
-    const instituteLarge = $('<div/>').addClass('instituteLarge');
-    institute.css('color', portal.color);
-    institute.css('border-radius', 10);
-    const title = (`<div class="name" >${(portal.fullName ? portal.fullName : portal.name)}`);
-    instituteSmall.append(title);
-
-    if (portal.logo) {
-      const link = (`<a href="${portal.link}" target="_blank"><img class="portal-logo" src="${portal.logo}" title="${portal.name}"></a>`);
-      instituteLarge.append(link);
+    portal.isDisabled = false;
+    let portalLogo = (`<img src="${portal.logo}" class="circle bibliomap-clear-circle"></img>`);
+    if (!portal.logo) {
+      portalLogo = (`<div class = "logoDefault" style = "background-color: ${portal.color}"></div>`);
     }
-    const span = $(`<span id="${portal.name}" class="counter">0</span>`);
-    instituteSmall.append(span);
-    if (portal.desc) {
-      const instituteDesc = (`<div id="${portal.desc}" class="desc" >${portal.desc}`);
-      instituteLarge.append(instituteDesc);
+    let portalLink = (`<a href="${portal.link}" id="${portal.name}-tooltip" data-position="right" data-tooltip="" target="_blank">`);
+    if (!portal.link) {
+      portalLink = (`<a id="${portal.name}-tooltip" data-position="right" data-tooltip="">`);
     }
+    content.append(`${portalLink}
+      <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">
+        ${portalLogo}
+        <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
+        <span class="title bibliomap-institut-title">${(portal.name)}</span>
+        <p class="bibliomap-institut-desc">${portal.desc ? portal.desc[locale] : ''}</p>
+      </li>
+    </a>`);
 
-    institute.append(instituteSmall, instituteLarge);
+    $('#disabled').append(`
+    <div class="col s6">
+      <label>
+        <input id="${portal.name}-switch" type="checkbox" checked="checked" />
+        <span>${portal.name}</span>
+      </label>
+    </div>`);
 
-    portal.counter = span; // le compteur de consultations
-    institutesList.append(institute);
+    // update legend with filter
+    $(`#${portal.name}-switch`).on('change', (el) => {
+      if (el.currentTarget.checked && portal.isDisabled) {
+        portal.isDisabled = !portal.isDisabled;
+        $(`#${portal.name}-legend`).css('display', 'block');
+        totalCounters.forEach((c) => {
+          totalCount[c] += portal[c];
+          const element = totalCounterElements.find(tce => tce.name === c);
+          $(`${element.id}`).html(totalCount[element.name].toLocaleString());
+        });
+      }
+
+      if (!el.currentTarget.checked && !portal.isDisabled) {
+        $(`#${portal.name}-legend`).css('display', 'none');
+        $(`#${portal.name}-counter`).html(portal.count);
+        portal.isDisabled = !portal.isDisabled;
+        totalCounters.forEach((c) => {
+          if (totalCount[c] >= 0) {
+            totalCount[c] -= portal[c];
+            const element = totalCounterElements.find(tce => tce.name === c);
+            $(`${element.id}`).html(totalCount[element.name].toLocaleString());
+          }
+        });
+      }
+    });
   });
 
-  // insertion in legend
-  content.append(institutesList);
+  $('.sidenav').sidenav({
+    isFixed: false,
+    isOpen: true,
+  });
+  $('#close-side').on('click', () => {
+    $('.sidenav').sidenav('close');
+  });
+  $('#open-side').on('click', () => {
+    $('.sidenav').sidenav('open');
+  });
 }
 
-// function initFilter() {
-//   const filterBouton = document.getElementById('filter-button');
-//   function updateBtn() {
-//     if (filterBouton.value === 'on') {
-//       filterBouton.value = 'off';
-//       $('#outside_map').fadeOut(1000);
-//     } else {
-//       filterBouton.value = 'on';
-//     }
-//   }
-//   filterBouton.addEventListener('click', updateBtn);
-// }
+/**
+ * update the background
+ * @param {Map} m
+ */
+function changeMap(m) {
+  const layer = m._layers[Object.keys(m._layers)[0]];
+  if (layer._url === lightenMap) {
+    layer._url = darkenMap;
+    return layer.redraw();
+  }
+  if (layer._url === darkenMap) {
+    layer._url = lightenMap;
+    return layer.redraw();
+  }
+  return null;
+}
+
+/**
+ * init evenement on menu
+ */
+function initMenu() {
+  $('.fixed-action-btn').floatingActionButton({
+    hoverEnabled: false,
+    direction: 'top',
+  });
+  $('#center').on('click', () => {
+    map.flyTo(franceCenter, 6);
+  });
+  $('.tooltipped').tooltip();
+  $('select').formSelect();
+  $('#outside-map-switch').on('change', (el) => {
+    if (el.currentTarget.checked) {
+      displayOutsideMap = true;
+    } else {
+      displayOutsideMap = false;
+      $('#outside-map').removeClass('fadeIn');
+    }
+  });
+  $('#show-titles').on('change', (el) => {
+    if (el.currentTarget.checked) {
+      showTitles = true;
+    } else {
+      showTitles = false;
+    }
+  });
+  $('#institute-all').on('click', () => {
+    portalsInfo.forEach((portal) => {
+      $(`#${portal.name}-switch`).prop('checked', true);
+      $(`#${portal.name}-switch`).trigger('change');
+    });
+  });
+  $('#institute-none').on('click', () => {
+    portalsInfo.forEach((portal) => {
+      $(`#${portal.name}-switch`).prop('checked', false);
+      $(`#${portal.name}-switch`).trigger('change');
+    });
+  });
+  if ($('.chips-autocomplete').length) {
+    $('.chips-autocomplete').chips({
+      placeholder: 'ex: Wiley',
+      autocompleteOptions: {
+        data: editors,
+        limit: Infinity,
+        minLength: 1,
+      },
+    });
+  }
+  // eslint-disable-next-line consistent-return
+  $('#changeMap').on('click', () => {
+    changeMap(map);
+    changeMap(outsideMap);
+  });
+}
+
+/**
+ * init css for each annimation bubble
+ */
+function initCSS() {
+  portalsInfo.forEach((portal) => {
+    const css = `.${portal.name} { background-color: ${portal.color} !important; } .${portal.name}:after { box-shadow: 0 0 6px 2px ${portal.color} !important; }`;
+    const el = document.createElement('style');
+    if (el.styleSheet) {
+      el.styleSheet.cssText = css;
+    } else {
+      el.appendChild(document.createTextNode(css));
+    }
+    document.getElementsByTagName('head')[0].appendChild(el);
+  });
+}
 
 /**
  * Initializatton of all parts
  */
 $(document).ready(() => {
-  initMap();
+  initMaps();
   initBrand();
   initLegend();
-  // initFilter();
+  initMenu();
+  initCSS();
   timer();
+  initUrlParameters();
 });
