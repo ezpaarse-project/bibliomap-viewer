@@ -73,14 +73,14 @@ function initMaps() {
 function getQueryVariable(variable) {
   const query = window.location.search.substring(1);
   const vars = query.split('&');
-
+  let res;
   for (let i = 0; i < vars.length; i += 1) {
     const pair = vars[i].split('=');
     if (pair[0] === variable) {
-      return (pair.length > 1 ? pair[1] : true);
+      res = (pair.length > 1 ? pair[1] : true);
     }
   }
-  return false;
+  return res;
 }
 
 /**
@@ -98,7 +98,54 @@ function timer() {
     time += 1;
   }, 1000);
 }
+/**
+ * Init the parameters given in the url
+ */
+function initUrlParameters() {
+  minimap = getQueryVariable('m') || getQueryVariable('minimap');
+  const title = getQueryVariable('t') || getQueryVariable('title');
+  const enabledCounters = getQueryVariable('c') || getQueryVariable('counters');
+  const enabledEditors = getQueryVariable('editors') || getQueryVariable('ed');
 
+  if (minimap === 'false') {
+    $('#outside-map-switch').prop('checked', false);
+    $('#outside-map-switch').trigger('change');
+  }
+  if (title === 'true') {
+    $('#show-titles').prop('checked', true);
+    $('#show-titles').trigger('change');
+  }
+  if (enabledCounters) {
+    portalsInfo.forEach((portal) => {
+      $(`#${portal.name}-switch`).prop('checked', false);
+      $(`#${portal.name}-switch`).trigger('change');
+    });
+    const tabCounters = enabledCounters.split(',');
+    tabCounters.forEach((el) => {
+      el = el.toUpperCase();
+      let i = 0;
+      let find = false;
+      while (i < portalsInfo.length && !find) {
+        if (el === portalsInfo[i].name) {
+          $(`#${el}-switch`).prop('checked', true);
+          $(`#${el}-switch`).trigger('change');
+          find = true;
+        } else {
+          i += 1;
+        }
+      }
+    });
+  }
+  if (enabledEditors) {
+    const tabEditors = enabledEditors.split(',');
+    edChips = M.Chips.getInstance($('#enabled-editors'));
+    tabEditors.forEach((el) => {
+      edChips.addChip({
+        tag: el,
+      });
+    });
+  }
+}
 /**
  * Init the message when you arrive on Bibliomap
  * with the demo mode, it appear in a regular rhythm
@@ -119,7 +166,6 @@ function initBrand() {
     // default durations when expo=true
     let showDuration = 60000;
     let hideDuration = 60000 * 15;
-
     if (typeof expo === 'string') {
       const durations = expo.split(',');
       showDuration = (parseInt(durations[0], 10) * 1000) || showDuration;
@@ -130,7 +176,6 @@ function initBrand() {
         $('#description-content').scrollTop(0);
         setTimeout(() => {
           $('#description-content').animate({ scrollTop: $('#description')[0].scrollHeight }, 3000);
-
           setTimeout(() => {
             $('.modal').modal('close');
 
@@ -321,4 +366,5 @@ $(document).ready(() => {
   initMenu();
   initCSS();
   timer();
+  initUrlParameters();
 });
