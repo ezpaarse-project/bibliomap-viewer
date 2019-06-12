@@ -69,7 +69,8 @@ app.use((req, res, next) => {
   if (agent) {
     return res.render('app/browser-compatibility.html.twig', { entity });
   }
-  return next();
+  next();
+  return null;
 });
 
 app.get('/', (req, res) => {
