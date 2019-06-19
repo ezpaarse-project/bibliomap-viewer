@@ -16,8 +16,8 @@
     "legendFilter": "Instituts à afficher",
     "selectAll": "Tout cocher",
     "selectNone": "Tout décocher",
-    "displayReviews": "Afficher les titres des revues",
-    "sortBy": "filtrer par plate-formes éditeur",
+    "displayReviews": "Afficher le titre des revues",
+    "sortBy": "filtrer par plate-forme éditeur",
     "placeholder": "Éditeur(s)"
   },
   "close": "Fermer"
