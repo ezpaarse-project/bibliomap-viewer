@@ -11,6 +11,7 @@ let showTitles = false;
 let editors = {};
 let map = '';
 let outsideMap = '';
+let zoom = 6;
 const franceCenter = [46.3630104, 2.9846608];
 const lightenMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const darkenMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
@@ -22,7 +23,7 @@ function initMaps() {
     minZoom: 3,
     maxZoom: 8,
     zoomControl: false,
-  }).setView(franceCenter, 6);
+  }).setView(franceCenter, zoom);
 
   L.tileLayer(lightenMap, {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -106,6 +107,8 @@ function initUrlParameters() {
   const title = getQueryVariable('t') || getQueryVariable('title');
   const enabledCounters = getQueryVariable('c') || getQueryVariable('counters');
   const enabledEditors = getQueryVariable('editors') || getQueryVariable('ed');
+  const description = getQueryVariable('d') || getQueryVariable('description');
+  const setZoom = getQueryVariable('z') || getQueryVariable('zoom');
 
   if (minimap === 'false') {
     $('#outside-map-switch').prop('checked', false);
@@ -144,6 +147,15 @@ function initUrlParameters() {
         tag: el,
       });
     });
+  }
+
+  if (description === 'false') {
+    $('#description').modal('destroy');
+  }
+
+  if (setZoom) {
+    zoom = setZoom;
+    map.setZoom(zoom);
   }
 }
 /**
