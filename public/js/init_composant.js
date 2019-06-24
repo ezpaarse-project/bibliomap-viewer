@@ -304,7 +304,7 @@ function initMenu() {
     direction: 'top',
   });
   $('#center').on('click', () => {
-    map.flyTo(franceCenter, 6);
+    map.flyTo(franceCenter, zoom);
   });
   $('.tooltipped').tooltip();
   $('select').formSelect();
