@@ -101,17 +101,17 @@ app.get('/', (req, res) => {
   const host = `${req.protocol}://${req.get('x-forwarded-host') || req.hostname}`;
   res.header('X-UA-Compatible', 'IE=edge');
 
-  if (req.params && req.params.lang) {
-    delete req.params.lang;
+  if (req.query && req.query.lang) {
+    delete req.query.lang;
   }
-  const params = Object.keys(req.query).map(q => `${q}=${req.query[q]}`).join('&');
+  const query = Object.keys(req.query).map(q => `${q}=${req.query[q]}`).join('&');
 
   return res.render('app/layout.html.twig', {
     entity,
     version: pkg.version,
     i18n,
     host,
-    params,
+    query,
   });
 });
 
