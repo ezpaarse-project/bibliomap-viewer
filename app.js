@@ -66,6 +66,13 @@ app.set('views', `${__dirname}/themes`);
 app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  next();
+});
+
+app.use((req, res, next) => {
   const agent = useragent.is(req.headers['user-agent']).ie;
   if (agent) {
     return res.render('app/browser-compatibility.html.twig', { entity });
@@ -93,11 +100,18 @@ app.get('/', (req, res) => {
   const i18n = Object.assign(i18nGlobal, i18nTheme);
   const host = `${req.protocol}://${req.get('x-forwarded-host') || req.hostname}`;
   res.header('X-UA-Compatible', 'IE=edge');
+
+  if (req.params && req.params.lang) {
+    delete req.params.lang;
+  }
+  const params = Object.keys(req.query).map(q => `${q}=${req.query[q]}`).join('&');
+
   return res.render('app/layout.html.twig', {
     entity,
     version: pkg.version,
     i18n,
     host,
+    params,
   });
 });
 

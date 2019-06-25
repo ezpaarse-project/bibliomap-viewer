@@ -213,7 +213,7 @@ html, body, .container, #bibliomap-canvas {
 }
 
 .modal {
-  width: 960px
+  max-width: 960px
 }
 
 .top-description .header {
