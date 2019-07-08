@@ -1,4 +1,5 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
+
 const portalsInfo = [
   {
     name: 'INSB',
@@ -9,9 +10,6 @@ const portalsInfo = [
       fr: 'Biologie',
       en: 'Biology',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INC',
@@ -22,9 +20,6 @@ const portalsInfo = [
       fr: 'Chimie',
       en: 'Chemistry',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INEE',
@@ -35,9 +30,6 @@ const portalsInfo = [
       fr: 'Ecologie & Environnement',
       en: 'Ecology & Environment',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INSHS',
@@ -48,9 +40,6 @@ const portalsInfo = [
       fr: 'Homme & Société',
       en: 'People & Society',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INSIS',
@@ -61,9 +50,6 @@ const portalsInfo = [
       fr: 'Ingénierie & Systèmes',
       en: 'Engineering & Systems',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INSMI',
@@ -74,9 +60,6 @@ const portalsInfo = [
       fr: 'Mathématiques',
       en: 'Mathematics',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'IN2P3',
@@ -87,9 +70,6 @@ const portalsInfo = [
       fr: 'Nucléaire & Particules',
       en: 'Nuclear & Particles',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INP',
@@ -100,9 +80,6 @@ const portalsInfo = [
       fr: 'Physique',
       en: 'Physical',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INS2I',
@@ -113,9 +90,6 @@ const portalsInfo = [
       fr: 'Sciences de l\'information',
       en: 'Science of information',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
   {
     name: 'INSU',
@@ -126,8 +100,42 @@ const portalsInfo = [
       fr: 'Terre & Univers',
       en: 'Earth & Universe',
     },
-    count: 0,
-    html: 0,
-    pdf: 0,
   },
 ];
+
+/**
+ * filter informations receive
+ * @param {*} ec
+ */
+function label(ec) {
+  return ec.ezproxyName;
+}
+
+/**
+ * init counter of rtype and mime
+ */
+function init() {
+  initTotalCounter([
+    {
+      name: 'HTML',
+      color: '#d35400',
+    },
+    {
+      name: 'PDF',
+      color: '#c0392b',
+    },
+  ]);
+
+  initCounter([
+    {
+      name: 'HTML',
+      color: '#d35400',
+    },
+    {
+      name: 'PDF',
+      color: '#c0392b',
+    },
+  ]);
+  displayTooltip = true;
+  filterParameter = true;
+}

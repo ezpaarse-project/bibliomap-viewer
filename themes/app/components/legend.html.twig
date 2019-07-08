@@ -6,9 +6,8 @@
       </div>
       <div class="col s8">
         <p>
-          <strong>
-            {{ i18n.legend }}
-          </strong>
+          {% set locale = i18n.locale %}
+          {% include "../../" ~ entity ~ "/components/legend.html.twig" with locale %}
         </p>
       </div>
       <div class="col s1">
@@ -25,9 +24,7 @@
   <li><div class="divider"></div></li>
   <li>
     <ul class="collection bibliomap-collection">
-      <li class="collection-item center-align"> 
-        {% include "../../" ~ entity ~ "/components/counter.html.twig" %}
-      </li>
+      <li class="collection-item center-align" id="totalCounters"></li>
     </ul>
   </li>
   <li><div class="divider"></div></li>

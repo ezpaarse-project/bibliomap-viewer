@@ -1,11 +1,29 @@
 /* eslint-disable no-unused-vars */
 
+const portalsInfo = [
+  {
+    name: 'TDM',
+    desc: {
+      fr: 'Fouille de texte',
+      en: 'Text data mining',
+    },
+    color: '#62ae25',
+  },
+  {
+    name: 'DOCUMENTAIRE',
+    color: '#007e94',
+  },
+  {
+    name: 'OTHER',
+    color: '#9c126d',
+  },
+];
+
 /**
  * filter informations receive
  * @param {*} ec
  */
-function filter(ec) {
-  ec.filter = ec.sid;
+function label(ec) {
   const tdm = ['istex-api-harvester', 'node-istex'];
   const documentaire = [
     'google', // résolveur de lien de Google Scholar
@@ -16,15 +34,15 @@ function filter(ec) {
     'istex-api-demo',
     'istex-widgets',
   ];
-  ec.filter = 'OTHER';
   if (ec.sid) {
     if (tdm.includes(ec.sid)) {
-      ec.filter = 'TDM';
+      return 'TDM';
     }
     if (documentaire.includes(ec.sid)) {
-      ec.filter = 'DOCUMENTAIRE';
+      return 'DOCUMENTAIRE';
     }
   }
+  return 'OTHER';
 }
 
 /**
@@ -33,22 +51,22 @@ function filter(ec) {
 function init() {
   initTotalCounter([
     {
-      name: 'json',
-      id: '#extJSON',
+      name: 'JSON',
+      color: '#3498db',
     },
     {
-      name: 'article',
-      id: '#extARTICLE',
+      name: 'ARTICLE',
     },
   ]);
-  initCounter(['json', 'article']);
-}
-
-/**
- * update total counter and tooltip counter of portal
- * @param {*} ec
- */
-function updateCounter(ec) {
-  updateTotalCount();
-  tooltip(ec);
+  initCounter([
+    {
+      name: 'JSON',
+      color: '#3498db',
+    },
+    {
+      name: 'ARTICLE',
+    },
+  ]);
+  displayTooltip = true;
+  filterParameter = false;
 }
