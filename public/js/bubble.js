@@ -1,6 +1,9 @@
 // TODO voir comment changer ce val
 let val = 0;
-let outsideMapOpened = false;
+// eslint-disable-next-line prefer-const
+let displayTooltip = true;
+// eslint-disable-next-line prefer-const
+let filterParameter = true;
 
 /**
  * display and set view of outsidemap with coordinate
@@ -9,25 +12,20 @@ let outsideMapOpened = false;
 function startMapOutside(latLng) {
   outsideMap.setView(latLng);
 
-  if (!outsideMapOpened) {
-    outsideMapOpened = true;
-    $('#outside-map')
-      .removeClass('bounceOutRight')
-      .css('visibility', 'visible')
-      .addClass('bounceInDown');
-  }
+  $('#outside-map').css('visibility', 'visible').removeClass('bounceOutRight').addClass('bounceInDown');
+
   window.clearTimeout(val);
   val = setTimeout(() => {
     $('#outside-map')
+      .removeClass('bounceInDown')
       .addClass('bounceOutRight')
-      .removeClass('bounceInDown');
-    setTimeout(() => {
-      $('#outside-map').css('visibility', 'hidden');
-    }, 1000);
-    outsideMapOpened = false;
-  }, 5000);
+      .delay(1000)
+      .queue((next) => {
+        $('#outside-map').css('visibility', 'hidden');
+        next();
+      });
+  }, 6000);
 }
-
 
 /**
  * add marker on layer and display it
@@ -102,17 +100,17 @@ let portalCounter;
  */
 // eslint-disable-next-line no-unused-vars
 function tooltip(ec) {
-  const portal = portalsInfo.find(p => p.name === ec.filter);
+  const portal = legendData.find(p => p.name === ec.label);
   const tooltips = [];
   if (!portal) { return; }
   if (portal.count === 0) {
-    $(`#${ec.filter}-tooltip`).addClass('tooltipped');
-    $(`#${ec.filter}-tooltip`).tooltip();
+    $(`#${ec.label}-tooltip`).addClass('tooltipped');
+    $(`#${ec.label}-tooltip`).tooltip();
   }
   portalCounter.forEach((pc) => {
-    tooltips.push(`${pc.toUpperCase()}: ${portal[pc].toLocaleString()}`);
+    tooltips.push(`${pc.name.toUpperCase()}: ${portal[pc.name].toLocaleString()}`);
   });
-  $(`#${ec.filter}-tooltip`).attr('data-tooltip', tooltips.join(' | '));
+  $(`#${ec.label}-tooltip`).attr('data-tooltip', tooltips.join(' | '));
 }
 
 /**
@@ -121,9 +119,10 @@ function tooltip(ec) {
  */
 // eslint-disable-next-line no-unused-vars
 function initCounter(data) {
-  portalsInfo.map((portal) => {
+  legendData.map((portal) => {
     data.forEach((c) => {
-      portal[c] = 0;
+      portal.count = 0;
+      portal[c.name.toUpperCase()] = 0;
     });
     return null;
   });
@@ -138,8 +137,13 @@ const totalCounters = [];
 // eslint-disable-next-line no-unused-vars
 function initTotalCounter(data) {
   data.forEach((c) => {
-    totalCount[c.name] = 0;
-    totalCounters.push(c.name);
+    $('#totalCounters').append(`
+      <span class="label" ${c.color ? `style="background-color: ${c.color};"` : ''}>
+        <strong>${c.name.toUpperCase()}</strong> : <span id="total-${c.name.toUpperCase()}">0</span>
+      </span>
+    `);
+    totalCount[c.name.toUpperCase()] = 0;
+    totalCounters.push(c.name.toUpperCase());
   });
   if (!totalCounterElements) {
     totalCounterElements = data;
@@ -152,7 +156,7 @@ function initTotalCounter(data) {
 // eslint-disable-next-line no-unused-vars
 function updateTotalCount() {
   totalCounterElements.forEach((el) => {
-    $(`${el.id}`).html(totalCount[el.name].toLocaleString());
+    $(`#total-${el.name}`).html(totalCount[el.name.toUpperCase()].toLocaleString());
   });
 }
 
@@ -191,23 +195,33 @@ function filterbyEditor(ec) {
  */
 function counterTypeByPortal(ec, portal) {
   if (ec.mime) {
-    if (portalCounter.includes(ec.mime.toLowerCase())) {
+    const mimeMatch = portalCounter.find(pc => pc.name.toUpperCase() === ec.mime.toUpperCase());
+    if (mimeMatch) {
       if (!portal.isDisabled) {
-        portal[ec.mime.toLowerCase()] += 1;
+        portal[ec.mime.toUpperCase()] += 1;
       }
-      totalCount[ec.mime.toLowerCase()] += 1;
+      totalCount[ec.mime.toUpperCase()] += 1;
     }
-    ec.mime = `<span class="label label-bubble ${ec.mime.toLowerCase()}">${ec.mime}</span>`;
+    let mimeStyle = '';
+    if (mimeMatch && mimeMatch.color) {
+      mimeStyle = `background-color: ${mimeMatch.color};`;
+    }
+    ec.mime = `<span class="label label-bubble" style="${mimeStyle}">${ec.mime}</span>`;
   }
 
   if (ec.rtype) {
-    if (portalCounter.includes(ec.rtype.toLowerCase())) {
+    const rtypeMatch = portalCounter.find(pc => pc.name.toUpperCase() === ec.rtype.toUpperCase());
+    if (portalCounter.includes(ec.rtype.toUpperCase())) {
       if (!portal.isDisabled) {
-        portal[ec.rtype.toLowerCase()] += 1;
+        portal[ec.rtype.toUpperCase()] += 1;
       }
-      totalCount[ec.rtype.toLowerCase()] += 1;
+      totalCount[ec.rtype.toUpperCase()] += 1;
     }
-    ec.rtype = `<span class="label label-bubble rtype">${ec.rtype}</span>`;
+    let rtypeStyle = '';
+    if (rtypeMatch && rtypeMatch.color) {
+      rtypeStyle = `background-color: ${rtypeMatch.color};`;
+    }
+    ec.rtype = `<span class="label label-bubble" style="${rtypeStyle}">${ec.rtype}</span>`;
   }
 }
 
@@ -225,7 +239,11 @@ function showInfo(ec, portal) {
   const latLng = [ec['geoip-latitude'], ec['geoip-longitude'] + (nbMap * 360)];
 
   counterTypeByPortal(ec, portal);
-  updateCounter(ec);
+
+  updateTotalCount();
+  if (displayTooltip) {
+    tooltip(ec);
+  }
 
   const marker = createMarker(portal, ec, latLng, hidden);
   marker.off('click');
@@ -245,14 +263,19 @@ function showInfo(ec, portal) {
 
 // connect and listen socket
 $(document).ready(() => {
-  init(totalCount);
+  init();
+
+  if (!filterParameter) {
+    $('#filterParameter').remove();
+  }
+
   const socket = io.connect();
   socket.on('ezpaarse-ec', (ec) => {
     // ignore not geolocalized EC
     if (!ec || !ec['geoip-latitude'] || !ec['geoip-longitude']) { return; }
 
-    filter(ec);
-    const portal = portalsInfo.find(p => p.name === ec.filter);
+    ec.label = label(ec);
+    const portal = legendData.find(p => p.name === ec.label);
     if (!portal) { return; }
 
     showInfo(ec, portal);

@@ -119,7 +119,7 @@ function initUrlParameters() {
     $('#show-titles').trigger('change');
   }
   if (enabledCounters) {
-    portalsInfo.forEach((portal) => {
+    legendData.forEach((portal) => {
       $(`#${portal.name}-switch`).prop('checked', false);
       $(`#${portal.name}-switch`).trigger('change');
     });
@@ -128,8 +128,8 @@ function initUrlParameters() {
       el = el.toUpperCase();
       let i = 0;
       let find = false;
-      while (i < portalsInfo.length && !find) {
-        if (el === portalsInfo[i].name) {
+      while (i < legendData.length && !find) {
+        if (el === legendData[i].name) {
           $(`#${el}-switch`).prop('checked', true);
           $(`#${el}-switch`).trigger('change');
           find = true;
@@ -212,7 +212,7 @@ function initLegend() {
     locale = 'fr';
   }
   // for each institutes
-  portalsInfo.forEach((portal) => {
+  legendData.forEach((portal) => {
     portal.isDisabled = false;
     let portalLogo = (`<img src="${portal.logo}" class="circle bibliomap-clear-circle"></img>`);
     if (!portal.logo) {
@@ -225,7 +225,7 @@ function initLegend() {
     content.append(`${portalLink}
       <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">
         ${portalLogo}
-        <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count}</span>
+        <span id="${portal.name}-counter" class="bibliomap-counter" style="background-color: ${portal.color}">${portal.count || 0}</span>
         <span class="title bibliomap-institut-title">${(portal.name)}</span>
         <p class="bibliomap-institut-desc">${portal.desc ? portal.desc[locale] : ''}</p>
       </li>
@@ -324,13 +324,13 @@ function initMenu() {
     }
   });
   $('#institute-all').on('click', () => {
-    portalsInfo.forEach((portal) => {
+    legendData.forEach((portal) => {
       $(`#${portal.name}-switch`).prop('checked', true);
       $(`#${portal.name}-switch`).trigger('change');
     });
   });
   $('#institute-none').on('click', () => {
-    portalsInfo.forEach((portal) => {
+    legendData.forEach((portal) => {
       $(`#${portal.name}-switch`).prop('checked', false);
       $(`#${portal.name}-switch`).trigger('change');
     });
@@ -356,7 +356,7 @@ function initMenu() {
  * init css for each annimation bubble
  */
 function initCSS() {
-  portalsInfo.forEach((portal) => {
+  legendData.forEach((portal) => {
     const css = `.${portal.name} { background-color: ${portal.color} !important; } .${portal.name}:after { box-shadow: 0 0 6px 2px ${portal.color} !important; }`;
     const el = document.createElement('style');
     if (el.styleSheet) {

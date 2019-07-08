@@ -84,20 +84,15 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   let locale = req.query.lang || 'fr';
   let i18nGlobal;
-  let i18nTheme;
   try {
     i18nGlobal = fs.readFileSync(`${__dirname}/themes/app/locale/${locale}.json`, 'utf-8');
-    i18nTheme = fs.readFileSync(`${__dirname}/themes/${entity}/locale/${locale}.json`, 'utf-8');
   } catch (e) {
     locale = 'fr';
     i18nGlobal = fs.readFileSync(`${__dirname}/themes/app/locale/fr.json`, 'utf-8');
-    i18nTheme = fs.readFileSync(`${__dirname}/themes/${entity}/locale/fr.json`, 'utf-8');
   }
 
   i18nGlobal = JSON.parse(i18nGlobal);
-  i18nTheme = JSON.parse(i18nTheme);
   i18nGlobal.locale = locale;
-  const i18n = Object.assign(i18nGlobal, i18nTheme);
   const host = `${req.protocol}://${req.get('x-forwarded-host') || req.hostname}`;
   res.header('X-UA-Compatible', 'IE=edge');
 
@@ -109,7 +104,7 @@ app.get('/', (req, res) => {
   return res.render('app/layout.html.twig', {
     entity,
     version: pkg.version,
-    i18n,
+    i18n: i18nGlobal,
     host,
     query,
   });

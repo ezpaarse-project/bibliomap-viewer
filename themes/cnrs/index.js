@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-const portalsInfo = [
+const legendData = [
   {
     name: 'INSB',
     color: '#9c126d',
