@@ -43,7 +43,11 @@
       </div>
     </div>
 
-    {% include  entity ~ "/components/params.html.twig" ignore missing %}
+    <div class="row menu-option" id="filterParameter">
+      <div class="divider"></div>
+      <h5>{{ i18n.settings.sortBy }} :</h5>
+      <div class="chips chips-autocomplete" id="enabled-editors"></div>
+    </div>
 
   </div>
   <div class="modal-footer">

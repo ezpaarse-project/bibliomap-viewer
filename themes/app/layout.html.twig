@@ -23,7 +23,7 @@
   <meta name="twitter:description" content="{{ i18n.description }}" />
   <meta name="twitter:image" content="{{ host }}/public/images/bibliomap.png" />
   <meta name="twitter:url" content="{{ host }}" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/node_modules/material-design-icons/iconfont/material-icons.css">
   <link rel="stylesheet" href="/node_modules/materialize-css/dist/css/materialize.min.css" />
   <link rel="stylesheet" href="/public/leaflet/leaflet.css" />
   <link rel="stylesheet" href="/public/css/L.Icon.Pulse.css">
@@ -39,8 +39,8 @@
   <div id="outside-map" class="outside-map"></div>
   
   {% include "app/components/menu.html.twig" with params %}
-  {% include "app/components/modal.html.twig", with entity %}
-  {% include "app/components/legend.html.twig", with entity %}
+  {% include "app/components/modal.html.twig" with entity %}
+  {% include "app/components/legend.html.twig" with (entity, i18n) %}
 
   <div id="brand" class="brand">
     <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> {{ version }}</div>
@@ -49,22 +49,22 @@
       
   <div id="description" class="modal modal-fixed-footer">
     <div id="description-content" class="modal-content description">
-      {% include entity ~ "/components/desc_" ~ i18n.locale ~ ".html.twig" %}
+      {% set locale = i18n.locale %}
+      {% include entity ~ "/components/description.html.twig" with locale %}
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">{{ i18n.close }}</a>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/node_modules/materialize-css/dist/js/materialize.min.js"></script>
   <script src="/public/leaflet/leaflet.js"></script>
-  <script type="text/javascript" src="/themes/{{ entity }}/js/legend.js"></script>
-  <script type="text/javascript" src="/themes/{{ entity }}/js/filter.js"></script> 
   <script type="text/javascript" src="/public/js/init_composant.js"></script>
+  <script type="text/javascript" src="/themes/{{ entity }}/index.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/public/js/L.Icon.Pulse.js"></script>
-  <script type="text/javascript" src="/public/js/bubble.js"></script> 
+  <script type="text/javascript" src="/public/js/bubble.js"></script>
 
 </body>
 </html>
