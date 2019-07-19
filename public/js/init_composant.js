@@ -272,9 +272,11 @@ function initLegend() {
   });
   $('#close-side').on('click', () => {
     $('.sidenav').sidenav('close');
+    $('#live').removeClass('liveWithLegend').addClass('liveWithoutLegend');
   });
   $('#open-side').on('click', () => {
     $('.sidenav').sidenav('open');
+    $('#live').removeClass('liveWithoutLegend').addClass('liveWithLegend');
   });
 }
 

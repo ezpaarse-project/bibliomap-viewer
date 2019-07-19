@@ -206,7 +206,7 @@ function counterTypeByPortal(ec, portal) {
     if (mimeMatch && mimeMatch.color) {
       mimeStyle = `background-color: ${mimeMatch.color};`;
     }
-    ec.mime = `<span class="label label-bubble" style="${mimeStyle}">${ec.mime}</span>`;
+    ec.mime = `<span class="label label-bubble rtype" style="${mimeStyle}">${ec.mime}</span>`;
   }
 
   if (ec.rtype) {

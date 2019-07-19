@@ -42,6 +42,11 @@
   {% include "app/components/modal.html.twig" with entity %}
   {% include "app/components/legend.html.twig" with (entity, i18n) %}
 
+  <div id="live" class="live liveWithLegend">
+    <span class="liveCircle"></span>
+    <span class="liveText">Live</span>
+  </div>
+
   <div id="brand" class="brand">
     <div class="main"><a href="https://github.com/ezpaarse-project/bibliomap">Bibliomap</a> {{ version }}</div>
     <div class="sub">{{ i18n.brand }} <a href="http://ezpaarse.couperin.org" target="_blank">ezPAARSE</a></div>
