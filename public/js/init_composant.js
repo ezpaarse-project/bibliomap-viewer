@@ -270,6 +270,16 @@ function initLegend() {
     isFixed: false,
     isOpen: true,
   });
+
+  const translateXLegend = $('.sidenav').css('transform').split(/[()]/)[1].split(',')[4];
+  if (parseInt(translateXLegend, 10) < 0) {
+    $('#live').removeClass('liveWithLegend').addClass('liveWithoutLegend');
+  }
+
+  if (parseInt(translateXLegend, 10) >= 0) {
+    $('#live').removeClass('liveWithoutLegend').addClass('liveWithLegend');
+  }
+
   $('#close-side').on('click', () => {
     $('.sidenav').sidenav('close');
     $('#live').removeClass('liveWithLegend').addClass('liveWithoutLegend');
