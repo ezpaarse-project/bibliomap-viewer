@@ -12,6 +12,8 @@
     {% endif %}
     {% if query %}
       {% set localeUrl = locale ~ '&' ~ query %}
+    {% else %}
+      {% set localeUrl = locale %}
     {% endif %}
     <li><a class="btn-floating purple darken-3 tooltipped modal-trigger" href="?lang={{ localeUrl }}" data-position="left" data-tooltip="{{ i18n.tooltip.locale[locale] }}">{{ locale|upper }}</a></li>
     <li id="changeMap"><a class="btn-floating green darken-3 tooltipped" data-position="left" data-tooltip= "{{ i18n.settings.map }}"><i class="material-icons">map</i></a></li>
