@@ -212,7 +212,7 @@ function initLegend() {
     locale = 'fr';
   }
   // for each institutes
-  legendData.forEach((portal) => {
+  legendData.forEach((portal, key) => {
     portal.isDisabled = false;
     let portalLogo = (`<img src="${portal.logo}" class="circle bibliomap-clear-circle"></img>`);
     if (!portal.logo) {
@@ -222,6 +222,7 @@ function initLegend() {
     if (!portal.link) {
       portalLink = (`<a id="${portal.name}-tooltip" data-position="right" data-tooltip="">`);
     }
+
     content.append(`${portalLink}
       <li id="${portal.name}-legend" class="collection-item avatar bibliomap-collection-item">
         ${portalLogo}
@@ -230,6 +231,14 @@ function initLegend() {
         <p class="bibliomap-institut-desc">${portal.desc ? portal.desc[locale] : ''}</p>
       </li>
     </a>`);
+
+    if (key === (legendData.length - 1)) {
+      const prev = $(`#${portal.name}-tooltip`).prev();
+      $(`#${portal.name}-tooltip`)
+        .css('display', 'inline-block')
+        .width($('#legend').width())
+        .height(prev ? (prev.outerHeight(true) * 2) : 63);
+    }
 
     $('#disabled').append(`
     <div class="col s6">
