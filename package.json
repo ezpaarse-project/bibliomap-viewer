@@ -30,7 +30,7 @@
     "jquery": "^3.4.1",
     "material-design-icons": "^3.0.1",
     "materialize-css": "^1.0.0-rc.2",
-    "nconf": "^0.6.9",
+    "nconf": "^0.11.4",
     "nodemon": "^1.18.11",
     "request": "^2.88.0",
     "sha256": "^0.2.0",
